@@ -64,7 +64,6 @@ extern ringbuf_t uart_tx_ringbuf;
 /* Function prototypes */
 void set_post(uint8_t value);
 bool get_break(void);
-void delay_ms(uint16_t duration);
 
 uint8_t uart_tx_size(void);
 uint8_t uart_rx_count(void);

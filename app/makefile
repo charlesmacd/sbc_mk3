@@ -46,6 +46,8 @@ AS_INC	=	macros.inc	\
 #		obj/comms.o	\
 #		obj/util_asm.o
 
+CLEANFILES	=	$(ELF) $(EXE) $(OBJ)
+
 APPNAME	=	app
 ELF	=	$(APPNAME).elf
 EXE	=	$(APPNAME).bin
@@ -78,8 +80,7 @@ run	:
 
 .PHONY	:	clean
 clean	:	        
-		rm -f $(OBJ)
-		rm -f $(EXE)
+		rm -f $(CLEANFILES)
 
 .PHONY	:	makedir
 makedir :

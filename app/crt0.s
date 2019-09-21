@@ -209,8 +209,14 @@ __level3_isr:
 #--------------------------------------------------------
 # Interrupt handler for 1ms interval timer 
 #--------------------------------------------------------
-
+foobar:
+                dc.w    0
 __level4_isr:
+                move.b  (foobar).l, d0
+                eori.b  #1, d0
+                move.b  d0, (foobar).l
+                move.b  d0, (0xFFFF8089).w
+
                 st.b    (__interval_1ms_flag)
                 movem.l d0-d7/a0-a6, -(sp)
                 jsr     interval_1ms_handler
@@ -856,11 +862,24 @@ get_bp:
                 move.l  a6, d0
                 rts
 
+                .globl get_sr
+get_sr:                
+                move.w  sr, d0
+                rts
 
+                .globl set_sr
+set_sr:
+                move.w  d0, sr
+                rts
+
+# Dummy ISR to handle a unhandled exception
+# Sets POST=C9 and halts
+#
 __default_isr:
                 move.b  #0xC9, (0xFFFF8001).l
                 stop    #0x2700
                 rte
+
 __default_lv7:
                 st.b    (0x00100800).l
                 rte

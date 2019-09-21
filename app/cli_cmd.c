@@ -8,7 +8,7 @@
 #include "cli.h"
 #include "cli_cmd.h"
 #include "uart.h"
-
+#include "timer.h"
 
 
 /* Main area base */
@@ -1071,6 +1071,80 @@ int  cmd_alloc(int argc, char *argv[])
 
 }
 
+int cmd_iotest(int argc, char *argv[])
+{
+	volatile uint16_t *OUT = (volatile uint16_t *)0xFFFF8080;
+	printf("Now toggling:\n");
+	bool toggling = true;
+	while(toggling)
+	{
+		set_post(0xC1);
+		if(uart_keypressed())
+		{
+			toggling = false;
+		}
+		set_post(0xD2);
+		delay_ms(10);
+//		OUT[4] = 1;
+		set_post(0x54);
+		delay_ms(10);
+//		OUT[4] = 0;
+		set_post(0xB2);
+	}
+	printf("Test finished.\n");
+}
+
+int cmd_timer(int argc, char *argv[])
+{
+	bool running = true;
+
+	printf("Starting timer test ...\n");
+	printf("SR = %04X\n", get_sr());
+
+	__systick_flag = 0;
+	__interval_1us_flag = 0;
+	__interval_1ms_flag = 0;
+
+	uint32_t systick_count = 0;
+	uint32_t interval_1ms_count = 0;
+	uint32_t interval_1us_count = 0;
+	uint32_t capture = 0xdeadbeef;
+
+	set_1ms_timer(0x200);	
+
+	while(running)
+	{
+		if(uart_keypressed())
+		{
+			running = false;
+			printf("Status: User requested exit.\n");
+		}
+
+		if(__interval_1ms_flag)
+		{
+			__interval_1ms_flag = 0;
+			++interval_1ms_count;
+			capture = systick_count;
+		}
+		if(__interval_1us_flag)
+		{
+			__interval_1us_flag = 0;
+			++interval_1us_count;
+		}
+		if(__systick_flag)
+		{
+			__systick_flag = 0;
+			++systick_count;
+		}
+	}
+
+	printf("Timer test complete.\n");
+	printf("- Measured %08X system ticks.\n", systick_count);
+	printf("- Measured %08X millisecond ticks.\n", interval_1ms_count);
+	printf("- Measured %08X microsecond ticks.\n", interval_1us_count);
+	printf("- Capture = %08X\n", capture);
+}
+
 
 cli_cmd_t terminal_cmds[] = 
 {
@@ -1092,6 +1166,8 @@ cli_cmd_t terminal_cmds[] =
 	{"pioram",  cmd_pioram},
 	{"alloc",   cmd_alloc},
 	{"isr",     cmd_isr},
+	{"iotest",  cmd_iotest},
+	{"timer",   cmd_timer},
 	{NULL, 		NULL}
 };
 

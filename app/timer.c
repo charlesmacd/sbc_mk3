@@ -1,9 +1,44 @@
+/*
+	File:
+		timer.cpp
+	Author:
+		Charles MacDonald
+	Notes:
+		None
+*/
 
 #include "sbc.h"
 #include "timer.h"
 
+#define PIT_ACCESS_LATCH					0
+#define PIT_ACCESS_LSB						1
+#define PIT_ACCESS_MSB						2
+#define PIT_ACCESS_SEQUENTIAL				3
 
+#define PIT_COUNTER_MODE_IOTC				0
+#define PIT_COUNTER_MODE_HW1S				1
+#define PIT_COUNTER_MODE_RATE_GENERATOR		2
+#define PIT_COUNTER_MODE_SQUARE_WAVE		3
+#define PIT_COUNTER_MODE_SW_TRG				4
+#define PIT_COUNTER_MODE_HW_TRG				5
 
+/* Format control word fields */
+uint8_t pit_format_control_word(uint8_t select_counter, uint8_t access_mode, uint8_t counter_mode, bool is_bcd)
+{
+	return (select_counter & 3) << 6
+	     | (access_mode & 3) << 4
+		 | (counter_mode & 7) << 1
+		 | (is_bcd & 1)
+		 ;
+}
+
+/* Write control word to configure a counter */
+void pit_write_control_word(uint8_t counter, uint8_t access_mode, uint16_t counter_mode, bool is_bcd)
+{
+	REG_PIT[3] = pit_format_control_word(counter, access_mode, counter_mode, is_bcd);
+}
+
+/* Write 16-bit timer count */
 void pit_write_counter(uint8_t channel, uint16_t count)
 {
 	/* Write low byte of count */
@@ -13,6 +48,7 @@ void pit_write_counter(uint8_t channel, uint16_t count)
 	REG_PIT[channel] = (count >> 8) & 0xFF;
 }
 
+/* Read 16-bit timer count */
 uint16_t pit_read_counter(uint8_t channel)
 {
 	uint16_t count;
@@ -32,24 +68,22 @@ uint16_t pit_read_counter(uint8_t channel)
 
 void set_1ms_timer(uint16_t count)
 {
+	timer_1ms_enable(false);
+	pit_write_control_word(2, PIT_ACCESS_SEQUENTIAL, PIT_COUNTER_MODE_SW_TRG, false);
+	pit_write_counter(2, count);
+	timer_1ms_enable(true);
 	__interval_1ms_flag = 0;
-	REG_TIMER_1MS_ENABLE[0] = 0x00;
-	REG_PIT[3] = 0xB8; 
-	REG_PIT[2] = (count >> 0) & 0xFF;
-	REG_PIT[2] = (count >> 8) & 0xFF;
-	REG_TIMER_1MS_ENABLE[0] = 0x01;
 	REG_IPEND_CLR[0] = 0x10;
 	REG_IENABLE[0] |= 0x10;
 }
 
 void set_1us_timer(uint16_t count)
 {
+	timer_1us_enable(false);
+	pit_write_control_word(0, PIT_ACCESS_SEQUENTIAL, PIT_COUNTER_MODE_SW_TRG, false);
+	pit_write_counter(0, count);
+	timer_1us_enable(true);
 	__interval_1us_flag = 0;
-	REG_TIMER_1US_ENABLE[0] = 0x00;
-	REG_PIT[3] = 0x38;
-	REG_PIT[0] = (count >> 0) & 0xFF;
-	REG_PIT[0] = (count >> 8) & 0xFF;
-	REG_TIMER_1US_ENABLE[0] = 0x01;
 	REG_IPEND_CLR[0] = 0x20;
 	REG_IENABLE[0] |= 0x20;
 }
@@ -68,17 +102,51 @@ void timer_init(void)
 {
 	timer_1us_enable(false);
 	timer_1ms_enable(false);
-	REG_PIT[3] = 0x75;
-	REG_PIT[1] = 0x00;
-	REG_PIT[1] = 0x10;
+
+	/* Program system tick timer 
+	   NOTE:
+	   CLK1 = X1M
+	   G1   = VCC (always counting)
+	   OUT1 = SYSTICK_MS
+	   Mode = Rate generator
+	   Count = 1000 (BCD)
+	   Measured count from negative edge of SYSTICK_MS to next negative edge:
+	   - 0x0999 :  998.99us
+	   - 0x1000 :  999.99us
+	   - 0x1001 : 1000.98us
+	*/
+	pit_write_control_word(1, PIT_ACCESS_SEQUENTIAL, PIT_COUNTER_MODE_RATE_GENERATOR, true);
+	pit_write_counter(1, 0x1000);
 }
 
+/*
+	measuring pin 17
+	OUT2 (interval_1ms)
 
+	When count=10
+	Low for 999.99us
+	High for 10.999us
+	Total is 11.9999us
+
+	When count=9
+	Low for 999.99us
+	High for 10.999us
+	Total is 11.9999us
+
+	When count=9
+	Low for 1ms
+	High for 9.99ms
+	Total is 10.9999ms
+
+	sw trg
+	Initially H, out goes L for one clock pulse (1 clock pulse is 1ms)
+
+	
+*/
 
 void delay_ms(uint16_t duration)
 {
-	set_1ms_timer(duration);
-
+	set_1ms_timer(duration - 2);
 	while(__interval_1ms_flag == 0)
 	{
 		; /* Block until timer expires */

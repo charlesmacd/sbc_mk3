@@ -122,10 +122,10 @@ wire [3:0] enal;
 		);
 	
 /* FF80x0 */
-assign post_ld_n   		= ~(enah[0] & enal[0] & !rw_n);
-assign outp_ld_n   		= ~(enah[0] & enal[1] & !rw_n);
-assign pio2_ld_n   		= ~(enah[0] & enal[2] & !rw_n);
-assign spi_write        = ~(enah[0] & enal[3] & !rw_n);
+assign post_ld_n   		= ~(enah[0] & enal[0] & !rw_n); // FF8000
+assign outp_ld_n   		= ~(enah[0] & enal[1] & !rw_n); // FF8040
+assign pio2_ld_n   		= ~(enah[0] & enal[2] & !rw_n); // FF8080
+assign spi_write        = ~(enah[0] & enal[3] & !rw_n); // FF80C0
 
 /* FF90x0 */
 assign uart_cs_n   		= ~(enah[1] & enal[0]);
