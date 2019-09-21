@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <string.h>
 #include "sbc.h"
-
+#include "uart.h"
 
 void *sbrk(int incr)
 {
@@ -68,6 +68,7 @@ int printf(const char *fmt, ...)
 
 	do
 	{
+		/* Get character from format string, may contain literal text or formatting characters */
 		ch = *ptr++;
 
 		if(ch == 0)
@@ -108,7 +109,14 @@ int printf(const char *fmt, ...)
 					switch(ch)
 					{
 						case 'd':
-							uart_printd(*parameters++);
+							if(width)
+							{
+								uart_printd_padding(*parameters++, width, !width_leading);
+							}
+							else
+							{
+								uart_printd(*parameters++);
+							}
 							break;
 
 						case 'x':

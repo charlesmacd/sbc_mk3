@@ -7,7 +7,7 @@
 #include "sbc.h"
 #include "cli.h"
 #include "cli_cmd.h"
-
+#include "uart.h"
 
 
 
@@ -764,6 +764,25 @@ static int cmd_info(int argc, char *argv[])
 }
 
 
+static int cmd_isr(int argc, char *argv[])
+{
+	uint32_t default_isr = *(uint32_t *)(0x100004);
+
+	default_isr = 0x540;
+
+	printf("List of non-default ISRs:\n");
+
+	for(int i = 2; i < 256; i++)
+	{
+		uint32_t current_isr =  *(uint32_t *)(0x100002 + i * 8);
+
+		if(current_isr != default_isr)
+		{
+			printf("Vector %03d : %08X\n", i, current_isr);
+		}
+	}
+}
+
 /* Display memory information */
 static int cmd_mem(int argc, char *argv[])
 {
@@ -1072,6 +1091,7 @@ cli_cmd_t terminal_cmds[] =
 	{"piodbus", cmd_piodbus},
 	{"pioram",  cmd_pioram},
 	{"alloc",   cmd_alloc},
+	{"isr",     cmd_isr},
 	{NULL, 		NULL}
 };
 

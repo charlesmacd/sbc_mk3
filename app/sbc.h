@@ -7,7 +7,6 @@
 
 #include "crt0.h"
 #include "printf.h"
-#include "sys_mmap.h"
 #include "main.h"
 #include "usb.h"
 #include "uart.h"
@@ -15,6 +14,16 @@
 //#include "flash.h"
 #include "ringbuf.h"
 #include "cli.h"
+
+/* Hardware register locations*/
+#define PIO_BASE			0xFFFF8001
+#define POST_BASE			(PIO_BASE + 0x0000)
+#define UART_BASE			(PIO_BASE + 0x1000)
+#define PIT_BASE			(PIO_BASE + 0x1040)
+#define I2C_BASE			(PIO_BASE + 0x1080)
+#define I2C_IACK			(PIO_BASE + 0x10C0)
+#define USB_BASE			(PIO_BASE + 0x2000)
+
 
 
 extern volatile uint8_t *USB_DATA;

@@ -3,8 +3,7 @@
 #define _UART_H_
 
 #include "sys_types.h"
-#include "sys_mmap.h"
-#include "uart.h"
+#include "sbc.h"
 
 
 /* UART (SCC2691) flags */
@@ -26,6 +25,7 @@ void uart_printhexb(uint8_t value);
 void uart_printhexw(uint16_t value);
 void uart_printhexl(uint32_t value);
 void uart_printd(uint32_t value);
+void uart_printd_padding(uint32_t value, uint8_t padding_width, uint8_t padding_type);
 
 
 #endif /* _UART_H_ */

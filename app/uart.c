@@ -81,6 +81,37 @@ void uart_printhexl(uint32_t value)
 	uart_printhexw((value >> 0 ) & 0xFFFF);
 }
 
+void uart_printd_padding(uint32_t value, uint8_t padding_width, uint8_t padding_type)
+{
+	uint8_t stack[10];
+	uint8_t index = 0; 
+
+	/* Push decimal digits back-to-front */
+	do {
+		stack[index++] = (value % 10);
+		value /= 10;		
+	} while(value);
+
+	
+	/* Print leading zeros */
+	if(padding_width)
+	{
+		for(int k = index; k < padding_width; k++)
+		{
+			if(padding_type == 0)
+				uart_hexout(0);
+			else
+			{
+					uart_sendb(' ');
+			}
+		}
+	}
+
+	/* Pop digits and print them in order */
+	while(index--)
+		uart_hexout(stack[index]);
+}
+
 
 void uart_printd(uint32_t value)
 {
