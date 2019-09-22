@@ -120,7 +120,7 @@ void dump_memory(uint32_t address, uint32_t size);
 /*-----------------------------------------------------------*/
 
 
-
+#if 0
 
 #if 0
 
@@ -276,7 +276,7 @@ void target_load_waitreq(bool state)
 #define F_STATUS_FF_CKO		0x40
 #define F_STATUS_WAITREQ	0x80
 
-void target_set_clock_mode(uint8_t mode)
+void target2_set_clock_mode(uint8_t mode)
 {
 	gcth &= ~F_CLKSEL_MASK;
 
@@ -288,13 +288,13 @@ void target_set_clock_mode(uint8_t mode)
 	PIO_REG_CTH[0] = gcth;
 }
 
-void target_set_data(uint16_t data)
+void target2_set_data(uint16_t data)
 {
 	PIO_REG_DBL[0] = (data >> 0) & 0xFF;
 	PIO_REG_DBH[0] = (data >> 8) & 0xFF;
 }
 
-void target_assert_reset(bool state)
+void target2_assert_reset(bool state)
 {
 	if(state)
 	{
@@ -308,7 +308,7 @@ void target_assert_reset(bool state)
 	PIO_REG_CTL[0] = gctl;
 }
 
-void target_set_ipl(int level)
+void target2_set_ipl(int level)
 {
 	gcth &= ~F_TGT_IPL_MASK;
 	if(level & 0x04) gcth |= F_TGT_IPL2;
@@ -333,6 +333,11 @@ int cmd_wiggle(int argc, char *argv[])
 
 int cmd_pio(int argc, char *argv[])
 {
+
+
+
+
+
 #if 0
 	uint8_t ctl;
 	uint8_t cth;
@@ -417,7 +422,7 @@ int cmd_pio(int argc, char *argv[])
 }
 
 
-
+#endif
 
 
 
@@ -1146,6 +1151,546 @@ int cmd_timer(int argc, char *argv[])
 }
 
 
+
+
+
+int cmd_probeout(int argc, char *argv[])
+{
+	uint8_t ctol;
+	uint8_t ctoh;
+
+	ctol = 0;
+	ctoh = 0;
+	printf("Running probe out test.\n");
+	printf("Press any key to stop.\n");
+	int count = 0;
+	bool running = true;
+	while(running)
+	{
+		++count;
+		if(uart_keypressed())
+			running = false;
+		delay_ms(250);
+
+		int v = count >> 2;
+
+		ctol = 0;
+
+		if(v & 1)
+			ctol |= (1 << B_TGT_RESET);
+		if(v & 2)
+			ctol |= (1 << B_TGT_HALT);
+
+		PIO_REG_CTL[0] = ctol;
+		PIO_REG_CTH[0] = ctoh;
+
+	}
+	printf("Test complete.\n");
+}
+
+
+
+
+int cmd_probein(int argc, char *argv[])
+{
+	/* OUT3 */
+	volatile uint8_t *PROBE = (volatile uint8_t *)0xFFFF8089;
+
+	// 4.4k didn't work
+	// 2k does
+	// remember there's 4.7k p/u
+
+	printf("NOTE: Attached OUT3 on SBC through series resistor (1K or lower) to probe clip.\n");
+
+	uint16_t dbus;
+	uint32_t abus;
+	bool running = true;
+	int count = 0;
+	while(running)
+	{
+		if(uart_keypressed())
+			running = false;
+
+		PROBE[0] = (count++ >> 2) & 1;
+
+		abus = 0;
+		abus |= PIO_REG_ADH[0] << 16;
+		abus |= PIO_REG_ADM[0] << 8;
+		abus |= PIO_REG_ADL[0] << 0;
+		abus &= 0x00FFFFFE;
+		
+		dbus = 0;
+		dbus |= PIO_REG_DBH[0] << 8;
+		dbus |= PIO_REG_DBL[0] << 0;
+
+		uint8_t ctil, ctih;
+
+		ctil = PIO_REG_CTL[0];
+		ctih = PIO_REG_CTH[0];
+
+		// probe all inputs works
+		// probe rst/hlt makes leds change, but not readback ???
+		// treset#,thalt# go to uln2003an directly
+		// and 245 to input
+		// 
+		// but directly with no series resistor it works
+		// e.g. hardware drives treset# high, we pull low with 2k
+		// voltage divider output is still not sufficient to reach threshold
+
+		printf("%s", ANSI_HOME);
+		printf("D:%04X A:%06X\n", dbus, abus);
+
+		printf("FC:%d E:%d VMA:%d HLT:%d RST:%d\n",
+			(ctil >> 0) & 7,
+			(ctil >> 3) & 1,
+			(ctil >> 4) & 1,
+			(ctil >> 5) & 1,
+			(ctil >> 6) & 1
+			);
+
+		printf("AS:%d UDS:%d LDS:%d R/W:%d BG:%d\n",
+			(ctih >> 0) & 1,
+			(ctih >> 1) & 1,
+			(ctih >> 2) & 1,
+			(ctih >> 3) & 1,
+			(ctih >> 4) & 1
+			);
+
+		delay_ms(250);
+	}
+
+}
+
+
+
+typedef struct
+{
+	/* Registers */
+	uint8_t waitreq;
+	uint8_t ctol;
+	uint8_t ctoh;
+	uint8_t dbol;
+	uint8_t dboh;
+
+	/* Inputs */
+	uint32_t abus;
+	uint16_t dbus;
+
+	uint8_t fc:3;
+	uint8_t e:1;
+	uint8_t vma:1;
+	uint8_t halt:1;
+	uint8_t reset:1;
+
+	uint8_t as:1;
+	uint8_t uds:1;
+	uint8_t lds:1;
+	uint8_t rw:1;
+	uint8_t bg:1;
+} target_state_t;
+
+target_state_t state;
+
+void target_set_ipl(uint8_t level);
+void target_flush_state(void);
+void target_set_clock_mode(uint8_t mode);
+void target_set_dbus(uint16_t value);
+void target_reset(bool reset_en, bool halt_en);
+void target_init(void);
+
+
+#define TGT_CLK_MODE_PIO		0
+#define TGT_CLK_MODE_AUX		1
+#define TGT_CLK_MODE_FFCK		2
+#define TGT_CLK_MODE_FRT		3
+
+
+void target_flush_state(void)
+{
+	PIO_REG_CTL[0] = state.ctol;
+	PIO_REG_CTH[0] = state.ctoh;
+	PIO_REG_DBL[0] = state.dbol;
+	PIO_REG_DBH[0] = state.dboh;
+}
+
+// waitreq_ld
+// md1 is user_led# -> tps_en#
+// pre= null
+// clr= sysrst
+
+// waitrq_ld
+// md0 is waitreq node
+// pre=taspre
+// clr=piorst#
+
+// misc oe -- from pio read decode y7 (ma[3:1] = 111)
+// d7 = waitreq#
+// d4 = user_led#
+
+uint8_t target_read_misc(uint8_t position)
+{
+	uint8_t value = PIO_MISC[0];
+	return (value & (1 << position)) ? 1 : 0;
+}
+
+uint8_t target_read_ctil(uint8_t position)
+{
+	uint8_t value = PIO_REG_CTL[0];
+	return (value & (1 << position)) ? 1 : 0;
+}
+
+uint8_t target_read_ctih(uint8_t position)
+{
+	uint8_t value = PIO_REG_CTH[0];
+	return (value & (1 << position)) ? 1 : 0;
+}
+
+
+
+void target_set_clock_mode(uint8_t mode)
+{
+	state.ctoh &= ~0x30;
+	state.ctoh |= (mode & 0x03) << 4;
+	target_flush_state();
+}
+
+void target_set_dbus(uint16_t value)
+{
+	state.dbol = (value >> 0) & 0xFF;
+	state.dboh = (value >> 8) & 0xFF;
+	target_flush_state();
+}
+
+void target_change_ctol(uint8_t position, uint8_t level)
+{
+	state.ctol &= ~(1 << position);
+	if(level)
+	{
+		state.ctol |= (1 << position);
+	}	
+}
+void target_change_ctoh(uint8_t position, uint8_t level)
+{
+	state.ctoh &= ~(1 << position);
+	if(level)
+	{
+		state.ctoh |= (1 << position);
+	}	
+}
+
+
+
+
+
+
+
+
+/*==========================================*/
+/*==========================================*/
+/*==========================================*/
+/*==========================================*/
+/*==========================================*/
+/*==========================================*/
+
+
+void target_set_ipl(uint8_t level)
+{
+	state.ctoh &= ~0x07;
+	if(level & 0x01)
+		state.ctoh |= 0x04;
+	if(level & 0x02)
+		state.ctoh |= 0x02;
+	if(level & 0x04)
+		state.ctoh |= 0x01;
+	target_flush_state();
+}
+
+
+void target_set_pio_clk(uint8_t level)
+{
+	target_change_ctoh(3, level);
+	target_flush_state();
+}
+
+
+
+/*==========================================*/
+/*==========================================*/
+/*==========================================*/
+
+
+void target_set_pio_dtack(uint8_t level)
+{
+	target_change_ctol(0, level);
+	target_flush_state();
+}
+void target_set_bgack(uint8_t level)
+{
+	target_change_ctol(1, level);
+	target_flush_state();	
+}
+void target_set_br(uint8_t level)
+{
+	target_change_ctol(2, level);
+	target_flush_state();	
+}
+
+void target_set_vpa(uint8_t level)
+{
+	target_change_ctol(3, level);
+	target_flush_state();	
+}
+
+void target_set_berr(uint8_t level)
+{
+	target_change_ctol(4, level);
+	target_flush_state();	
+}
+
+void target_set_reset(uint8_t level)
+{
+	target_change_ctol(5, level);
+	target_flush_state();	
+}
+
+void target_set_halt(uint8_t level)
+{
+	target_change_ctol(6, level);
+	target_flush_state();	
+}
+
+/*==========================================*/
+/*==========================================*/
+/*==========================================*/
+
+
+void target_read_state(void)
+{
+	uint8_t ctil = PIO_REG_CTL[0];
+	uint8_t ctih = PIO_REG_CTH[0];
+
+	state.dbus = PIO_REG_DBH[0] << 8 | PIO_REG_DBL[0];
+	state.abus = PIO_REG_ADH[0] << 16 | PIO_REG_ADM[0] << 8 | PIO_REG_ADL[0];
+	state.abus &= 0x00FFFFFE;
+	
+	state.as = (ctih >> 0) & 1;
+	state.uds = (ctih >> 1) & 1;
+	state.lds = (ctih >> 2) & 1;
+	state.rw = (ctih >> 3) & 1;
+	state.bg = (ctih >> 4) & 1;
+
+	state.fc = (ctil >> 0) & 7;
+	state.e = (ctih >> 3) & 1;
+	state.vma = (ctil >> 4) & 1;
+	state.halt = (ctil >> 5) & 1;
+	state.reset = (ctil >> 6) & 1;
+}
+
+void target_set_power(uint8_t level)
+{
+	uint8_t waitreq = target_read_misc(7);
+	uint8_t value = 0;
+	
+	if(waitreq)
+		value |= 1;
+	if(level)
+		value |= 2;
+
+	*PIO_REG_WAITREQ = value;
+}
+
+void target_set_waitreq(uint8_t level)
+{
+	uint8_t user_led = target_read_misc(4);
+	uint8_t value = 0;
+	
+	if(level)
+		value |= 1;
+	if(user_led)
+		value |= 2;
+
+	*PIO_REG_WAITREQ = value;
+}
+
+
+
+
+void target_init(void)
+{
+	memset(&state, 0, sizeof(target_state_t));
+	
+	state.ctol = 0;
+	state.ctoh = 0;
+
+	target_set_pio_dtack(1);
+	target_set_bgack(1);
+	target_set_br(1);
+	target_set_vpa(1);
+	target_set_vpa(1);
+	target_set_berr(1);
+
+	target_set_dbus(0x7000);
+	target_set_ipl(7);
+	target_set_clock_mode(TGT_CLK_MODE_FRT);
+	target_flush_state();
+}	
+
+
+bool wait_request(void)
+{
+	uint8_t waitreq;
+	bool running = true;
+	while(running)
+	{
+		uint8_t reset = target_read_ctil(6);
+		uint8_t halt = target_read_ctil(5);
+
+		/* Halt state */
+		if(reset == 1 && halt == 0)
+			return false;
+
+		uint8_t waitreq = target_read_misc(7);
+		if(waitreq == 1)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+const char *str_hr[] =
+{
+	"EXT.RST",
+	"RST.INS",
+	"DBL.HLT",
+	"RUNNING",
+};
+
+const char *str_fc[] =
+{
+	"????", "UDAT", "UPRG", "????",
+	"????", "SDAT", "SPRG", "IACK"
+};
+
+uint16_t target_program[] =
+{
+	0x00ff, 0x0001,
+	0x0000, 0x0008,
+	0x4e70, 0x4e75,
+	0x4e71, 0x4e71
+};
+
+/*
+	001
+	010
+	101
+	110
+
+	000
+	011
+	100
+	111
+*/
+
+uint16_t bus_emulator_read(uint8_t fc, uint32_t address, uint8_t width)
+{
+	uint16_t data = 0xffff;
+	if(address < 0x010)
+	{
+		data = target_program[(address >> 1) & 7];
+	}
+
+	printf("R| %d : %06X : %d [%04X]\n", fc, address, width, data);
+	return data;
+}
+
+void bus_emulator_write(uint8_t fc, uint32_t address, uint8_t width, uint16_t data)
+{
+	printf("W| %d : %06X : %d : %04X\n", fc, address, width, data);	
+}
+
+
+//uint16_t program
+
+int cmd_boot(int argc, char *argv[])
+{
+	target_init();
+	target_set_power(1);
+	delay_ms(10);
+
+	target_set_reset(0);
+	target_set_halt(0);
+	delay_ms(100);
+	
+	target_set_reset(1);
+	target_set_halt(1);
+	delay_ms(10);
+
+	target_set_dbus(0xffff);
+
+#if 0
+	uds,lds - decode width
+	r/w - decode direction
+	fc - decode type
+
+
+#endif
+
+	for(int i = 0; i < 8; i++)
+	{
+		wait_request();
+
+		target_set_dbus(0x4e70);
+
+		target_read_state();
+		if(state.as != 0 || (state.uds && state.lds))
+		{
+			// error
+		}
+
+				
+		printf("%06X %04X | AS:%d UDS:%d LDS:%d R/W:%d FC:%d HR:%d%d [%s] <%s>\n",
+			state.abus,
+			state.dbus,
+			state.as,
+			state.uds,
+			state.lds,
+			state.rw,
+			state.fc,
+			state.halt,
+			state.reset,
+			str_fc[state.fc],
+			str_hr[state.reset << 1 | state.halt]
+			);
+
+
+		uint16_t bus_data = 0xffff;
+		if(state.rw)
+		{
+			bus_data = bus_emulator_read(state.fc, state.abus, state.uds << 1 | state.lds);
+		}
+		else
+		{
+			bus_emulator_write(state.fc, state.abus, state.uds << 1 | state.lds, state.dbus);
+		}
+		target_set_dbus(bus_data);
+
+		/* Terminate current cycle with DTACK# */
+		target_set_waitreq(0);
+
+		if(state.halt == 0)
+		{
+			printf("Status: Target halted.\n");
+			break;
+		}
+	}
+
+
+	
+	printf("Test complete.\n");
+}
+
+
 cli_cmd_t terminal_cmds[] = 
 {
 	{"?",       cmd_list},
@@ -1161,13 +1706,16 @@ cli_cmd_t terminal_cmds[] =
 	{"cls",     cmd_clrscr},
 	{"clear",   cmd_clrscr},
 	{"spi",     cmd_spi},
-	{"pio",     cmd_pio},
+//	{"pio",     cmd_pio},
 	{"piodbus", cmd_piodbus},
 	{"pioram",  cmd_pioram},
 	{"alloc",   cmd_alloc},
 	{"isr",     cmd_isr},
 	{"iotest",  cmd_iotest},
 	{"timer",   cmd_timer},
+	{"probein",   cmd_probein},
+	{"probeout",   cmd_probeout},
+	{"boot", cmd_boot},
 	{NULL, 		NULL}
 };
 

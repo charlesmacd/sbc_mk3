@@ -209,14 +209,7 @@ __level3_isr:
 #--------------------------------------------------------
 # Interrupt handler for 1ms interval timer 
 #--------------------------------------------------------
-foobar:
-                dc.w    0
 __level4_isr:
-                move.b  (foobar).l, d0
-                eori.b  #1, d0
-                move.b  d0, (foobar).l
-                move.b  d0, (0xFFFF8089).w
-
                 st.b    (__interval_1ms_flag)
                 movem.l d0-d7/a0-a6, -(sp)
                 jsr     interval_1ms_handler
@@ -896,7 +889,7 @@ __default_lv7:
                 .globl  target_read_state
 
 # test to do unpack
-target_read_state:
+target_read_state2:
                 # Get pointer to structure in A1
                 move.l  4(sp), a0       
                 move.l  8(sp), a1       
