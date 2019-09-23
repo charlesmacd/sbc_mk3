@@ -1287,6 +1287,22 @@ typedef struct
 	uint8_t lds:1;
 	uint8_t rw:1;
 	uint8_t bg:1;
+
+
+	uint8_t zint:1;
+	uint8_t znmi:1;
+	uint8_t zhalt:1;
+	uint8_t zmreq:1;
+	uint8_t ziorq:1;
+	uint8_t zwr:1;
+	uint8_t zrd:1;
+	uint8_t zbusack:1;
+	uint8_t zwait:1;
+	uint8_t zbusreq:1;
+	uint8_t zreset:1;
+	uint8_t zm1:1;
+	uint8_t zrfsh:1;
+
 } target_state_t;
 
 target_state_t state;
@@ -1463,6 +1479,7 @@ void target_set_halt(uint8_t level)
 /*==========================================*/
 /*==========================================*/
 
+#define MODE_Z80		1
 
 void target_read_state(void)
 {
@@ -1472,7 +1489,7 @@ void target_read_state(void)
 	state.dbus = PIO_REG_DBH[0] << 8 | PIO_REG_DBL[0];
 	state.abus = PIO_REG_ADH[0] << 16 | PIO_REG_ADM[0] << 8 | PIO_REG_ADL[0];
 	state.abus &= 0x00FFFFFE;
-	
+
 	state.as = (ctih >> 0) & 1;
 	state.uds = (ctih >> 1) & 1;
 	state.lds = (ctih >> 2) & 1;
@@ -1484,6 +1501,26 @@ void target_read_state(void)
 	state.vma = (ctil >> 4) & 1;
 	state.halt = (ctil >> 5) & 1;
 	state.reset = (ctil >> 6) & 1;
+
+#if MODE_Z80
+
+	state.zhalt = (state.abus >> 7) & 1;
+	state.zrfsh = (state.abus >> 6) & 1;
+	state.zm1   = (state.abus >> 5) & 1;
+	state.zwr   = (state.abus >> 4) & 1;
+	state.zrd   = (state.abus >> 3) & 1;
+	state.ziorq = (state.abus >> 2) & 1;
+	state.zmreq = (state.abus >> 1) & 1;
+
+	
+
+	state.abus = (PIO_REG_ADH[0] << 8 | PIO_REG_ADM[0]) & 0xffff;
+	state.dbus = PIO_REG_DBL[0];
+
+
+	
+
+#endif	
 }
 
 void target_set_power(uint8_t level)
@@ -1572,41 +1609,37 @@ const char *str_fc[] =
 	"????", "SDAT", "SPRG", "IACK"
 };
 
-uint16_t target_program[] =
-{
-	0x00ff, 0x0001,
-	0x0000, 0x0008,
-	0x4e70, 0x4e75,
-	0x4e71, 0x4e71
-};
 
-/*
-	001
-	010
-	101
-	110
+extern uint16_t shinobi_prog[];
 
-	000
-	011
-	100
-	111
-*/
+	const char *size_tab[] =
+	{
+		".W", ".B", ".B", ".X"
+	};
 
 uint16_t bus_emulator_read(uint8_t fc, uint32_t address, uint8_t width)
 {
 	uint16_t data = 0xffff;
-	if(address < 0x010)
+	uint8_t size = state.uds << 1 | state.lds;
+
+	if(address < 0x020000)
 	{
-		data = target_program[(address >> 1) & 7];
+		data = shinobi_prog[(address >> 1) & 0x0FFFF];
 	}
 
-	printf("R| %d : %06X : %d [%04X]\n", fc, address, width, data);
+	printf("R: FC:%d A:%06X DI:%04X S:%s\n", fc, address, data, size_tab[size]);
 	return data;
 }
 
 void bus_emulator_write(uint8_t fc, uint32_t address, uint8_t width, uint16_t data)
 {
-	printf("W| %d : %06X : %d : %04X\n", fc, address, width, data);	
+	uint8_t size = state.uds << 1 | state.lds;
+	printf("W: FC:%d A:%06X DO:%04X S:%s\n", 
+		fc, 
+		address, 
+		data, 
+		size_tab[size]
+		);	
 }
 
 
@@ -1636,19 +1669,30 @@ int cmd_boot(int argc, char *argv[])
 
 #endif
 
-	for(int i = 0; i < 8; i++)
+	for(int i = 0; i < 10; i++)
 	{
 		wait_request();
 
-		target_set_dbus(0x4e70);
+#if 1
+		// set 6,7 pulses int low
 
+		if(i == 4)
+		{
+			target_set_ipl(5);
+		}
+		else
+		{
+			target_set_ipl(7);
+		}
+		
+#endif
 		target_read_state();
 		if(state.as != 0 || (state.uds && state.lds))
 		{
 			// error
 		}
 
-				
+#if 0				
 		printf("%06X %04X | AS:%d UDS:%d LDS:%d R/W:%d FC:%d HR:%d%d [%s] <%s>\n",
 			state.abus,
 			state.dbus,
@@ -1662,8 +1706,22 @@ int cmd_boot(int argc, char *argv[])
 			str_fc[state.fc],
 			str_hr[state.reset << 1 | state.halt]
 			);
+#endif
 
 
+	printf("%04X %02X | IOR:%d MRQ:%d M1#:%d RFSH:%d WR:%d RD:%d HLT:%d\n",
+		state.abus,
+		state.dbus,
+		state.ziorq,
+		state.zmreq,
+		state.zm1,
+		state.zrfsh,
+		state.zwr,
+		state.zrd,
+		state.zhalt
+		);
+
+	#if 0
 		uint16_t bus_data = 0xffff;
 		if(state.rw)
 		{
@@ -1674,6 +1732,10 @@ int cmd_boot(int argc, char *argv[])
 			bus_emulator_write(state.fc, state.abus, state.uds << 1 | state.lds, state.dbus);
 		}
 		target_set_dbus(bus_data);
+#endif
+
+
+		target_set_dbus(0x0000);
 
 		/* Terminate current cycle with DTACK# */
 		target_set_waitreq(0);
