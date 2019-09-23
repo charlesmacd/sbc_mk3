@@ -1645,6 +1645,18 @@ void bus_emulator_write(uint8_t fc, uint32_t address, uint8_t width, uint16_t da
 
 //uint16_t program
 
+void target_set_nmi(uint8_t level)
+{
+	if(level)
+	{
+		target_set_ipl(5);
+	}
+	else
+	{
+		target_set_ipl(7);
+	}
+}
+
 int cmd_boot(int argc, char *argv[])
 {
 	target_init();
@@ -1669,20 +1681,20 @@ int cmd_boot(int argc, char *argv[])
 
 #endif
 
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 20; i++)
 	{
 		wait_request();
 
 #if 1
 		// set 6,7 pulses int low
 
-		if(i == 4)
+		if(i == 6)
 		{
-			target_set_ipl(5);
+			target_set_nmi(true);
 		}
 		else
 		{
-			target_set_ipl(7);
+			target_set_nmi(false);
 		}
 		
 #endif
