@@ -133,7 +133,7 @@ void uart_tx_write(uint8_t data)
 
 bool uart_keypressed(void)
 {
-	return uart_rx_count();
+	return (uart_rx_count() == 0) ? false : true;
 }
 
 char uart_readkey()

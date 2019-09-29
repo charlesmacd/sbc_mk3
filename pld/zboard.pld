@@ -1,0 +1,47 @@
+Name     zboard ;
+PartNo   00 ;
+Date     9/22/2019 ;
+Revision 01 ;
+Designer Engineer ;
+Company  admin ;
+Assembly None ;
+Location  ;
+Device   g22v10;
+
+pin	1	=	xclocka;
+pin	2	=	spare_p2;
+pin	3	=	xclockb;
+pin	4	=	spare_p4;
+pin	5	=	zwr_n; 		/* TA4 */
+pin	6	=	zrd_n; 		/* TA3 */
+pin	7	=	tdtack_n;
+pin	8	=	zrfsh_n;		/* TA6 */
+pin	9	=	zm1_n;			/* TA5 */
+pin	10	=	zmreq_n;		/* TA1 */
+pin	11	=	ziorq_n;		/* TA2 */
+
+pin	23	=	spare_p23;		
+pin	22	=	vcca;
+pin	21	=	spare_p21;
+pin	20	=	spare_p20;
+pin	19	=	spare_p19;
+pin	18	=	spare_p18;
+pin	17	=	spare_p17;
+pin	16	=	spare_p16;
+pin	15	=	zwait_n;
+pin	14	=	tas_n;
+pin	13	=	spare_p13;		/* GND */
+
+
+
+!zwait_n 	=	tdtack_n;
+
+!tas_n		=	 ziorq_n & !zmreq_n &  zrfsh_n &  zm1_n 	/* Memory read or write */
+		#	 ziorq_n & !zmreq_n &  zrfsh_n & !zm1_n 	/* Op-code fetch */
+		#	!ziorq_n &  zmreq_n &  zrfsh_n &  zm1_n 	/* I/O read or write */
+		#	!ziorq_n &  zmreq_n &  zrfsh_n & !zm1_n 	/* Interrupt acknowledge cycle */
+		;
+/* End */
+
+
+

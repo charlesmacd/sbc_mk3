@@ -904,11 +904,22 @@ target_read_state2:
 
                 rts
 
+
+                # void target_pulse_clock(uint16_t count)
+                .global target_pulse_ffck
+target_pulse_ffck:
+                lea     0x908000, a0
+                move.l  4(sp), d0
+                subq.w  #1, d0
+repeat:         movep.w d0, 0(a0)
+                dbra    d0, repeat
+                rts                
+
+                .globl test_data
+test_data:
+                .incbin "kick.bin"
+
 #------------------------------------------------------------------------------
 # End
 #------------------------------------------------------------------------------
-
-                .globl  shinobi_prog
-shinobi_prog:
-                .incbin "a14.rom"
 

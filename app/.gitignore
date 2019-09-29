@@ -5,4 +5,5 @@
 *.a
 *.x
 *.lst
+*.cpu
 /obj

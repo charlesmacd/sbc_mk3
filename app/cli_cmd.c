@@ -1302,6 +1302,8 @@ typedef struct
 	uint8_t zreset:1;
 	uint8_t zm1:1;
 	uint8_t zrfsh:1;
+	uint8_t bus_state;
+	uint16_t dbus_rx;
 
 } target_state_t;
 
@@ -1465,13 +1467,13 @@ void target_set_berr(uint8_t level)
 
 void target_set_reset(uint8_t level)
 {
-	target_change_ctol(5, level);
+	target_change_ctol(6, level);
 	target_flush_state();	
 }
 
 void target_set_halt(uint8_t level)
 {
-	target_change_ctol(6, level);
+	target_change_ctol(5, level);
 	target_flush_state();	
 }
 
@@ -1512,13 +1514,13 @@ void target_read_state(void)
 	state.ziorq = (state.abus >> 2) & 1;
 	state.zmreq = (state.abus >> 1) & 1;
 
-	
+	state.zbusack = state.bg;
 
 	state.abus = (PIO_REG_ADH[0] << 8 | PIO_REG_ADM[0]) & 0xffff;
 	state.dbus = PIO_REG_DBL[0];
 
+	state.bus_state = state.zrd << 5 | state.zwr << 4 | state.zm1 << 3 | state.zrfsh << 2 | state.ziorq << 1 | state.zmreq;
 
-	
 
 #endif	
 }
@@ -1610,12 +1612,11 @@ const char *str_fc[] =
 };
 
 
-extern uint16_t shinobi_prog[];
 
-	const char *size_tab[] =
-	{
-		".W", ".B", ".B", ".X"
-	};
+const char *size_tab[] =
+{
+	".W", ".B", ".B", ".X"
+};
 
 uint16_t bus_emulator_read(uint8_t fc, uint32_t address, uint8_t width)
 {
@@ -1624,7 +1625,7 @@ uint16_t bus_emulator_read(uint8_t fc, uint32_t address, uint8_t width)
 
 	if(address < 0x020000)
 	{
-		data = shinobi_prog[(address >> 1) & 0x0FFFF];
+//		data = shinobi_prog[(address >> 1) & 0x0FFFF];
 	}
 
 	printf("R: FC:%d A:%06X DI:%04X S:%s\n", fc, address, data, size_tab[size]);
@@ -1645,125 +1646,373 @@ void bus_emulator_write(uint8_t fc, uint32_t address, uint8_t width, uint16_t da
 
 //uint16_t program
 
+
+
+
 void target_set_nmi(uint8_t level)
 {
 	if(level)
 	{
-		target_set_ipl(5);
+		target_set_ipl(7);
 	}
 	else
 	{
-		target_set_ipl(7);
+		target_set_ipl(5);
 	}
 }
 
-int cmd_boot(int argc, char *argv[])
+void target_set_int(uint8_t level)
+{
+	if(level)
+	{
+		target_set_ipl(7);
+	}
+	else
+	{
+		target_set_ipl(6);
+	}
+}
+
+
+
+int cmd_zdiag(int argc, char *argv[])
 {
 	target_init();
-	target_set_power(1);
-	delay_ms(10);
 
-	target_set_reset(0);
-	target_set_halt(0);
-	delay_ms(100);
-	
-	target_set_reset(1);
-	target_set_halt(1);
-	delay_ms(10);
+	printf("Z-Board diagnostics.\n");
+	printf("Ensure no devices are plugged into the target device sockets.\n");
+	printf("1 : Power test.\n");
+	printf("2 : Reset test.\n");
+	printf("Press test number to continue ...\n");
 
-	target_set_dbus(0xffff);
-
-#if 0
-	uds,lds - decode width
-	r/w - decode direction
-	fc - decode type
-
-
-#endif
-
-	for(int i = 0; i < 20; i++)
+	char ch = uart_readkey();
+	switch(ch)
 	{
-		wait_request();
+		case '1':
+			printf("- Power ON test.\n");
+			target_set_power(1);
+			printf("- Verify power LED, then press any key to continue.\n");
+			uart_readkey();
+			
+			printf("- Power OFF test.\n");
+			target_set_power(0);
+			printf("- Verify power LED, then press any key to continue.\n");
+			uart_readkey();
+			break;
 
-#if 1
-		// set 6,7 pulses int low
+		case '2':
+			printf("- Reset pulse test.\n");
+			printf("- Set analyzer to capture on TRESET# and press any key to continue.\n");
+			printf("- Observe pulse of H-L-H of 20ms each.\n");
+			uart_readkey();
+			target_set_reset(1);
+			delay_ms(20);
+			target_set_reset(0);
+			delay_ms(20);
+			target_set_reset(1);
+			delay_ms(20);
+			break;
 
-		if(i == 6)
-		{
-			target_set_nmi(true);
-		}
-		else
-		{
-			target_set_nmi(false);
-		}
-		
-#endif
-		target_read_state();
-		if(state.as != 0 || (state.uds && state.lds))
-		{
-			// error
-		}
+		case '3':
+			break;
 
-#if 0				
-		printf("%06X %04X | AS:%d UDS:%d LDS:%d R/W:%d FC:%d HR:%d%d [%s] <%s>\n",
-			state.abus,
-			state.dbus,
-			state.as,
-			state.uds,
-			state.lds,
-			state.rw,
-			state.fc,
-			state.halt,
-			state.reset,
-			str_fc[state.fc],
-			str_hr[state.reset << 1 | state.halt]
-			);
-#endif
+		default:
+			printf("Error: Unknown test `%c'.\n", ch);
+			break;
+	}
 
 
-	printf("%04X %02X | IOR:%d MRQ:%d M1#:%d RFSH:%d WR:%d RD:%d HLT:%d\n",
-		state.abus,
-		state.dbus,
+	printf("Diagnostics complete.\n");
+}
+
+/* crt0.s */
+extern void target_pulse_ffck(uint16_t clocks);
+
+
+/* Z80 only */
+void target_power_up_reset(void)
+{
+	/* Turn off power */
+	target_set_power(0);
+
+	/* Let power switch output settle */
+	delay_ms(250);
+
+	/* Pull ZRESET# low */
+	target_set_reset(0);
+
+	/* Turn on power */
+	target_set_power(1);
+	delay_ms(250);
+
+	/* Clock device */
+	target_pulse_ffck(128);
+
+	/* Pull ZRESET# high */
+	target_set_reset(1);
+	delay_ms(10);
+}
+
+enum
+{
+	FFCK_POLARITY_ACTIVE_LOW,
+	FFCK_POLARITY_ACTIVE_HIGH
+};
+
+/* Set FFCK to level */
+void target_set_ffck_polarity(uint8_t type)
+{
+	if(type == FFCK_POLARITY_ACTIVE_LOW)
+	{
+		/* Set CLK high so it can be pulsed low */
+		PIO_REG_CLK_PRE[0] = 0;
+	}
+	else
+	{
+		/* Set CLK low so it can be pulsed high */
+		PIO_REG_CLK_CLR[0] = 0;
+	}
+}
+
+/* NOTE: PLD inverts TDTACK# to drive ZWAIT# 
+   - Set TDTACK#=0 to drive ZWAIT#=H (running)
+   - Set TDTACK#=1 to drive ZWAIT#=L (waiting)
+*/
+void target_set_pio_wait(uint8_t level)
+{
+	if(level)
+	{
+		target_set_pio_dtack(0);
+	}
+	else
+	{
+		target_set_pio_dtack(1);
+	}
+}
+
+// tbr# -> busreq# : ctol bit 2
+// tbg# -> busack  : ctih bit 4
+
+uint8_t target_get_busack(void)
+{
+	return target_read_ctih(4);
+}
+
+void target_set_busreq(uint8_t level)
+{
+	target_change_ctol(2, level);
+	target_flush_state();	
+}
+
+void target_set_wbase(uint8_t level)
+{
+	target_change_ctol(3, level);
+	target_flush_state();	
+}
+
+
+#define BUS_RFSH			0b111010
+#define BUS_RFSH_IDLE		0b111011
+#define BUS_MEM_IDLE		0b111110
+#define BUS_MEM_RDOP		0b010110
+#define BUS_MEM_RDOP_IDLE	0b110111
+#define BUS_MEM_READ		0b011110
+#define BUS_MEM_WRITE		0b101110
+#define BUS_IO_READ			0b011101
+#define BUS_IO_WRITE		0b101101
+#define BUS_IDLE			0b111111
+
+const char *get_bus_name(uint8_t bus_state)
+{
+	switch(bus_state)
+	{
+		case BUS_RFSH: 
+			return "RFSH";
+		case BUS_RFSH_IDLE:
+			return "RFSH IDLE";
+		case BUS_MEM_IDLE:
+			return "MEM IDLE";
+		case BUS_MEM_RDOP:
+			return "RDOP";
+		case BUS_MEM_RDOP_IDLE:
+			return "RDOP IDLE";
+		case BUS_MEM_READ:
+			return "RDMEM";
+		case BUS_MEM_WRITE:
+			return "WRMEM";
+		case BUS_IO_READ:
+			return "IOREAD";
+		case BUS_IO_WRITE:
+			return "IOWRITE";
+		case BUS_IDLE:
+			return "IDLE";
+		default:
+			return "????";
+	}
+}
+
+bool is_bus_idle(uint8_t bus_state)
+{
+	switch(bus_state)
+	{
+		case BUS_MEM_IDLE:
+		case BUS_RFSH_IDLE:
+		case BUS_MEM_RDOP_IDLE:
+		case BUS_IDLE:
+			return true;
+		default:
+			return false;
+	}
+}
+
+
+
+extern uint8_t test_data[0x10000];
+
+
+void format_target_state(int index, char *buf)
+{
+	char fragment[128];
+
+	buf[0] = 0;
+	
+	sprintf(fragment, "[%06X] IO:%d MR:%d M1:%d RF:%d W:%d R:%d HLT:%d BA:%d ",
+		index,
 		state.ziorq,
 		state.zmreq,
 		state.zm1,
 		state.zrfsh,
 		state.zwr,
 		state.zrd,
-		state.zhalt
+		state.zhalt,
+		state.zbusack
 		);
+	strcat(buf, fragment);
 
-	#if 0
-		uint16_t bus_data = 0xffff;
-		if(state.rw)
-		{
-			bus_data = bus_emulator_read(state.fc, state.abus, state.uds << 1 | state.lds);
+	sprintf(fragment, "[A:%04X D:%02X P:%02X] ", state.abus, state.dbus, state.dbus_rx);
+	strcat(buf, fragment);
+
+	sprintf(fragment, "%s ", get_bus_name(state.bus_state));
+	strcat(buf, fragment);
+
+	if(state.bus_state == BUS_MEM_RDOP)
+	{
+		sprintf(fragment, "%02X", state.dbus_rx);	
+		strcat(buf, fragment);
+	}
+}
+
+
+
+
+
+int cmd_boot(int argc, char *argv[])
+{
+	target_init();
+	target_set_int(1); /* TODO: INT and NMI override each other, read state and modify bits */
+	target_set_nmi(1);
+	target_set_busreq(1);
+	target_set_wbase(1);
+	target_set_pio_wait(1);
+	target_set_clock_mode(TGT_CLK_MODE_FFCK);
+	target_set_ffck_polarity(FFCK_POLARITY_ACTIVE_LOW);
+	target_power_up_reset();
+
+	/* Set initial data bus state */
+	state.dbus_rx = 0x00;
+	target_set_dbus(state.dbus_rx);
+
+	/* Switch from FFCK to FRT mode */
+	target_set_clock_mode(TGT_CLK_MODE_FRT);
+
+	printf("FRT mode: Starting exec loop.\n");
+
+	for(int i = 0; i < 20; i++)
+	{
+		/* Wait for Z80 bus state that triggered the WSG capture circuit */
+		wait_request();
+
+		/* Read current state */
+		target_read_state();
+
+		bool log = true;
+
+		if(state.abus >= 0xe000 && state.abus <= 0xe7ff)
+			log = false;
+		if(state.abus >= 0xe800 && state.abus <= 0xe8ff)
+			log = false;
+
+		log = true;
+
+		if(log)
+		{	
+			char buf[128];
+			format_target_state(i, buf);
+			printf("%s\n", buf);
 		}
-		else
-		{
-			bus_emulator_write(state.fc, state.abus, state.uds << 1 | state.lds, state.dbus);
-		}
-		target_set_dbus(bus_data);
-#endif
-
-
-		target_set_dbus(0x0000);
 
 		/* Terminate current cycle with DTACK# */
 		target_set_waitreq(0);
-
-		if(state.halt == 0)
-		{
-			printf("Status: Target halted.\n");
-			break;
-		}
 	}
 
-
-	
-	printf("Test complete.\n");
+	printf("FRT test complete.\n");
 }
 
+
+
+
+int cmd_step(int argc, char *argv[])
+{
+	target_init();
+	target_set_int(1); /* TODO: INT and NMI override each other, read state and modify bits */
+	target_set_nmi(1);
+	target_set_busreq(1);
+	target_set_wbase(1);
+	target_set_pio_wait(1);
+	target_set_clock_mode(TGT_CLK_MODE_FFCK);
+	target_set_ffck_polarity(FFCK_POLARITY_ACTIVE_LOW);
+	state.dbus_rx = 0x00;
+	target_set_dbus(state.dbus_rx);
+	target_power_up_reset();
+
+	printf("Step test.\n");
+
+	for(int i = 0; i < 100; i++)
+	{
+		bool log = true;
+		target_read_state();
+
+		if(is_bus_idle(state.bus_state))
+			log = false;
+
+
+		// don't log spriteram at E800-E8FF
+		if(state.abus >= 0xe800 && state.abus <= 0xe8ff)
+			log = false;
+
+		if(log)
+		{
+			char buf[128];
+			format_target_state(i, buf);
+			printf("%s\n", buf);
+		}
+		target_set_dbus(state.dbus_rx);
+		target_pulse_ffck(1);
+	}
+	
+	printf("End of step test.\n");
+	return 0;
+}
+
+
+int cmd_nmi(int argc, char *argv[])
+{
+	printf("NMI testing.\n");
+
+
+
+	return 0;
+}
 
 cli_cmd_t terminal_cmds[] = 
 {
@@ -1787,9 +2036,11 @@ cli_cmd_t terminal_cmds[] =
 	{"isr",     cmd_isr},
 	{"iotest",  cmd_iotest},
 	{"timer",   cmd_timer},
-	{"probein",   cmd_probein},
-	{"probeout",   cmd_probeout},
-	{"boot", cmd_boot},
+	{"probein", cmd_probein},
+	{"probeout",cmd_probeout},
+	{"boot",    cmd_boot},
+	{"zdiag",   cmd_zdiag},
+	{"step",    cmd_step},
 	{NULL, 		NULL}
 };
 

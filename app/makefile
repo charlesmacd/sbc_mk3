@@ -74,7 +74,7 @@ reset	:
 		$(CLIENT) -r
 
 .PHONY	:	run
-run	:	
+run	:	$(EXE)
 		$(CLIENT) -r
 		$(CLIENT) -x $(EXE) $(LDADDR)
 
