@@ -1467,6 +1467,7 @@ void target_set_berr(uint8_t level)
 
 void target_set_reset(uint8_t level)
 {
+	state.zreset = level;
 	target_change_ctol(6, level);
 	target_flush_state();	
 }
@@ -1488,7 +1489,11 @@ void target_read_state(void)
 	uint8_t ctil = PIO_REG_CTL[0];
 	uint8_t ctih = PIO_REG_CTH[0];
 
+	
+
 	state.dbus = PIO_REG_DBH[0] << 8 | PIO_REG_DBL[0];
+
+
 	state.abus = PIO_REG_ADH[0] << 16 | PIO_REG_ADM[0] << 8 | PIO_REG_ADL[0];
 	state.abus &= 0x00FFFFFE;
 
@@ -1572,26 +1577,46 @@ void target_init(void)
 	target_set_ipl(7);
 	target_set_clock_mode(TGT_CLK_MODE_FRT);
 	target_flush_state();
+
+
 }	
 
 
 bool wait_request(void)
 {
-	uint8_t waitreq;
-	bool running = true;
-	while(running)
+	const uint32_t timeout_ms = 1000; // 1 second
+
+	uint8_t state_waitreq;
+	uint8_t state_reset;
+	uint8_t state_halt;
+
+	/* Record current time */
+	uint32_t current_ms = __systick_count;
+
+	while(1)
 	{
-		uint8_t reset = target_read_ctil(6);
-		uint8_t halt = target_read_ctil(5);
+		state_reset = target_read_ctil(6);
+		state_halt = target_read_ctil(5);
 
 		/* Halt state */
-		if(reset == 1 && halt == 0)
+		if(state_reset == 1 && state_halt == 0)
+		{
 			return false;
+		}
 
-		uint8_t waitreq = target_read_misc(7);
-		if(waitreq == 1)
+		/* Check if WAITREQ F/F is set */
+		uint8_t state_waitreq = target_read_misc(7);
+		if(state_waitreq == 1)
 		{
 			return true;
+		}
+
+		/* Check for time-out condition */
+		uint32_t elapsed_ms = __systick_count - current_ms;
+		if(elapsed_ms >= timeout_ms)
+		{
+			printf("ERROR: wait_request(): Timeout (%d ms elapsed)\n", timeout_ms);
+			return false;
 		}
 	}
 	return false;
@@ -1759,6 +1784,19 @@ enum
 	FFCK_POLARITY_ACTIVE_HIGH
 };
 
+void target_set_ffck_level(uint8_t level)
+{
+	if(level)
+	{
+		PIO_REG_CLK_PRE[0] = 0;
+	}
+	else
+	{		
+		PIO_REG_CLK_CLR[0] = 0;
+	}
+
+}
+
 /* Set FFCK to level */
 void target_set_ffck_polarity(uint8_t type)
 {
@@ -1876,7 +1914,7 @@ void format_target_state(int index, char *buf)
 
 	buf[0] = 0;
 	
-	sprintf(fragment, "[%06X] IO:%d MR:%d M1:%d RF:%d W:%d R:%d HLT:%d BA:%d ",
+	sprintf(fragment, "[%06X] IO:%d MR:%d M1:%d RF:%d W:%d R:%d HLT:%d RST:%d BA:%d ",
 		index,
 		state.ziorq,
 		state.zmreq,
@@ -1885,6 +1923,7 @@ void format_target_state(int index, char *buf)
 		state.zwr,
 		state.zrd,
 		state.zhalt,
+		state.zreset,
 		state.zbusack
 		);
 	strcat(buf, fragment);
@@ -1963,6 +2002,15 @@ int cmd_boot(int argc, char *argv[])
 
 int cmd_step(int argc, char *argv[])
 {
+	uint32_t ncycles = 32;
+
+	/* Check if user specified cycle count */
+	if(argc == 2)
+	{
+		ncycles = atoi(argv[1]);
+		printf("User set cycle count to %d\n", ncycles);
+	}
+
 	target_init();
 	target_set_int(1); /* TODO: INT and NMI override each other, read state and modify bits */
 	target_set_nmi(1);
@@ -1971,13 +2019,13 @@ int cmd_step(int argc, char *argv[])
 	target_set_pio_wait(1);
 	target_set_clock_mode(TGT_CLK_MODE_FFCK);
 	target_set_ffck_polarity(FFCK_POLARITY_ACTIVE_LOW);
-	state.dbus_rx = 0x00;
+	state.dbus_rx = 0x76;
 	target_set_dbus(state.dbus_rx);
 	target_power_up_reset();
 
 	printf("Step test.\n");
 
-	for(int i = 0; i < 100; i++)
+	for(int i = 0; i < ncycles; i++)
 	{
 		bool log = true;
 		target_read_state();
@@ -1985,11 +2033,19 @@ int cmd_step(int argc, char *argv[])
 		if(is_bus_idle(state.bus_state))
 			log = false;
 
-
 		// don't log spriteram at E800-E8FF
 		if(state.abus >= 0xe800 && state.abus <= 0xe8ff)
 			log = false;
 
+/*
+	Reset behavior
+	Test 1
+	- During execution of HALT instruction, assert RESET for one cycle
+	- Opcode instruction finishes
+	- There's a single cycle later of idle bus state where address is FFFF
+	- 
+*/			
+		log = true;
 		if(log)
 		{
 			char buf[128];
@@ -2005,12 +2061,239 @@ int cmd_step(int argc, char *argv[])
 }
 
 
+
+
+
+
+
+
+int cmd_edge(int argc, char *argv[])
+{
+	uint32_t ncycles = 32;
+
+	/* Check if user specified cycle count */
+	if(argc == 2)
+	{
+		ncycles = atoi(argv[1]);
+		printf("User set cycle count to %d\n", ncycles);
+	}
+
+	target_init();
+	target_set_int(1); /* TODO: INT and NMI override each other, read state and modify bits */
+	target_set_nmi(1);
+	target_set_busreq(1);
+	target_set_wbase(1);
+	target_set_pio_wait(1);
+	target_set_clock_mode(TGT_CLK_MODE_FFCK);
+	target_set_ffck_polarity(FFCK_POLARITY_ACTIVE_LOW);
+	state.dbus_rx = 0xE3;
+	target_set_dbus(state.dbus_rx);
+	target_power_up_reset();
+
+	uint8_t state_clock = 1;
+
+	printf("Step test.\n");
+
+	for(int i = 0; i < ncycles; i++)
+	{
+		bool log = true;
+		target_read_state();
+
+		if(is_bus_idle(state.bus_state))
+			log = false;
+
+		// don't log spriteram at E800-E8FF
+		if(state.abus >= 0xe800 && state.abus <= 0xe8ff)
+			log = false;
+
+/*
+	Reset behavior
+	Test 1
+	- During execution of HALT instruction, assert RESET for one cycle
+	- Opcode instruction finishes
+	- There's a single cycle later of idle bus state where address is FFFF
+	- 
+*/			
+		log = true;
+		if(log)
+		{
+			char buf[128];
+			format_target_state(i, buf);
+			printf("%s\n", buf);
+		}
+		target_set_dbus(state.dbus_rx);
+
+		int point = 99;
+#if 1
+		if(i == point)
+		{
+			target_set_reset(0);
+		}
+#endif
+
+		target_set_ffck_level(state_clock ^ 1);
+		target_set_ffck_level(state_clock);
+#if 1
+		if(i == point)
+		{
+			target_set_reset(1);
+		}
+
+#endif
+
+
+	}
+	
+	printf("End of step test.\n");
+	return 0;
+}
+
+
+
+
+/* FRT NMI */
 int cmd_nmi(int argc, char *argv[])
 {
-	printf("NMI testing.\n");
+	printf("FRT NMI testing.\n");
+
+	target_init();
+	target_set_int(1); /* TODO: INT and NMI override each other, read state and modify bits */
+	target_set_nmi(1);
+	target_set_busreq(1);
+	target_set_wbase(1);
+	target_set_pio_wait(1);
+	target_set_clock_mode(TGT_CLK_MODE_FFCK);
+	target_set_ffck_polarity(FFCK_POLARITY_ACTIVE_LOW);
+	target_power_up_reset();
+
+	/* Set initial data bus state */
+	state.dbus_rx = 0x00;
+	target_set_dbus(state.dbus_rx);
+
+	/* Switch from FFCK to FRT mode */
+	target_set_clock_mode(TGT_CLK_MODE_FRT);
+
+	printf("FRT NMI mode: Starting exec loop.\n");
 
 
+	/* Request initial NMI */
+	target_set_nmi(0);
 
+/*
+	NMI considerations
+	- No feedback from system until stack writes reach external memory area
+	- Is NMI sampled on clock edge or does it internally assert FF?
+*/	
+
+	for(int i = 0; i < 20; i++)
+	{
+		/* Wait for Z80 bus state that triggered the WSG capture circuit */
+		wait_request();
+
+		/* Read current state */
+		target_read_state();
+#if 1
+		if(state.bus_state == BUS_MEM_RDOP)
+		{
+			target_set_nmi(0);
+		}
+		else
+		{
+			target_set_nmi(1);
+		
+		}
+#endif
+		bool log = true;
+		if(log)
+		{	
+			char buf[128];
+			format_target_state(i, buf);
+			printf("%s\n", buf);
+		}
+
+		/* Terminate current cycle with DTACK# */
+		target_set_waitreq(0);
+	}
+
+	printf("FRT NMI test complete.\n");
+
+
+	return 0;
+}
+
+
+/*------------------------------------------------------*/
+
+int cmd_int(int argc, char *argv[])
+{
+	printf("Interrupt test.\n");
+	uint32_t total_cycles = 40;
+	uint32_t trigger_cycle = 20;
+
+	/* Check if user specified cycle count */
+	if(argc == 2)
+	{
+		trigger_cycle = atoi(argv[1]);
+		printf("Trigger cycle = %d\n", trigger_cycle);
+	}
+
+	target_init();
+	target_set_int(1); /* TODO: INT and NMI override each other, read state and modify bits */
+	target_set_nmi(1);
+	target_set_busreq(1);
+	target_set_wbase(1);
+	target_set_pio_wait(1);
+	target_set_clock_mode(TGT_CLK_MODE_FFCK);
+	target_set_ffck_polarity(FFCK_POLARITY_ACTIVE_LOW);
+	state.dbus_rx = 0x00;
+	target_set_dbus(state.dbus_rx);
+	target_power_up_reset();
+
+	printf("Start of interrupt test.\n");
+
+	for(int i = 0; i < total_cycles; i++)
+	{
+		bool log = true;
+		target_read_state();
+
+		if(is_bus_idle(state.bus_state))
+			log = false;
+
+		log = true;
+		if(log)
+		{
+			char buf[128];
+			format_target_state(i, buf);
+			printf("%s\n", buf);
+		}
+
+		target_set_dbus(state.dbus_rx);
+
+		
+		if(i == trigger_cycle)
+		{
+			printf("NMI pulse.\n");
+
+			target_set_ffck_level(0);
+			delay_ms(250);
+
+			target_set_nmi(0);
+			target_set_nmi(1);
+
+			delay_ms(250);
+			target_set_ffck_level(1);
+		}
+		else
+		{
+			/* code */
+			target_set_ffck_level(0);
+			target_set_ffck_level(1);
+		}
+		
+
+	}
+	
+	printf("End of interrupt test.\n");
 	return 0;
 }
 
@@ -2041,6 +2324,9 @@ cli_cmd_t terminal_cmds[] =
 	{"boot",    cmd_boot},
 	{"zdiag",   cmd_zdiag},
 	{"step",    cmd_step},
+	{"edge", 	cmd_edge},
+	{"nmi",		cmd_nmi},
+	{"int",     cmd_int},
 	{NULL, 		NULL}
 };
 

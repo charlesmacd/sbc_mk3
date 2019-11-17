@@ -54,9 +54,10 @@ extern volatile uint8_t *REG_IMR;
 
 extern volatile uint16_t *REG_PIT;
 
-extern uint8_t __systick_flag;
-extern uint8_t __interval_1ms_flag;
-extern uint8_t __interval_1us_flag;
+extern volatile uint8_t __systick_flag;
+extern volatile uint8_t __interval_1ms_flag;
+extern volatile uint8_t __interval_1us_flag;
+extern volatile uint32_t __systick_count;
 
 extern ringbuf_t uart_rx_ringbuf;
 extern ringbuf_t uart_tx_ringbuf;

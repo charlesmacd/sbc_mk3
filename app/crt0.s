@@ -237,6 +237,7 @@ __level5_isr:
                 .extern systick_handler
 __level6_isr:
                 st.b    (__systick_flag)
+                addi.l  #1, (__systick_count)
                 movem.l d0-d7/a0-a6, -(sp)
                 jsr     systick_handler
                 movem.l (sp)+, d0-d7/a0-a6

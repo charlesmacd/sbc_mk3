@@ -46,9 +46,10 @@ volatile uint16_t *REG_PIT = (volatile uint16_t *)WORD_ADDRESS(PIT_BASE);
 #define WORD_ADDRESS(x)		(x&~1)
 
 
-uint8_t __systick_flag;
-uint8_t __interval_1ms_flag;
-uint8_t __interval_1us_flag;
+volatile uint8_t __systick_flag;
+volatile uint8_t __interval_1ms_flag;
+volatile uint8_t __interval_1us_flag;
+volatile uint32_t __systick_count;
 
 ringbuf_t uart_rx_ringbuf;
 ringbuf_t uart_tx_ringbuf;
