@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 
+#include "cpu_asm.h"
 
 #include "crt0.h"
 #include "printf.h"
@@ -12,8 +13,8 @@
 #include "uart.h"
 #include "comms.h"
 //#include "flash.h"
-#include "ringbuf.h"
-#include "cli.h"
+#include "utility/ringbuf.h"
+#include "application/cli.h"
 
 /* Hardware register locations*/
 #define PIO_BASE			0xFFFF8001

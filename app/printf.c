@@ -169,7 +169,7 @@ int printf(const char *fmt, ...)
 							uart_putch(ch);
 							uart_puts("]\n");
 							uart_puts("ERROR: Unknown printf format.\n");
-							hard_fault();
+							trigger_hard_fault();
 							break;
 					} /* end switch ch */
 				} /* end else */

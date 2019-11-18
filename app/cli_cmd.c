@@ -5,7 +5,7 @@
 #include <malloc.h>
 #include <ctype.h>
 #include "sbc.h"
-#include "cli.h"
+#include "application/cli.h"
 #include "cli_cmd.h"
 #include "uart.h"
 #include "timer.h"

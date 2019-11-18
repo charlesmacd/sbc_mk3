@@ -14,8 +14,8 @@
 #include <stdint.h>
 #include "sbc.h"
 #include "timer.h"
-#include "ringbuf.h"
-#include "cli.h"
+#include "utility/ringbuf.h"
+#include "application/cli.h"
 #include "cli_cmd.h"
 
 #define RESET()						__asm__ __volatile__("reset\n")

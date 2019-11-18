@@ -12,7 +12,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <ctype.h>
-#include "sbc.h"
+#include "../sbc.h"
 
 /* Function prototypes */
 extern int sprintf(char *str, const char *format, ...);

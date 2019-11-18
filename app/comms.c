@@ -115,7 +115,7 @@ void check_comms_dispatch(void)
 		break;
 	default: /* Unknown command */
 		uart_puts("ERROR: Unknown command received\n");
-		hard_fault();
+		trigger_hard_fault();
 		break;
 	}
 }
