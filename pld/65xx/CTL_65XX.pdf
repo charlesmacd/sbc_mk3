@@ -1,0 +1,231 @@
+{COMPONENT C:\SBC\SBC_MK3\PLD\65XX\CTL_65XX.SYM
+
+ {ENVIRONMENT
+  {PDIFvrev 3.00}
+  {Program "CUPL(WM) Version 5.0a"}
+  {DBtype "Schematic"}
+  {DBvrev 1.01}
+  {DBtime "Sun Nov 24 14:29:00 2019 "}
+  {DBunit "MIL"}
+  {DBgrid 10}
+  {Lyrstr "WIRES" 1 "BUS" 1 "GATE" 2 "IEEE" 2 "PINFUN" 3 "PINNUM" 1 
+          "PINNAM" 6 "PINCON" 4 "REFDES" 2 "ATTR" 6 "SDOT" 1 
+          "DEVICE" 5 "OUTLIN" 5 "ATTR2" 6 "NOTES" 6 "NETNAM" 4 
+          "CMPNAM" 5 "BORDER" 5}
+ }
+
+ {USER
+  {VIEW
+   {Mode SYMB}
+   {Nlst OPEN}
+   {Vw 0 0 2}
+   {Lv 12 2 2 2 0 0 2 2 2 2 0 0 2 1 2 0 0 0 0}
+   {Gs 10 10}
+  }
+ }
+
+ {DISPLAY
+  [Ly "PINNUM"]
+  [Ls "SOLID"][Wd 0]
+  [Ts 15][Tj "LC"][Tr 0][Tm "N"]
+ }
+
+ {SYMBOL
+  {PIN_DEF
+   [Ly "PINCON"]
+   {P TCLK {Pt "INPUT"}{Lq 0}{Ploc 100 380}}
+   {P OUTP7 {Pt "INPUT"}{Lq 0}{Ploc 100 340}}
+   {P SPI_MISO {Pt "INPUT"}{Lq 0}{Ploc 100 320}}
+   {P PIO_RST_ {Pt "INPUT"}{Lq 0}{Ploc 100 300}}
+   {P PEXP_CS_ {Pt "INPUT"}{Lq 0}{Ploc 100 280}}
+   {P PRD_N {Pt "INPUT"}{Lq 0}{Ploc 100 260}}
+   {P TDTACK_N {Pt "INPUT"}{Lq 0}{Ploc 100 240}}
+   {P PA3 {Pt "INPUT"}{Lq 0}{Ploc 100 220}}
+   {P PA2 {Pt "INPUT"}{Lq 0}{Ploc 100 200}}
+   {P PA1 {Pt "INPUT"}{Lq 0}{Ploc 100 180}}
+   {P PLD11 {Pt "INPUT"}{Lq 0}{Ploc 100 160}}
+   {P GND {Pt "INPUT"}{Lq 0}{Ploc 100 140}}
+   {P SPI_SCLK {Pt "INPUT"}{Lq 0}{Ploc 100 120}}
+   {P PLWR_N {Pt "INPUT"}{Lq 0}{Ploc 100 100}}
+   {P PLD20 {Pt "INPUT"}{Lq 0}{Ploc 100 80}}
+   {P SD_CD_N {Pt "INPUT"}{Lq 0}{Ploc 100 60}}
+   {P SPI_MOSI {Pt "INPUT"}{Lq 0}{Ploc 100 40}}
+   {P SPI_SSEL {Pt "INPUT"}{Lq 0}{Ploc 100 20}}
+   {P TAS_N {Pt "I/O"}{Lq 0}{Ploc 360 20}}
+   {P PD7 {Pt "I/O"}{Lq 0}{Ploc 360 40}}
+   {P RDY {Pt "I/O"}{Lq 0}{Ploc 360 60}}
+   {P OUTP_LD_ {Pt "I/O"}{Lq 0}{Ploc 360 80}}
+   {P BLE {Pt "I/O"}{Lq 0}{Ploc 360 100}}
+   {P VCC {Pt "OUTPUT"}{Lq 0}{Ploc 360 120}}
+  }
+
+  {PKG
+   [Ly "REFDES"]
+   [Ts 25][Tj "CB"][Tr 0][Tm "N"]
+   {Rdl 230 410}
+
+   [Ly "PINNUM"]
+   [Ts 15][Tj "RC"]
+   {Pnl 120 390}
+   [Ts 15][Tj "RC"]
+   {Pnl 120 350}
+   {Pnl 120 330}
+   {Pnl 120 310}
+   {Pnl 120 290}
+   {Pnl 120 270}
+   {Pnl 120 250}
+   {Pnl 120 230}
+   {Pnl 120 210}
+   {Pnl 120 190}
+   {Pnl 120 170}
+   {Pnl 120 150}
+   {Pnl 120 130}
+   {Pnl 120 110}
+   {Pnl 120 90}
+   {Pnl 120 70}
+   {Pnl 120 50}
+   {Pnl 120 30}
+   [Ts 15][Tj "LC"]
+   {Pnl 340 30}
+   {Pnl 340 50}
+   {Pnl 340 70}
+   {Pnl 340 90}
+   {Pnl 340 110}
+   {Pnl 340 130}
+
+   {Sd A 1 2 3 4 5 6 7 8 9 10 11 12 13 18 20 21 22 23 14 15 16 17 19 24}
+  }
+
+  {PIC
+   [Ly "GATE"]
+   [Ts 15][Tj "LC"][Tr 0][Tm "N"]
+   {R 130 400 330 0}
+   {L 130 380 100 380}
+   {L 130 390 140 380 130 370}
+   {L 130 340 100 340}
+   {L 130 320 100 320}
+   {L 130 300 100 300}
+   {L 130 280 100 280}
+   {L 130 260 100 260}
+   {L 130 240 100 240}
+   {L 130 220 100 220}
+   {L 130 200 100 200}
+   {L 130 180 100 180}
+   {L 130 160 100 160}
+   {L 130 140 100 140}
+   {L 130 120 100 120}
+   {L 130 100 100 100}
+   {L 130 80 100 80}
+   {L 130 60 100 60}
+   {L 130 40 100 40}
+   {L 130 20 100 20}
+   {L 330 20 360 20}
+   {L 330 40 360 40}
+   {L 330 60 360 60}
+   {L 330 80 360 80}
+   {L 330 100 360 100}
+   {L 330 120 360 120}
+   [Ly "PINNAM"]
+   [Tj "LC"]
+   {T "TCLK" 140 380}
+   {T "OUTP7" 140 340}
+   {T "SPI_MISO" 140 320}
+   {T "PIO_RST_" 140 300}
+   {T "PEXP_CS_" 140 280}
+   {T "PRD_N" 140 260}
+   {T "TDTACK_N" 140 240}
+   {T "PA3" 140 220}
+   {T "PA2" 140 200}
+   {T "PA1" 140 180}
+   {T "PLD11" 140 160}
+   {T "GND" 140 140}
+   {T "SPI_SCLK" 140 120}
+   {T "PLWR_N" 140 100}
+   {T "PLD20" 140 80}
+   {T "SD_CD_N" 140 60}
+   {T "SPI_MOSI" 140 40}
+   {T "SPI_SSEL" 140 20}
+   [Tj "RC"]
+   {T "TAS_N" 320 20}
+   {T "PD7" 320 40}
+   {T "RDY" 320 60}
+   {T "OUTP_LD_" 320 80}
+   {T "BLE" 320 100}
+   {T "VCC" 320 120}
+   [Ly "DEVICE"]
+   [Tj "CT"]
+   {T "G22V10" 230 -10}
+  }
+
+  {ATR
+   {IN
+    {Org 100 20}
+    {Ty 255}
+   }
+   {EX
+    [Ly "ATTR2"]
+    [Ts 12][Tj "CT"][Tr 0][Tm "N"]
+    {At PLD C:\SBC\SBC_MK3\PLD\65XX\CTL_65XX 230 400}
+   }
+  }
+ }
+
+ {DETAIL
+  {ANNOTATE
+  }
+
+  {NET_DEF
+   {N TCLK
+   }
+   {N OUTP7
+   }
+   {N SPI_MISO
+   }
+   {N PIO_RST_
+   }
+   {N PEXP_CS_
+   }
+   {N PRD_N
+   }
+   {N TDTACK_N
+   }
+   {N PA3
+   }
+   {N PA2
+   }
+   {N PA1
+   }
+   {N PLD11
+   }
+   {N GND
+   }
+   {N SPI_SCLK
+   }
+   {N PLWR_N
+   }
+   {N PLD20
+   }
+   {N SD_CD_N
+   }
+   {N SPI_MOSI
+   }
+   {N SPI_SSEL
+   }
+   {N TAS_N
+   }
+   {N PD7
+   }
+   {N RDY
+   }
+   {N OUTP_LD_
+   }
+   {N BLE
+   }
+   {N VCC
+   }
+  }
+
+  {SUBCOMP
+  }
+ }
+}

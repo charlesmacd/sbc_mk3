@@ -1,0 +1,81 @@
+%SIGNAL
+PIN  19 =  ble 
+PIN  12 =  gnd 
+PIN   2 =  outp7 
+PIN  17 =  outp_ld_n 
+PIN  10 =  pa1 
+PIN   9 =  pa2 
+PIN   8 =  pa3 
+PIN  15 =  pd7 
+PIN   5 =  pexp_cs_n 
+PIN   4 =  pio_rst_n 
+PIN  11 =  pld11 
+PIN  20 =  pld20 
+PIN  18 =  plwr_n 
+PIN   6 =  prd_n 
+PIN  16 =  rdy 
+PIN  21 =  sd_cd_n 
+PIN   3 =  spi_miso 
+PIN  22 =  spi_mosi 
+PIN  13 =  spi_sclk 
+PIN  23 =  spi_ssel_n 
+PIN  14 =  tas_n 
+PIN   1 =  tclk 
+PIN   7 =  tdtack_n 
+PIN  24 =  vcc 
+%END
+
+%FIELD
+%END
+
+%EQUATION
+ble =>
+    !tclk
+
+!outp_ld_n =>
+    !pexp_cs_n & pio_rst_n & !plwr_n
+
+pd7 =>
+    outp7 & pa1 & pa2 & pa3
+  # !pa1 & pa2 & pa3 & rdy
+  # !pa1 & !pa2 & pa3 & sd_cd_n
+  # pa1 & pa2 & !pa3 & spi_miso
+  # pa1 & !pa2 & !pa3 & spi_mosi
+  # !pa1 & !pa2 & !pa3 & spi_sclk
+  # !pa1 & pa2 & !pa3 & spi_ssel_n
+  # pa1 & !pa2 & pa3 & tdtack_n
+
+pd7.oe  =>
+    !pexp_cs_n & pio_rst_n & !prd_n
+
+rdy =>
+    !tdtack_n
+
+!tas_n =>
+    tclk & tdtack_n
+
+ble.oe  =>
+    1 
+
+outp_ld_n.oe  =>
+    1 
+
+plwr_n.oe  =>
+    0 
+
+rdy.oe  =>
+    1 
+
+sd_cd_n.oe  =>
+    0 
+
+spi_mosi.oe  =>
+    0 
+
+spi_ssel_n.oe  =>
+    0 
+
+tas_n.oe  =>
+    1 
+
+%END

@@ -1,0 +1,56 @@
+Name     ctl_65xx ;
+PartNo   00 ;
+Date     11/24/2019 ;
+Revision 01 ;
+Designer Engineer ;
+Company  admin ;
+Assembly None ;
+Location  u100;
+Device   g22v10 ;
+
+
+pin	1	=	tclk; 		/* FIXME: layout error, have tclk# net here, not connected to tclk net */
+pin	2	=	outp7;		/* '259 Q7 */
+pin	3	=	spi_miso;	
+pin	4	=	pio_rst_n;
+pin	5	=	pexp_cs_n;
+pin	6	=	prd_n;
+pin	7	=	tdtack_n;	/* Input from WSG (WAITERQ F/F) on PIO board */
+pin	8	=	pa3;
+pin	9	=	pa2;
+pin	10	=	pa1;
+pin	11	=	pld11;		/* Spare PLD I/O */
+pin	12	=	gnd;
+pin	13	=	spi_sclk;	/* '259 Q0 */
+pin	14	=	tas_n;		/* Output to WSG circuit on PIO board */
+pin	15	=	pd7;
+pin	16	=	rdy;		/* Output to 6502 */
+pin	17	=	outp_ld_n;	/* '259 LD# */
+pin	18	=	plwr_n;
+pin	19	=	ble;		/* '573 EN (!PHI2) */
+pin	20	=	pld20;		/* Spare PLD I/O */
+pin	21	=	sd_cd_n;	/* SD card detect input (FIXME: needs pull-up resistor) */
+pin	22	=	spi_mosi;	/* '259 Q1 */
+pin	23	=	spi_ssel_n;	/* '259 Q2 */
+pin	24	=	vcc;
+
+!tas_n		=	tclk & tdtack_n;
+rdy		=	!tdtack_n;
+
+ble		=	!tclk;
+
+!outp_ld_n	=	pio_rst_n & !pexp_cs_n & !plwr_n;
+
+pd7.oe		=	pio_rst_n & !pexp_cs_n & !prd_n;
+
+pd7		=	!pa3 & !pa2 & !pa1 & spi_sclk
+		#	!pa3 & !pa2 &  pa1 & spi_mosi
+		#	!pa3 &  pa2 & !pa1 & spi_ssel_n
+		#	!pa3 &  pa2 &  pa1 & spi_miso
+		#	 pa3 & !pa2 & !pa1 & sd_cd_n
+		#	 pa3 & !pa2 &  pa1 & tdtack_n
+		#	 pa3 &  pa2 & !pa1 & rdy
+		#	 pa3 &  pa2 &  pa1 & outp7
+		;
+
+
