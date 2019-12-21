@@ -1,0 +1,31 @@
+/*
+					READ				WRITE				DBUS.OE
+	FF8000 :		STATUS LO		POST_LD			Y
+	FF8040 :		STATUS HI		OUTP_LD			Y
+	FF8080 :		STATUS LO		PIO2_LD			Y
+	FF80C0 :		STATUS HI		SPI_WRITE		Y
+
+	FF9000 :		UART				UART				N
+	FF9040 :		PIT				PIT				N
+	FF9080 :		PCF				PCF				N
+	FF90C0 :		x					OVERLAY_WE		N
+	
+	FFA000 :		USB RD								N
+	FFA040 :		USB RD								N
+	FFA080 :		USB RD								N
+	FFA0C0 :		USB RD								N
+
+	FFB000 :		PENDING			CLR PEND			Y
+	FFB040 :		MASKED         SET PENDING		Y
+	FFB080 :		ENABLE        	ENABLE			Y
+	FFB0C0 :		IPL PRIORITY	FORCE				Y
+	
+	Status ports
+	0 Flags
+	1
+	2
+	3 Spi data | spi_write
+	
+	
+	
+	

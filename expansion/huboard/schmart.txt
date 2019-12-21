@@ -1,8 +1,0 @@
-202-0009-02
-32 to 80 pin QFP adapter
-0.8mm pitch
-Size: 2"x2"
-
-Hole grid
-- 19 by 19 outermost rows
-- 

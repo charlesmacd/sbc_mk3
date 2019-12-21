@@ -29,15 +29,6 @@ reset:
                 lea     LOCAL_STACK_TOP, a7
                 move.l  a7, usp                
 
-                # Reset UART
-                jsr     uart_reset
-                jsr     uart_initialize
-
-                # Print startup message
-                jsr     terminal_clrscr
-                lea     msg_startup, a0
-                jsr     uart_puts_polling
-
                 # Set up interrupt redirection table
                 jsr     patch_interrupt_redirection_table
 
@@ -194,7 +185,7 @@ msg_restart:
                 .ascii  "Restarting BIOS ROM ...\n"
                 dc.b    0
                 .align  16
-ansi_clrscr:
+ansi_clrscr: 
                 .ascii  "\033[2J"
                 .ascii  "\033[H"
                 .align  16
@@ -301,8 +292,10 @@ generic_exception_handler:
                 st.b    (ex_is_group0).l
 .is_group12:
 
+
+
                 # Clear screen
-                jsr     terminal_clrscr
+###                jsr     terminal_clrscr
 
                 # Print message
                 lea     msg0, a0
@@ -358,3 +351,4 @@ msg1:           .asciz  "Waiting for comms ..."
 #------------------------------------------------------------------------------
 # End
 #------------------------------------------------------------------------------
+

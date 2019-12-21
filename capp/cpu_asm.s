@@ -5,6 +5,60 @@
                 .include "macros.inc"
                 .include "hw_defs.inc"
                 .include "cpu_asm.inc"
+                
+#-------------------------------------------------------------------------------
+# Returns bit position of highest set bit in the value, or -1 if no bits set.
+# uint32_t __ffs32(uint32_t value);
+#-------------------------------------------------------------------------------
+                .global     __ffs32
+__ffs32:
+                move.l  4(sp), d1
+                moveq   #31, d0
+    .scan:      btst    d0, d1
+                bne.s   .found
+                subq.l  #1, d0
+                bpl.s   .scan
+    .found:
+                rts
+
+#-------------------------------------------------------------------------------
+# Returns number of set bits in the value.
+# uint32_t __popcount32(uint32_t value);
+#-------------------------------------------------------------------------------
+                .global __popcount32
+__popcount32:
+                move.l  d2, -(sp)
+                lea     popcounts(pc), a0
+                move.l  8(sp), d1
+                moveq   #0, d0
+                .rept   8
+                moveq   #0x0F, d2
+                and.l   d1, d2
+                add.b   (a0, d2.w), d0
+                lsr.l   #4, d1
+                .endr
+                move.l  (sp)+, d2
+                rts
+
+popcounts:      dc.b    0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
+
+#-------------------------------------------------------------------------------
+# uint32_t __atomic_tas(uint8_t *ptr);
+#-------------------------------------------------------------------------------
+# Test and set byte location in memory (atomic operation)
+# Returns original value of location bit 7 in D0:
+# Sets D0 to
+# 00000000 : False (bit 7 was reset prior to TAS)
+# 00000001 : True  (bit 7 set set prior to TAS)
+#-------------------------------------------------------------------------------
+                .global __atomic_tas
+__atomic_tas:
+                move.l  4(sp), a0
+                moveq   #0, d0
+                tas     (a0)
+                smi     d0
+                neg.b   d0
+                rts                
 
 #-------------------------------------------------------------------------------
 # Get stack pointer
@@ -35,7 +89,7 @@ get_sr:
 #-------------------------------------------------------------------------------
                 .globl set_sr
 set_sr:
-                move.w  d0, sr
+                move.w  4(sp), sr
                 rts
 
 
@@ -54,7 +108,7 @@ get_ipl:
 #------------------------------------------------------------------------------
                 .global set_ipl
 set_ipl:
-                move.w  d1, -(sp)
+                move.w  4(sp), d0
                 moveq   #7, d1
                 and.w   d0, d1
                 lsl.w   #8, d1
@@ -62,7 +116,6 @@ set_ipl:
                 andi.w  #0xF8FF, d0
                 or.w    d1, d0
                 move.w  d0, sr
-                move.w  (sp)+, d1
                 rts                
 
 #------------------------------------------------------------------------------
@@ -106,3 +159,32 @@ msg_hard_fault: .ascii  "*** HARD FAULT ***"
 #-------------------------------------------------------------------------------
 # End
 #-------------------------------------------------------------------------------
+
+
+
+                .globl huread_page_auto
+huread_page_auto:
+
+                movem.l a0-a1, -(sp)                
+
+                # Reset counter
+                move.b  #0xFF, 0x904001
+
+                # Read one page
+                lea     0x90400F, a0
+                lea     __kernel_page_buffer, a1
+
+                .rept   256
+                move.b  (a0), (a1)+
+                .endr
+
+                movem.l (sp)+, a0-a1
+                rts
+
+
+
+
+
+
+
+

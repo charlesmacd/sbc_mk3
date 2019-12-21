@@ -1,43 +1,16 @@
 
 
 #include "sbc.hpp"
-#include "peripheral/post.hpp"
-#include "peripheral/interrupt_controller.hpp"
+#include "L1_Peripheral/pit.hpp"
+#include "L1_Peripheral/post.hpp"
+#include "L1_Peripheral/uart.hpp"
+#include "L1_Peripheral/system_controller.hpp"
+#include "L1_Peripheral/interrupt_controller.hpp"
 #include "timer.hpp"
 
-extern volatile uint8_t *REG_STATUS;
-extern volatile uint8_t *REG_POST;
-
-/* USB (UM245) data register */
-volatile uint8_t *USB_DATA		= (volatile uint8_t *)(USB_BASE);
-
-/* I2C (PCF8584) register base */
-volatile uint8_t *REG_I2C       = (volatile uint8_t *)(I2C_BASE);
-
-/* POST (TIL311) register base */
-volatile uint8_t *REG_POST		= (volatile uint8_t *)(POST_BASE);
-
-/* HI status register (EPM7128) */
 volatile uint8_t *REG_STATUS 	= (volatile uint8_t *)(PIO_BASE  + 0x40);
 
-/* PIO registers */
-volatile uint8_t *REG_TIMER_1US_ENABLE 	= (volatile uint8_t *)(PIO_BASE  + 0x40);
-volatile uint8_t *REG_TIMER_1MS_ENABLE 	= (volatile uint8_t *)(PIO_BASE  + 0x42);
-
-/* UART registers */
-volatile uint8_t *REG_SR  		= (volatile uint8_t *)(UART_BASE + 0x02);
-volatile uint8_t *REG_ISR 		= (volatile uint8_t *)(UART_BASE + 0x0A);
-volatile uint8_t *REG_RHR 		= (volatile uint8_t *)(UART_BASE + 0x06);
-volatile uint8_t *REG_IMR		= (volatile uint8_t *)(UART_BASE + 0x0A);
-
-volatile uint16_t *REG_USER_LED  = (volatile uint16_t *)0xFFFF8046;
-
-volatile uint16_t *REG_STATUS0 	= (volatile uint16_t *)0xFFFF8000;
-volatile uint16_t *REG_STATUS1 	= (volatile uint16_t *)0xFFFF8040;
-volatile uint16_t *REG_STATUS2 	= (volatile uint16_t *)0xFFFF8080;
-volatile uint16_t *REG_STATUS3 	= (volatile uint16_t *)0xFFFF80C0;
-
-volatile uint16_t *REG_PIT = (volatile uint16_t *)WORD_ADDRESS(PIT_BASE);
+#define F_STATUS_BREAK		0x01
 
 #define F_ISR_RXRDY			0x04
 #define F_SR_RXRDY			0x01
@@ -50,33 +23,54 @@ volatile uint8_t __interval_1us_flag;
 volatile uint32_t __systick_count;
 
 /* Global classes */
+SystemController system_controller;
 InterruptController interrupt_controller;
 Post post;
+ProgrammableIntervalTimer pit;
+Uart uart;
+
 
 void sbc_initialize(void)
 {
+	/* Set up system controller */
+	system_controller.initialize();
+
+//	system_controller.assert_peripheral_reset(PERIPHERAL_UART, false);
+
+    	volatile uint8_t *REG_UART_RESET 	= (volatile uint8_t *)(PIO_BASE  + 0x44);
+
+		*REG_UART_RESET = 0xFF;
+
+	/* Set up 82C55 PIT */
+	pit.initialize();
+
 	/* Set up TIL311 */
 	post.initialize();
 
 	/* Set up interrupt controller */
 	interrupt_controller.initialize();
 
-	/* Set up PIT 82C54 */
+	/* Set up timer hardware */
 	timer_init();
 
+	/* Set up UART */
+	uart.initialize();
+
 	/* Clear all pending interrupts */
-	intc_acknowledge(0xFF);
+	interrupt_controller.clear_pending(0xFF);
 
 	/* Enable interrupt levels 7, 6, 3 */
-	intc_enable(0xC8);
 
-	/* Initialize TX/RX ring buffers */
-	ringbuf_init(&uart_rx_ringbuf, RINGBUF_MAX_SIZE);
-	ringbuf_init(&uart_tx_ringbuf, RINGBUF_MAX_SIZE);
-
+	// Level 7 : Break (NMI)
+	// Level 6 : System tick
+	// Level 5 : US timer
+	// Level 4 : MS timer
+	// Level 3 : UART
+	// Level 2 : Unused
+	// Level 1 : Unused
+	interrupt_controller.set_enable(0xF8);
 
 }
-
 
 
 bool get_break(void)

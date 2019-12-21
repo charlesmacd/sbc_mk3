@@ -39,6 +39,9 @@ volatile uint16_t *REG_IPEND_SET = (volatile uint16_t *)0xFFFFB040; /* W */
 volatile uint16_t *REG_IENABLE   = (volatile uint16_t *)0xFFFFB080; /* R/W */
 volatile uint16_t *REG_IPRIORITY = (volatile uint16_t *)0xFFFFB0C0; /* R */
 
+
+
+
 void intc_modify_enable(uint8_t clear, uint8_t set)
 {
     uint8_t temp = *REG_IENABLE;

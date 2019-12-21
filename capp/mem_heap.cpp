@@ -7,12 +7,13 @@
             Note: Kernel area is flagged as no-load and placed after __end as to not increase the position.
             
 */
-#include <stdio.h>
+#include <stdlib.h>
 #include "sys_types.hpp"
 #include "sbc.hpp"
 
-extern "C" char _end;
+extern "C" {
 
+extern char _end;
 void *sbrk(int incr)
 {
 	static char *heap_end = NULL;
@@ -40,6 +41,6 @@ void *sbrk(int incr)
 	return (void *)prev_heap_end;
 }
 
-
+};
 
 /* End */

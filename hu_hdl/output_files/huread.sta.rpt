@@ -1,0 +1,1564 @@
+TimeQuest Timing Analyzer report for huread
+Mon Dec 16 11:18:47 2019
+Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. TimeQuest Timing Analyzer Summary
+  3. Parallel Compilation
+  4. Clocks
+  5. Fmax Summary
+  6. Setup Summary
+  7. Hold Summary
+  8. Recovery Summary
+  9. Removal Summary
+ 10. Minimum Pulse Width Summary
+ 11. Setup: 'pexp_cs_n'
+ 12. Setup: 'prd_n'
+ 13. Hold: 'pexp_cs_n'
+ 14. Hold: 'prd_n'
+ 15. Recovery: 'pexp_cs_n'
+ 16. Recovery: 'prd_n'
+ 17. Removal: 'pexp_cs_n'
+ 18. Removal: 'prd_n'
+ 19. Minimum Pulse Width: 'pexp_cs_n'
+ 20. Minimum Pulse Width: 'prd_n'
+ 21. Setup Times
+ 22. Hold Times
+ 23. Clock to Output Times
+ 24. Minimum Clock to Output Times
+ 25. Propagation Delay
+ 26. Minimum Propagation Delay
+ 27. Output Enable Times
+ 28. Minimum Output Enable Times
+ 29. Output Disable Times
+ 30. Minimum Output Disable Times
+ 31. Setup Transfers
+ 32. Hold Transfers
+ 33. Recovery Transfers
+ 34. Removal Transfers
+ 35. Report TCCS
+ 36. Report RSKM
+ 37. Unconstrained Paths
+ 38. TimeQuest Timing Analyzer Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++----------------------------------------------------------------------------------------+
+; TimeQuest Timing Analyzer Summary                                                      ;
++--------------------+-------------------------------------------------------------------+
+; Quartus II Version ; Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition ;
+; Revision Name      ; huread                                                            ;
+; Device Family      ; MAX7000S                                                          ;
+; Device Name        ; EPM7128SLC84-15                                                   ;
+; Timing Models      ; Final                                                             ;
+; Delay Model        ; Slow Model                                                        ;
+; Rise/Fall Delays   ; Unavailable                                                       ;
++--------------------+-------------------------------------------------------------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 4      ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clocks                                                                                                                                                                                ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------------+
+; Clock Name ; Type ; Period ; Frequency  ; Rise  ; Fall  ; Duty Cycle ; Divide by ; Multiply by ; Phase ; Offset ; Edge List ; Edge Shift ; Inverted ; Master ; Source ; Targets       ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------------+
+; pexp_cs_n  ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { pexp_cs_n } ;
+; prd_n      ; Base ; 1.000  ; 1000.0 MHz ; 0.000 ; 0.500 ;            ;           ;             ;       ;        ;           ;            ;          ;        ;        ; { prd_n }     ;
++------------+------+--------+------------+-------+-------+------------+-----------+-------------+-------+--------+-----------+------------+----------+--------+--------+---------------+
+
+
++-------------------------------------------------+
+; Fmax Summary                                    ;
++-----------+-----------------+------------+------+
+; Fmax      ; Restricted Fmax ; Clock Name ; Note ;
++-----------+-----------------+------------+------+
+; 76.92 MHz ; 76.92 MHz       ; pexp_cs_n  ;      ;
+; 76.92 MHz ; 76.92 MHz       ; prd_n      ;      ;
++-----------+-----------------+------------+------+
+This panel reports FMAX for every clock in the design, regardless of the user-specified clock periods.  FMAX is only computed for paths where the source and destination registers or ports are driven by the same clock.  Paths of different clocks, including generated clocks, are ignored.  For paths between a clock and its inversion, FMAX is computed as if the rising and falling edges are scaled along with FMAX, such that the duty cycle (in terms of a percentage) is maintained. Altera recommends that you always use clock constraints and other slack reports for sign-off analysis.
+
+
++-------------------------------------+
+; Setup Summary                       ;
++-----------+---------+---------------+
+; Clock     ; Slack   ; End Point TNS ;
++-----------+---------+---------------+
+; pexp_cs_n ; -12.000 ; -432.000      ;
+; prd_n     ; -12.000 ; -96.000       ;
++-----------+---------+---------------+
+
+
++-----------------------------------+
+; Hold Summary                      ;
++-----------+-------+---------------+
+; Clock     ; Slack ; End Point TNS ;
++-----------+-------+---------------+
+; pexp_cs_n ; 5.000 ; 0.000         ;
+; prd_n     ; 5.000 ; 0.000         ;
++-----------+-------+---------------+
+
+
++------------------------------------+
+; Recovery Summary                   ;
++-----------+--------+---------------+
+; Clock     ; Slack  ; End Point TNS ;
++-----------+--------+---------------+
+; pexp_cs_n ; -7.500 ; -60.000       ;
+; prd_n     ; -7.500 ; -60.000       ;
++-----------+--------+---------------+
+
+
++-----------------------------------+
+; Removal Summary                   ;
++-----------+-------+---------------+
+; Clock     ; Slack ; End Point TNS ;
++-----------+-------+---------------+
+; pexp_cs_n ; 0.000 ; 0.000         ;
+; prd_n     ; 0.000 ; 0.000         ;
++-----------+-------+---------------+
+
+
++------------------------------------+
+; Minimum Pulse Width Summary        ;
++-----------+--------+---------------+
+; Clock     ; Slack  ; End Point TNS ;
++-----------+--------+---------------+
+; pexp_cs_n ; -5.500 ; -396.000      ;
+; prd_n     ; -5.500 ; -88.000       ;
++-----------+--------+---------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Setup: 'pexp_cs_n'                                                                                                                                            ;
++---------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack   ; From Node                             ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++---------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; -12.000 ; flopren:comb_10|q[0]                  ; flopren:comb_10|q[0]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[0]                   ; flopren:comb_8|q[0]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[1]                   ; flopren:comb_8|q[1]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_11|q[1]                  ; flopren:comb_11|q[1]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[3]                  ; flopren:comb_10|q[3]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[3]                   ; flopren:comb_8|q[3]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[6]                  ; flopren:comb_10|q[6]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[6]                   ; flopren:comb_8|q[6]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[7]                  ; flopren:comb_10|q[7]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[7]                   ; flopren:comb_8|q[7]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_11|q[0]                  ; flopren:comb_11|q[0]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[2]                  ; flopren:comb_10|q[2]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_11|q[2]                  ; flopren:comb_11|q[2]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[2]                   ; flopren:comb_8|q[2]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_11|q[3]                  ; flopren:comb_11|q[3]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[0]                   ; flopren:comb_9|q[0]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[1]                   ; flopren:comb_9|q[1]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[1]                  ; flopren:comb_10|q[1]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[2]                   ; flopren:comb_9|q[2]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[3]                   ; flopren:comb_9|q[3]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[5]                   ; flopren:comb_9|q[5]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[6]                   ; flopren:comb_9|q[6]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[4]                   ; flopren:comb_8|q[4]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[4]                  ; flopren:comb_10|q[4]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[4]                   ; flopren:comb_9|q[4]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_9|q[7]                   ; flopren:comb_9|q[7]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_10|q[5]                  ; flopren:comb_10|q[5]                  ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; flopren:comb_8|q[5]                   ; flopren:comb_8|q[5]                   ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 1.000        ; 0.000      ; 9.000      ;
++---------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Setup: 'prd_n'                                                                                                                                                ;
++---------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack   ; From Node                             ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++---------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
+; -12.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 1.000        ; 0.000      ; 9.000      ;
++---------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Hold: 'pexp_cs_n'                                                                                                                                           ;
++-------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node                             ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; 5.000 ; flopren:comb_10|q[0]                  ; flopren:comb_10|q[0]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[0]                   ; flopren:comb_8|q[0]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[1]                   ; flopren:comb_8|q[1]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_11|q[1]                  ; flopren:comb_11|q[1]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[3]                  ; flopren:comb_10|q[3]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[3]                   ; flopren:comb_8|q[3]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[6]                  ; flopren:comb_10|q[6]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[6]                   ; flopren:comb_8|q[6]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[7]                  ; flopren:comb_10|q[7]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[7]                   ; flopren:comb_8|q[7]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_11|q[0]                  ; flopren:comb_11|q[0]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[2]                  ; flopren:comb_10|q[2]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_11|q[2]                  ; flopren:comb_11|q[2]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[2]                   ; flopren:comb_8|q[2]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_11|q[3]                  ; flopren:comb_11|q[3]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[0]                   ; flopren:comb_9|q[0]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[1]                   ; flopren:comb_9|q[1]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[1]                  ; flopren:comb_10|q[1]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[2]                   ; flopren:comb_9|q[2]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[3]                   ; flopren:comb_9|q[3]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[5]                   ; flopren:comb_9|q[5]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[6]                   ; flopren:comb_9|q[6]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[4]                   ; flopren:comb_8|q[4]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[4]                  ; flopren:comb_10|q[4]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[4]                   ; flopren:comb_9|q[4]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_9|q[7]                   ; flopren:comb_9|q[7]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_10|q[5]                  ; flopren:comb_10|q[5]                  ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; flopren:comb_8|q[5]                   ; flopren:comb_8|q[5]                   ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; pexp_cs_n   ; 0.000        ; 0.000      ; 9.000      ;
++-------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Hold: 'prd_n'                                                                                                                                               ;
++-------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node                             ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[0].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[1].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[2].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[3].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[4].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[5].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[6].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[7].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[6].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[5].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[4].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[3].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[2].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[0].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
+; 5.000 ; loadable_counter:comb_104|ldcnt[1].ff ; loadable_counter:comb_104|ldcnt[7].ff ; prd_n        ; prd_n       ; 0.000        ; 0.000      ; 9.000      ;
++-------+---------------------------------------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------+
+; Recovery: 'pexp_cs_n'                                                                                                            ;
++--------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.500        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 1.000        ; 10.000     ; 14.000     ;
++--------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------+
+; Recovery: 'prd_n'                                                                                                                ;
++--------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack  ; From Node ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++--------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.500        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
+; -7.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 1.000        ; 10.000     ; 14.000     ;
++--------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------+
+; Removal: 'pexp_cs_n'                                                                                                            ;
++-------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; 0.000        ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; pexp_cs_n   ; -0.500       ; 10.000     ; 14.000     ;
++-------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------+
+; Removal: 'prd_n'                                                                                                                ;
++-------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; Slack ; From Node ; To Node                               ; Launch Clock ; Latch Clock ; Relationship ; Clock Skew ; Data Delay ;
++-------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.000 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; 0.000        ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[0].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[1].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[2].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[3].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[4].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[5].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[6].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
+; 0.500 ; pexp_cs_n ; loadable_counter:comb_104|ldcnt[7].ff ; pexp_cs_n    ; prd_n       ; -0.500       ; 10.000     ; 14.000     ;
++-------+-----------+---------------------------------------+--------------+-------------+--------------+------------+------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Minimum Pulse Width: 'pexp_cs_n'                                                                                           ;
++--------+--------------+----------------+------------------+-----------+------------+---------------------------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock     ; Clock Edge ; Target                                ;
++--------+--------------+----------------+------------------+-----------+------------+---------------------------------------+
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[0]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[0]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[1]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[1]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[2]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[2]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[3]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[3]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[4]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[4]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[5]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[5]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[6]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[6]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_10|q[7]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_10|q[7]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_11|q[0]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_11|q[0]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_11|q[1]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_11|q[1]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_11|q[2]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_11|q[2]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_11|q[3]                  ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_11|q[3]                  ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[0]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[0]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[1]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[1]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[2]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[2]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[3]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[3]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[4]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[4]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[5]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[5]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[6]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[6]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_8|q[7]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_8|q[7]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[0]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[0]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[1]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[1]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[2]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[2]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[3]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[3]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[4]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[4]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[5]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[5]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[6]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[6]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; flopren:comb_9|q[7]                   ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; flopren:comb_9|q[7]                   ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[0].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[0].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[1].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[1].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[2].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[2].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[3].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[3].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[4].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[4].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[5].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[5].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[6].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[6].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[7].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; loadable_counter:comb_104|ldcnt[7].ff ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; cnt_ld_n~30|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; cnt_ld_n~30|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Fall       ; cnt_ld_n~30|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Fall       ; cnt_ld_n~30|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; cnt_ld_n~60|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; cnt_ld_n~60|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Fall       ; cnt_ld_n~60|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Fall       ; cnt_ld_n~60|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; cnt_ld_n~61|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; cnt_ld_n~61|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Fall       ; cnt_ld_n~61|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Fall       ; cnt_ld_n~61|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; cnt_ld_n~62|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; cnt_ld_n~62|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Fall       ; cnt_ld_n~62|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Fall       ; cnt_ld_n~62|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; cnt_ld_n~63|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; cnt_ld_n~63|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Fall       ; cnt_ld_n~63|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Fall       ; cnt_ld_n~63|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; cnt_ld_n~64|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; cnt_ld_n~64|datain[0]                 ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Fall       ; cnt_ld_n~64|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Fall       ; cnt_ld_n~64|dataout                   ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; comb_104|ldcnt[0].ff|[5]              ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; comb_104|ldcnt[0].ff|[5]              ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; pexp_cs_n ; Rise       ; comb_104|ldcnt[1].ff|[6]              ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; pexp_cs_n ; Rise       ; comb_104|ldcnt[1].ff|[6]              ;
++--------+--------------+----------------+------------------+-----------+------------+---------------------------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------+
+; Minimum Pulse Width: 'prd_n'                                                                                           ;
++--------+--------------+----------------+------------------+-------+------------+---------------------------------------+
+; Slack  ; Actual Width ; Required Width ; Type             ; Clock ; Clock Edge ; Target                                ;
++--------+--------------+----------------+------------------+-------+------------+---------------------------------------+
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[0].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[0].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[1].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[1].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[2].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[2].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[3].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[3].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[4].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[4].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[5].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[5].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[6].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[6].ff ;
+; -5.500 ; 0.500        ; 6.000          ; High Pulse Width ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[7].ff ;
+; -5.500 ; 0.500        ; 6.000          ; Low Pulse Width  ; prd_n ; Rise       ; loadable_counter:comb_104|ldcnt[7].ff ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[0].ff|[7]              ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[0].ff|[7]              ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[1].ff|[8]              ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[1].ff|[8]              ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[2].ff|[9]              ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[2].ff|[9]              ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[3].ff|[10]             ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[3].ff|[10]             ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[4].ff|[11]             ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[4].ff|[11]             ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[5].ff|[12]             ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[5].ff|[12]             ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[6].ff|[13]             ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[6].ff|[13]             ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; comb_104|ldcnt[7].ff|[14]             ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; comb_104|ldcnt[7].ff|[14]             ;
+; 0.500  ; 0.500        ; 0.000          ; High Pulse Width ; prd_n ; Rise       ; prd_n|dataout                         ;
+; 0.500  ; 0.500        ; 0.000          ; Low Pulse Width  ; prd_n ; Rise       ; prd_n|dataout                         ;
++--------+--------------+----------------+------------------+-------+------------+---------------------------------------+
+
+
++-------------------------------------------------------------------------+
+; Setup Times                                                             ;
++-----------+------------+--------+--------+------------+-----------------+
+; Data Port ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++-----------+------------+--------+--------+------------+-----------------+
+; pa[*]     ; pexp_cs_n  ; 4.000  ; 4.000  ; Rise       ; pexp_cs_n       ;
+;  pa[1]    ; pexp_cs_n  ; 4.000  ; 4.000  ; Rise       ; pexp_cs_n       ;
+;  pa[2]    ; pexp_cs_n  ; 4.000  ; 4.000  ; Rise       ; pexp_cs_n       ;
+;  pa[3]    ; pexp_cs_n  ; 4.000  ; 4.000  ; Rise       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; -4.000 ; -4.000 ; Rise       ; pexp_cs_n       ;
+; pa[*]     ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
+;  pa[1]    ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
+;  pa[2]    ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
+;  pa[3]    ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
++-----------+------------+--------+--------+------------+-----------------+
+
+
++-------------------------------------------------------------------------+
+; Hold Times                                                              ;
++-----------+------------+--------+--------+------------+-----------------+
+; Data Port ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++-----------+------------+--------+--------+------------+-----------------+
+; pa[*]     ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pa[1]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pa[2]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pa[3]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 12.000 ; 12.000 ; Rise       ; pexp_cs_n       ;
+; pa[*]     ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
+;  pa[1]    ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
+;  pa[2]    ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
+;  pa[3]    ; prd_n      ; 4.000  ; 4.000  ; Rise       ; prd_n           ;
++-----------+------------+--------+--------+------------+-----------------+
+
+
++--------------------------------------------------------------------------------+
+; Clock to Output Times                                                          ;
++------------------+------------+--------+--------+------------+-----------------+
+; Data Port        ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++------------------+------------+--------+--------+------------+-----------------+
+; card_detect_n_rx ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; ha[*]            ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[0]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[1]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[2]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[3]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[4]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[5]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[6]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[7]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[8]           ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[9]           ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[10]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[11]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[12]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[13]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[14]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[15]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[16]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[17]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[18]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[19]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[20]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hirq2_n_rx       ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hrd_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; hreset_n         ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hsm              ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hwr_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; pd[*]            ; pexp_cs_n  ; 50.000 ; 50.000 ; Rise       ; pexp_cs_n       ;
+;  pd[0]           ; pexp_cs_n  ; 42.000 ; 42.000 ; Rise       ; pexp_cs_n       ;
+;  pd[1]           ; pexp_cs_n  ; 50.000 ; 50.000 ; Rise       ; pexp_cs_n       ;
+;  pd[2]           ; pexp_cs_n  ; 42.000 ; 42.000 ; Rise       ; pexp_cs_n       ;
+;  pd[3]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+;  pd[4]           ; pexp_cs_n  ; 50.000 ; 50.000 ; Rise       ; pexp_cs_n       ;
+;  pd[5]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+;  pd[6]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+;  pd[7]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+; rx_ld            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; spio0            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; hrd_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; hwr_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; rx_ld            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; spio0            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; ha[*]            ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[0]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[1]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[2]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[3]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[4]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[5]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[6]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[7]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+; hrd_n            ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+; pd[*]            ; prd_n      ; 42.000 ; 42.000 ; Rise       ; prd_n           ;
+;  pd[0]           ; prd_n      ; 33.000 ; 33.000 ; Rise       ; prd_n           ;
+;  pd[1]           ; prd_n      ; 42.000 ; 42.000 ; Rise       ; prd_n           ;
+;  pd[2]           ; prd_n      ; 33.000 ; 33.000 ; Rise       ; prd_n           ;
+;  pd[3]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[4]           ; prd_n      ; 42.000 ; 42.000 ; Rise       ; prd_n           ;
+;  pd[5]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[6]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[7]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+; spio0            ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+; hrd_n            ; prd_n      ; 15.000 ; 15.000 ; Fall       ; prd_n           ;
+; spio0            ; prd_n      ; 15.000 ; 15.000 ; Fall       ; prd_n           ;
++------------------+------------+--------+--------+------------+-----------------+
+
+
++--------------------------------------------------------------------------------+
+; Minimum Clock to Output Times                                                  ;
++------------------+------------+--------+--------+------------+-----------------+
+; Data Port        ; Clock Port ; Rise   ; Fall   ; Clock Edge ; Clock Reference ;
++------------------+------------+--------+--------+------------+-----------------+
+; card_detect_n_rx ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; ha[*]            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[0]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[1]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[2]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[3]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[4]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[5]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[6]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[7]           ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+;  ha[8]           ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[9]           ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[10]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[11]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[12]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[13]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[14]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[15]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[16]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[17]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[18]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[19]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+;  ha[20]          ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hirq2_n_rx       ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hrd_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; hreset_n         ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hsm              ; pexp_cs_n  ; 23.000 ; 23.000 ; Rise       ; pexp_cs_n       ;
+; hwr_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; pd[*]            ; pexp_cs_n  ; 24.000 ; 24.000 ; Rise       ; pexp_cs_n       ;
+;  pd[0]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+;  pd[1]           ; pexp_cs_n  ; 41.000 ; 41.000 ; Rise       ; pexp_cs_n       ;
+;  pd[2]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+;  pd[3]           ; pexp_cs_n  ; 24.000 ; 24.000 ; Rise       ; pexp_cs_n       ;
+;  pd[4]           ; pexp_cs_n  ; 33.000 ; 33.000 ; Rise       ; pexp_cs_n       ;
+;  pd[5]           ; pexp_cs_n  ; 24.000 ; 24.000 ; Rise       ; pexp_cs_n       ;
+;  pd[6]           ; pexp_cs_n  ; 24.000 ; 24.000 ; Rise       ; pexp_cs_n       ;
+;  pd[7]           ; pexp_cs_n  ; 24.000 ; 24.000 ; Rise       ; pexp_cs_n       ;
+; rx_ld            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; spio0            ; pexp_cs_n  ; 15.000 ; 15.000 ; Rise       ; pexp_cs_n       ;
+; hrd_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; hwr_n            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; rx_ld            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; spio0            ; pexp_cs_n  ; 15.000 ; 15.000 ; Fall       ; pexp_cs_n       ;
+; ha[*]            ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[0]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[1]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[2]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[3]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[4]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[5]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[6]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+;  ha[7]           ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+; hrd_n            ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+; pd[*]            ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[0]           ; prd_n      ; 33.000 ; 33.000 ; Rise       ; prd_n           ;
+;  pd[1]           ; prd_n      ; 41.000 ; 41.000 ; Rise       ; prd_n           ;
+;  pd[2]           ; prd_n      ; 33.000 ; 33.000 ; Rise       ; prd_n           ;
+;  pd[3]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[4]           ; prd_n      ; 33.000 ; 33.000 ; Rise       ; prd_n           ;
+;  pd[5]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[6]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+;  pd[7]           ; prd_n      ; 24.000 ; 24.000 ; Rise       ; prd_n           ;
+; spio0            ; prd_n      ; 15.000 ; 15.000 ; Rise       ; prd_n           ;
+; hrd_n            ; prd_n      ; 15.000 ; 15.000 ; Fall       ; prd_n           ;
+; spio0            ; prd_n      ; 15.000 ; 15.000 ; Fall       ; prd_n           ;
++------------------+------------+--------+--------+------------+-----------------+
+
+
++-----------------------------------------------------------------+
+; Propagation Delay                                               ;
++---------------+-------------+--------+--------+--------+--------+
+; Input Port    ; Output Port ; RR     ; RF     ; FR     ; FF     ;
++---------------+-------------+--------+--------+--------+--------+
+; card_detect_n ; pd[5]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[0]         ; pd[0]       ; 24.000 ;        ;        ; 24.000 ;
+; hd[1]         ; pd[1]       ;        ; 33.000 ; 33.000 ;        ;
+; hd[2]         ; pd[2]       ; 24.000 ;        ;        ; 24.000 ;
+; hd[3]         ; pd[3]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[4]         ; pd[4]       ;        ; 33.000 ; 33.000 ;        ;
+; hd[5]         ; pd[5]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[6]         ; pd[6]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[7]         ; pd[7]       ; 15.000 ;        ;        ; 15.000 ;
+; hirq2_n       ; pd[4]       ; 32.000 ; 33.000 ; 33.000 ; 32.000 ;
+; hrx[0]        ; pd[0]       ; 25.000 ;        ;        ; 25.000 ;
+; hrx[1]        ; pd[1]       ;        ; 33.000 ; 33.000 ;        ;
+; hrx[2]        ; pd[2]       ; 25.000 ;        ;        ; 25.000 ;
+; hrx[3]        ; pd[3]       ; 16.000 ;        ;        ; 16.000 ;
+; hrx[4]        ; pd[4]       ;        ; 33.000 ; 33.000 ;        ;
+; hrx[5]        ; pd[5]       ; 16.000 ;        ;        ; 16.000 ;
+; hrx[6]        ; pd[6]       ; 15.000 ;        ;        ; 15.000 ;
+; hrx[7]        ; pd[7]       ; 15.000 ;        ;        ; 15.000 ;
+; pa[1]         ; hd[0]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[1]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[2]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[3]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[4]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[5]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[6]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[7]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hrd_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[1]         ; hwr_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[1]         ; pd[0]       ; 24.000 ; 25.000 ; 25.000 ; 24.000 ;
+; pa[1]         ; pd[1]       ; 33.000 ; 33.000 ; 33.000 ; 33.000 ;
+; pa[1]         ; pd[2]       ; 24.000 ; 25.000 ; 25.000 ; 24.000 ;
+; pa[1]         ; pd[3]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[1]         ; pd[4]       ; 33.000 ; 33.000 ; 33.000 ; 33.000 ;
+; pa[1]         ; pd[5]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[1]         ; pd[6]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[1]         ; pd[7]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[1]         ; rx_ld       ;        ; 15.000 ; 15.000 ;        ;
+; pa[1]         ; spio1       ; 15.000 ;        ;        ; 15.000 ;
+; pa[2]         ; hd[0]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[1]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[2]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[3]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[4]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[5]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[6]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[7]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hrd_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[2]         ; hwr_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[2]         ; pd[0]       ; 24.000 ; 25.000 ; 25.000 ; 24.000 ;
+; pa[2]         ; pd[1]       ; 33.000 ; 33.000 ; 33.000 ; 33.000 ;
+; pa[2]         ; pd[2]       ; 24.000 ; 25.000 ; 25.000 ; 24.000 ;
+; pa[2]         ; pd[3]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[2]         ; pd[4]       ; 33.000 ; 33.000 ; 33.000 ; 33.000 ;
+; pa[2]         ; pd[5]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[2]         ; pd[6]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[2]         ; pd[7]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[2]         ; rx_ld       ;        ; 15.000 ; 15.000 ;        ;
+; pa[2]         ; spio1       ; 15.000 ;        ;        ; 15.000 ;
+; pa[3]         ; hd[0]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[1]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[2]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[3]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[4]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[5]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[6]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[7]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hwr_n       ;        ; 15.000 ; 15.000 ;        ;
+; pa[3]         ; pd[0]       ; 25.000 ; 25.000 ; 25.000 ; 25.000 ;
+; pa[3]         ; pd[1]       ; 24.000 ; 33.000 ; 33.000 ; 24.000 ;
+; pa[3]         ; pd[2]       ; 25.000 ; 25.000 ; 25.000 ; 25.000 ;
+; pa[3]         ; pd[3]       ; 16.000 ; 16.000 ; 16.000 ; 16.000 ;
+; pa[3]         ; pd[4]       ; 24.000 ; 33.000 ; 33.000 ; 24.000 ;
+; pa[3]         ; pd[5]       ; 16.000 ; 16.000 ; 16.000 ; 16.000 ;
+; pa[3]         ; pd[6]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[3]         ; pd[7]       ; 15.000 ; 16.000 ; 16.000 ; 15.000 ;
+; pa[3]         ; rx_ld       ; 15.000 ;        ;        ; 15.000 ;
+; pa[3]         ; spio1       ; 15.000 ;        ;        ; 15.000 ;
+; pd[0]         ; hd[0]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[1]         ; hd[1]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[2]         ; hd[2]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[3]         ; hd[3]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[4]         ; hd[4]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[5]         ; hd[5]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[6]         ; hd[6]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[7]         ; hd[7]       ; 15.000 ;        ;        ; 15.000 ;
+; pwr_n         ; hd[0]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[1]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[2]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[3]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[4]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[5]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[6]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[7]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hwr_n       ;        ; 15.000 ; 15.000 ;        ;
+; pwr_n         ; rx_ld       ;        ; 15.000 ; 15.000 ;        ;
++---------------+-------------+--------+--------+--------+--------+
+
+
++-----------------------------------------------------------------+
+; Minimum Propagation Delay                                       ;
++---------------+-------------+--------+--------+--------+--------+
+; Input Port    ; Output Port ; RR     ; RF     ; FR     ; FF     ;
++---------------+-------------+--------+--------+--------+--------+
+; card_detect_n ; pd[5]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[0]         ; pd[0]       ; 24.000 ;        ;        ; 24.000 ;
+; hd[1]         ; pd[1]       ;        ; 33.000 ; 33.000 ;        ;
+; hd[2]         ; pd[2]       ; 24.000 ;        ;        ; 24.000 ;
+; hd[3]         ; pd[3]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[4]         ; pd[4]       ;        ; 33.000 ; 33.000 ;        ;
+; hd[5]         ; pd[5]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[6]         ; pd[6]       ; 15.000 ;        ;        ; 15.000 ;
+; hd[7]         ; pd[7]       ; 15.000 ;        ;        ; 15.000 ;
+; hirq2_n       ; pd[4]       ; 32.000 ; 33.000 ; 33.000 ; 32.000 ;
+; hrx[0]        ; pd[0]       ; 25.000 ;        ;        ; 25.000 ;
+; hrx[1]        ; pd[1]       ;        ; 24.000 ; 24.000 ;        ;
+; hrx[2]        ; pd[2]       ; 25.000 ;        ;        ; 25.000 ;
+; hrx[3]        ; pd[3]       ; 16.000 ;        ;        ; 16.000 ;
+; hrx[4]        ; pd[4]       ;        ; 24.000 ; 24.000 ;        ;
+; hrx[5]        ; pd[5]       ; 16.000 ;        ;        ; 16.000 ;
+; hrx[6]        ; pd[6]       ; 15.000 ;        ;        ; 15.000 ;
+; hrx[7]        ; pd[7]       ; 15.000 ;        ;        ; 15.000 ;
+; pa[1]         ; hd[0]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[1]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[2]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[3]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[4]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[5]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[6]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hd[7]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[1]         ; hrd_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[1]         ; hwr_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[1]         ; pd[0]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[1]         ; pd[1]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[1]         ; pd[2]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[1]         ; pd[3]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[1]         ; pd[4]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[1]         ; pd[5]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[1]         ; pd[6]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[1]         ; pd[7]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[1]         ; rx_ld       ;        ; 15.000 ; 15.000 ;        ;
+; pa[1]         ; spio1       ; 15.000 ;        ;        ; 15.000 ;
+; pa[2]         ; hd[0]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[1]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[2]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[3]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[4]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[5]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[6]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hd[7]       ; 31.000 ;        ;        ; 31.000 ;
+; pa[2]         ; hrd_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[2]         ; hwr_n       ; 15.000 ;        ;        ; 15.000 ;
+; pa[2]         ; pd[0]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[2]         ; pd[1]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[2]         ; pd[2]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[2]         ; pd[3]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[2]         ; pd[4]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[2]         ; pd[5]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[2]         ; pd[6]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[2]         ; pd[7]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[2]         ; rx_ld       ;        ; 15.000 ; 15.000 ;        ;
+; pa[2]         ; spio1       ; 15.000 ;        ;        ; 15.000 ;
+; pa[3]         ; hd[0]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[1]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[2]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[3]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[4]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[5]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[6]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hd[7]       ;        ; 31.000 ; 31.000 ;        ;
+; pa[3]         ; hwr_n       ;        ; 15.000 ; 15.000 ;        ;
+; pa[3]         ; pd[0]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[3]         ; pd[1]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[3]         ; pd[2]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[3]         ; pd[3]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[3]         ; pd[4]       ; 24.000 ; 24.000 ; 24.000 ; 24.000 ;
+; pa[3]         ; pd[5]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[3]         ; pd[6]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[3]         ; pd[7]       ; 15.000 ; 15.000 ; 15.000 ; 15.000 ;
+; pa[3]         ; rx_ld       ; 15.000 ;        ;        ; 15.000 ;
+; pa[3]         ; spio1       ; 15.000 ;        ;        ; 15.000 ;
+; pd[0]         ; hd[0]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[1]         ; hd[1]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[2]         ; hd[2]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[3]         ; hd[3]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[4]         ; hd[4]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[5]         ; hd[5]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[6]         ; hd[6]       ; 15.000 ;        ;        ; 15.000 ;
+; pd[7]         ; hd[7]       ; 15.000 ;        ;        ; 15.000 ;
+; pwr_n         ; hd[0]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[1]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[2]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[3]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[4]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[5]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[6]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hd[7]       ;        ; 31.000 ; 31.000 ;        ;
+; pwr_n         ; hwr_n       ;        ; 15.000 ; 15.000 ;        ;
+; pwr_n         ; rx_ld       ;        ; 15.000 ; 15.000 ;        ;
++---------------+-------------+--------+--------+--------+--------+
+
+
++-----------------------------------------------------------------------+
+; Output Enable Times                                                   ;
++-----------+------------+--------+------+------------+-----------------+
+; Data Port ; Clock Port ; Rise   ; Fall ; Clock Edge ; Clock Reference ;
++-----------+------------+--------+------+------------+-----------------+
+; hd[*]     ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+; hd[*]     ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+; pd[*]     ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
++-----------+------------+--------+------+------------+-----------------+
+
+
++-----------------------------------------------------------------------+
+; Minimum Output Enable Times                                           ;
++-----------+------------+--------+------+------------+-----------------+
+; Data Port ; Clock Port ; Rise   ; Fall ; Clock Edge ; Clock Reference ;
++-----------+------------+--------+------+------------+-----------------+
+; hd[*]     ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000 ;      ; Rise       ; pexp_cs_n       ;
+; hd[*]     ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000 ;      ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000 ;      ; Rise       ; prd_n           ;
+; pd[*]     ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000 ;      ; Fall       ; prd_n           ;
++-----------+------------+--------+------+------------+-----------------+
+
+
++-------------------------------------------------------------------------------+
+; Output Disable Times                                                          ;
++-----------+------------+-----------+-----------+------------+-----------------+
+; Data Port ; Clock Port ; 0 to Hi-Z ; 1 to Hi-Z ; Clock Edge ; Clock Reference ;
++-----------+------------+-----------+-----------+------------+-----------------+
+; hd[*]     ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+; hd[*]     ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+; pd[*]     ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
++-----------+------------+-----------+-----------+------------+-----------------+
+
+
++-------------------------------------------------------------------------------+
+; Minimum Output Disable Times                                                  ;
++-----------+------------+-----------+-----------+------------+-----------------+
+; Data Port ; Clock Port ; 0 to Hi-Z ; 1 to Hi-Z ; Clock Edge ; Clock Reference ;
++-----------+------------+-----------+-----------+------------+-----------------+
+; hd[*]     ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000    ;           ; Rise       ; pexp_cs_n       ;
+; hd[*]     ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[0]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[1]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[2]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[3]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[4]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[5]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[6]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  hd[7]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[0]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[1]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[2]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[3]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[4]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[5]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[6]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+;  pd[7]    ; pexp_cs_n  ; 31.000    ;           ; Fall       ; pexp_cs_n       ;
+; pd[*]     ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000    ;           ; Rise       ; prd_n           ;
+; pd[*]     ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[0]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[1]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[2]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[3]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[4]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[5]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[6]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
+;  pd[7]    ; prd_n      ; 31.000    ;           ; Fall       ; prd_n           ;
++-----------+------------+-----------+-----------+------------+-----------------+
+
+
++--------------------------------------------------------------------+
+; Setup Transfers                                                    ;
++------------+-----------+----------+----------+----------+----------+
+; From Clock ; To Clock  ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+-----------+----------+----------+----------+----------+
+; pexp_cs_n  ; pexp_cs_n ; 120      ; 0        ; 0        ; 0        ;
+; prd_n      ; pexp_cs_n ; 36       ; 0        ; 0        ; 0        ;
+; pexp_cs_n  ; prd_n     ; 36       ; 0        ; 0        ; 0        ;
+; prd_n      ; prd_n     ; 36       ; 0        ; 0        ; 0        ;
++------------+-----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++--------------------------------------------------------------------+
+; Hold Transfers                                                     ;
++------------+-----------+----------+----------+----------+----------+
+; From Clock ; To Clock  ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+-----------+----------+----------+----------+----------+
+; pexp_cs_n  ; pexp_cs_n ; 120      ; 0        ; 0        ; 0        ;
+; prd_n      ; pexp_cs_n ; 36       ; 0        ; 0        ; 0        ;
+; pexp_cs_n  ; prd_n     ; 36       ; 0        ; 0        ; 0        ;
+; prd_n      ; prd_n     ; 36       ; 0        ; 0        ; 0        ;
++------------+-----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++--------------------------------------------------------------------+
+; Recovery Transfers                                                 ;
++------------+-----------+----------+----------+----------+----------+
+; From Clock ; To Clock  ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+-----------+----------+----------+----------+----------+
+; pexp_cs_n  ; pexp_cs_n ; 16       ; 16       ; 0        ; 0        ;
+; pexp_cs_n  ; prd_n     ; 16       ; 16       ; 0        ; 0        ;
++------------+-----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
++--------------------------------------------------------------------+
+; Removal Transfers                                                  ;
++------------+-----------+----------+----------+----------+----------+
+; From Clock ; To Clock  ; RR Paths ; FR Paths ; RF Paths ; FF Paths ;
++------------+-----------+----------+----------+----------+----------+
+; pexp_cs_n  ; pexp_cs_n ; 16       ; 16       ; 0        ; 0        ;
+; pexp_cs_n  ; prd_n     ; 16       ; 16       ; 0        ; 0        ;
++------------+-----------+----------+----------+----------+----------+
+Entries labeled "false path" only account for clock-to-clock false paths and not path-based false paths. As a result, actual path counts may be lower than reported.
+
+
+---------------
+; Report TCCS ;
+---------------
+No dedicated SERDES Transmitter circuitry present in device or used in design
+
+
+---------------
+; Report RSKM ;
+---------------
+No dedicated SERDES Receiver circuitry present in device or used in design
+
+
++------------------------------------------------+
+; Unconstrained Paths                            ;
++---------------------------------+-------+------+
+; Property                        ; Setup ; Hold ;
++---------------------------------+-------+------+
+; Illegal Clocks                  ; 0     ; 0    ;
+; Unconstrained Clocks            ; 0     ; 0    ;
+; Unconstrained Input Ports       ; 33    ; 33   ;
+; Unconstrained Input Port Paths  ; 313   ; 313  ;
+; Unconstrained Output Ports      ; 46    ; 46   ;
+; Unconstrained Output Port Paths ; 186   ; 186  ;
++---------------------------------+-------+------+
+
+
++------------------------------------+
+; TimeQuest Timing Analyzer Messages ;
++------------------------------------+
+Info: *******************************************************************
+Info: Running Quartus II 64-Bit TimeQuest Timing Analyzer
+    Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+    Info: Processing started: Mon Dec 16 11:18:44 2019
+Info: Command: quartus_sta huread -c huread
+Info: qsta_default_script.tcl version: #1
+Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (306004): Started post-fitting delay annotation
+Info (306005): Delay annotation completed successfully
+Warning (335095): TimeQuest Timing Analyzer does not support the analysis of latches as synchronous elements for the currently selected device family.
+Critical Warning (332012): Synopsys Design Constraints File file not found: 'huread.sdc'. A Synopsys Design Constraints File is required by the TimeQuest Timing Analyzer to get proper timing constraints. Without it, the Compiler will not properly optimize the design.
+Info (332142): No user constrained base clocks found in the design. Calling "derive_clocks -period 1.0"
+Info (332105): Deriving Clocks
+    Info (332105): create_clock -period 1.000 -name pexp_cs_n pexp_cs_n
+    Info (332105): create_clock -period 1.000 -name prd_n prd_n
+Info: Found TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS = ON
+Critical Warning (332148): Timing requirements not met
+Info (332146): Worst-case setup slack is -12.000
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):   -12.000      -432.000 pexp_cs_n 
+    Info (332119):   -12.000       -96.000 prd_n 
+Info (332146): Worst-case hold slack is 5.000
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     5.000         0.000 pexp_cs_n 
+    Info (332119):     5.000         0.000 prd_n 
+Info (332146): Worst-case recovery slack is -7.500
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):    -7.500       -60.000 pexp_cs_n 
+    Info (332119):    -7.500       -60.000 prd_n 
+Info (332146): Worst-case removal slack is 0.000
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):     0.000         0.000 pexp_cs_n 
+    Info (332119):     0.000         0.000 prd_n 
+Info (332146): Worst-case minimum pulse width slack is -5.500
+    Info (332119):     Slack End Point TNS Clock 
+    Info (332119): ========= ============= =====================
+    Info (332119):    -5.500      -396.000 pexp_cs_n 
+    Info (332119):    -5.500       -88.000 prd_n 
+Info (332001): The selected device family is not supported by the report_metastability command.
+Info (332102): Design is not fully constrained for setup requirements
+Info (332102): Design is not fully constrained for hold requirements
+Info: Quartus II 64-Bit TimeQuest Timing Analyzer was successful. 0 errors, 4 warnings
+    Info: Peak virtual memory: 357 megabytes
+    Info: Processing ended: Mon Dec 16 11:18:47 2019
+    Info: Elapsed time: 00:00:03
+    Info: Total CPU time (on all processors): 00:00:03
+
+

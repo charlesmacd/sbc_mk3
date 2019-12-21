@@ -11,5 +11,7 @@
 #define I2C_IACK			(PIO_BASE + 0x10C0)
 #define USB_BASE			(PIO_BASE + 0x2000)
 
+#define WORD_ADDRESS(x)		(x&~1)
+
 
 #endif /* _HW_DEFS_H_ */

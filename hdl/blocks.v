@@ -365,7 +365,7 @@ begin
 		counter <= counter + 'b1;
 end
 
-assign q = width;
+assign q = counter;
 	
 endmodule
 

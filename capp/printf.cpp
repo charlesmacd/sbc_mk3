@@ -5,15 +5,13 @@
 		Small replacement for printf() functionality
 */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
 #include "printf.hpp"
 #include "sbc.hpp"
-#include "peripheral/uart.hpp"
-
-
+#include "L1_Peripheral/uart.hpp"
+#include "debug.h"
 
 /*
 	BP (A6) offset:
@@ -25,6 +23,15 @@
 #define PARAMETER_BASE		3
 #define STATE_PARSING		0
 #define STATE_FORMATTING	1
+
+extern "C" {
+
+int puts(const char *msg)
+{
+	uart.write((uint8_t *)msg, strlen(msg));
+}
+
+};
 
 
 int printf(const char *fmt, ...) 
@@ -60,7 +67,7 @@ int printf(const char *fmt, ...)
 						break;
 
 					default:
-						uart_putch(ch);						
+						uart.write(ch);						
 						break;
 				}
 				break;
@@ -112,11 +119,11 @@ int printf(const char *fmt, ...)
 							break;
 
 						case 'c':
-							uart_putch(*parameters++);
+							uart.write(*parameters++);
 							break;
 
 						case 's':
-							uart_puts((char *)*parameters++);
+							uart.puts((char *)*parameters++);
 							break;
 					}
 				}
@@ -130,18 +137,18 @@ int printf(const char *fmt, ...)
 			
 						case '%':
 							state = STATE_PARSING;
-							uart_putch('%');						
+							uart.write('%');						
 							break;
 
 						default:
-							uart_puts("ERROR: Unknown format character [");
+							uart.puts("ERROR: Unknown format character [");
 							uart_printhexl(ch);
-							uart_puts(", ");
+							uart.puts(", ");
 							uart_printd(ch);
-							uart_puts(", ");
-							uart_putch(ch);
-							uart_puts("]\n");
-							uart_puts("ERROR: Unknown printf format.\n");
+							uart.puts(", ");
+							uart.write(ch);
+							uart.puts("]\n");
+							uart.puts("ERROR: Unknown printf format.\n");
 							trigger_hard_fault();
 							break;
 					} /* end switch ch */

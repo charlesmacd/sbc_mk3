@@ -1,0 +1,1 @@
+@m68k-elf-g++ main.cpp -o main.exe -march=68000 -mcpu=68000 -mtune=68000 -msoft-float -O0 -g -fno-builtin -Wfatal-errors -fno-rtti -fno-exceptions -Wa,--register-prefix-optional -std=c++11

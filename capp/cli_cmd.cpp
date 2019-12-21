@@ -1,13 +1,14 @@
 
-#include <stdio.h>
+#include <stdio.h> // sprintf
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
 #include <ctype.h>
 #include "sbc.hpp"
-#include "application/cli.hpp"
+#include "L1_Peripheral/uart.hpp"
+#include "L3_Application/cli.hpp"
+#include "mem_heap.hpp"
 #include "cli_cmd.hpp"
-#include "peripheral/uart.hpp"
 #include "timer.hpp"
 
 
@@ -755,6 +756,7 @@ int cmd_clrscr(int argc, char *argv[])
 }
 
 
+#define TO_MHZ(x)			((x) / 1000000)
 
 /* Display software information */
 static int cmd_info(int argc, char *argv[])
@@ -762,6 +764,9 @@ static int cmd_info(int argc, char *argv[])
 	printf("Hardware:   SBC-V4\n");
 	printf("Build date: %s\n", __DATE__);
 	printf("Build time: %s\n", __TIME__);
+
+	printf("CPU clock:         %d MHz\n", TO_MHZ(system_controller.getCPUClock()));
+	printf("Peripheral clock:  %d MHz\n", TO_MHZ(system_controller.getPeripheralClock()));
 
 	return 0;
 }
@@ -839,8 +844,14 @@ static int cmd_mem(int argc, char *argv[])
 	printf("\n");
 
 	printf("Symbols:\n");
-	printf("* _end    : %08X\n", (uint32_t)&_end);
-	printf("* __stack : %08X\n", (uint32_t)&__stack);
+	printf("* _text_start : %08X\n", (uint32_t)&_text_start);
+	printf("* _stext      : %08X\n", (uint32_t)&_stext);
+	printf("* _data_start : %08X\n", (uint32_t)&_data_start);
+	printf("* _sdata      : %08X\n", (uint32_t)&_sdata);
+	printf("* _bss_start  : %08X\n", (uint32_t)&_bss_start);
+	printf("* _sbss       : %08X\n", (uint32_t)&_sbss);
+	printf("* _end        : %08X\n", (uint32_t)&_end);
+	printf("* __stack     : %08X\n", (uint32_t)&__stack);
 
 	return 0;
 }
@@ -1087,7 +1098,7 @@ int cmd_iotest(int argc, char *argv[])
 	while(toggling)
 	{
 		post.set(0xC1);
-		if(uart_keypressed())
+		if(uart.read_blocking())
 		{
 			toggling = false;
 		}
@@ -1139,7 +1150,7 @@ int cmd_timer(int argc, char *argv[])
 
 	while(running)
 	{
-		if(uart_keypressed())
+		if(uart.read_blocking())
 		{
 			running = false;
 			printf("Status: User requested exit.\n");
@@ -1192,7 +1203,7 @@ int cmd_probeout(int argc, char *argv[])
 	while(running)
 	{
 		++count;
-		if(uart_keypressed())
+		if(uart.read_blocking())
 			running = false;
 		delay_ms(250);
 
@@ -1232,7 +1243,7 @@ int cmd_probein(int argc, char *argv[])
 	int count = 0;
 	while(running)
 	{
-		if(uart_keypressed())
+		if(uart.read_blocking())
 			running = false;
 
 		PROBE[0] = (count++ >> 2) & 1;
@@ -1734,26 +1745,26 @@ int cmd_zdiag(int argc, char *argv[])
 	printf("2 : Reset test.\n");
 	printf("Press test number to continue ...\n");
 
-	char ch = uart_readkey();
+	char ch = uart.read_blocking();
 	switch(ch)
 	{
 		case '1':
 			printf("- Power ON test.\n");
 			target_set_power(1);
 			printf("- Verify power LED, then press any key to continue.\n");
-			uart_readkey();
+			uart.read_blocking();
 			
 			printf("- Power OFF test.\n");
 			target_set_power(0);
 			printf("- Verify power LED, then press any key to continue.\n");
-			uart_readkey();
+			uart.read_blocking();
 			break;
 
 		case '2':
 			printf("- Reset pulse test.\n");
 			printf("- Set analyzer to capture on TRESET# and press any key to continue.\n");
 			printf("- Observe pulse of H-L-H of 20ms each.\n");
-			uart_readkey();
+			uart.read_blocking();
 			target_set_reset(1);
 			delay_ms(20);
 			target_set_reset(0);
@@ -2502,6 +2513,298 @@ int cmd_ex(int argc, char *argv[])
 	return 0;
 }
 
+int cmd_status(int argc, char *argv[])
+{
+	volatile uint8_t *status = (volatile uint8_t *)0xFF8081;
+	uint8_t buf[0x100];
+
+	for(int i = 0; i < 0x100; i++)
+		buf[i] = status[0];
+
+	printf("Status dump (%08X):\n", status);
+	for(int i = 0; i < 0x100; i++)
+	{
+		if((i & 0x0F) == 0x00)
+			printf("%04X: ", i);
+		printf("%02X ", buf[i]);
+		if((i & 0x0F) == 0x0F)
+			printf("\n");
+	}
+}
+
+
+/*
+	0 - adl
+	1 - adm
+	2 - adh
+	3 - data
+	4 - dbrx		write 574
+	5 - misc
+	           write			read
+	    D7 : 					0
+	    D6 : 					0
+	    D5 : 					card_detect_n
+	    D4 : 					hirq2_n
+	    D3 : 	hreset#			hreset#
+	    D2 : 	hsm				hsm
+	    D1 : 	cd_rx			cd_rx
+	    D0 :	hirq2_rx 		hirq2_rx
+	6 - lfsr
+	7 - id (55)
+*/
+
+
+/* Register numbers */
+#define HUREG_ADL		0x00
+#define HUREG_ADM		0x01
+#define HUREG_ADH		0x02
+#define HUREG_DATA		0x03
+#define HUREG_DBRX		0x04
+#define HUREG_MISC		0x05
+#define HUREG_DEBUG		0x06
+#define HUREG_ID		0x07
+
+/* Register bits */
+#define B_HIRQ2_RX		0
+#define B_CD_RX			1
+#define B_HSM			2
+#define B_RESET			3
+#define B_HIRQ2			4
+#define B_CD			5
+
+class huread
+{
+public:
+	uint8_t reg[8];
+
+	void write(uint8_t offset, uint8_t data)
+	{
+		reg[offset] = data;
+		PIO_EXT[offset] = data;
+	}
+
+	uint8_t read(uint8_t offset)
+	{
+		return PIO_EXT[offset];
+	}
+
+	void change_bit(uint8_t offset, uint8_t bit, bool level)
+	{
+		uint8_t temp = reg[offset];
+		temp &= ~(1 << bit);
+		if(level)
+		{
+			temp |= (1 << bit);
+		}
+
+		write(offset, temp);
+	}
+
+	bool get_bit(uint8_t offset, uint8_t bit)
+	{
+		uint8_t temp = PIO_EXT[offset];
+		
+		if(temp & (1 << bit))
+		{
+			return true;	
+		}
+
+		return false;
+	}
+
+	bool get_card_detect(void)
+	{
+		return get_bit(HUREG_MISC, B_CD);
+	}
+
+	bool get_irq2(void)
+	{
+		return get_bit(HUREG_MISC, B_HIRQ2);
+	}
+
+	void set_hsm(bool level)
+	{
+		change_bit(HUREG_MISC, B_HSM, level);
+	}
+
+	void set_reset(bool level)
+	{
+		change_bit(HUREG_MISC, B_RESET, level);
+	}
+
+	void set_card_detect_rx(bool level)
+	{
+		change_bit(HUREG_MISC, B_CD_RX, level);
+	}
+
+	void set_irq2_rx(bool level)
+	{
+		change_bit(HUREG_MISC, B_HIRQ2_RX, level);
+	}
+
+	void set_address(uint32_t address)
+	{
+		write(HUREG_ADL, (address >>  0) & 0xFF);
+		write(HUREG_ADM, (address >>  8) & 0xFF);
+		write(HUREG_ADH, (address >> 16) & 0x1F);
+	}
+
+	void set_dbrx(uint8_t level)
+	{
+		write(HUREG_DBRX, level);
+	}
+
+	uint8_t card_write(uint32_t address, uint8_t data)
+	{
+		set_address(address);
+		write(HUREG_DATA, data);
+	}
+
+	uint8_t card_read(uint32_t address)
+	{
+		set_address(address);
+		return read(HUREG_DATA);
+	}
+
+	void initialize(void)
+	{
+		set_address(0x000000);
+		set_dbrx(0xFF);
+		set_card_detect_rx(true);
+		set_irq2_rx(true);
+		set_hsm(false);
+		set_reset(false);
+	}
+
+	void read_page(uint8_t *page)
+	{
+		for(uint16_t i = 0; i < 0x100; i++)
+		{
+			PIO_EXT[HUREG_ADL] = i;
+			page[i] = PIO_EXT[HUREG_DATA];
+		}
+	}
+
+
+	void read_page_auto(uint8_t *page)
+	{
+		PIO_EXT[HUREG_ADL] = 0xFF;
+		for(uint16_t i = 0; i < 0x100; i++)
+		{
+			page[i] = PIO_EXT[7];
+		}
+	}
+
+};
+
+extern "C" void huread_page_auto(uint8_t *ptr);
+extern "C" uint8_t __kernel_page_buffer[256];
+
+uint8_t rom_bank[0x2000];
+
+int cmd_hu(int argc, char *argv[])
+{
+	uint8_t temp;
+	huread dev;
+
+	printf("Start of test.\n");
+
+
+
+	printf("Start of test.\n");
+
+	dev.initialize();
+
+
+	dev.set_card_detect_rx(false);
+	printf("Drive CD# lo, readback: %d\n", dev.get_card_detect());
+	dev.set_card_detect_rx(true);
+	printf("Drive CD# hi, readback: %d\n", dev.get_card_detect());
+
+	dev.set_irq2_rx(false);
+	printf("Drive IRQ2# lo, readback: %d\n", dev.get_irq2());
+	dev.set_irq2_rx(true);
+	printf("Drive IRQ2# hi, readback: %d\n", dev.get_irq2());
+
+	temp = dev.get_card_detect();
+	printf("CD#   = %d\n", temp);
+	temp = dev.get_irq2();
+	printf("IRQ2# = %d\n", temp);
+
+	dev.set_dbrx(0xA5);
+	uint32_t base = 0x1f00;
+	uint8_t page[0x100];
+
+	dev.set_hsm(false);
+	dev.set_reset(true);
+	delay_ms(100);
+	dev.set_reset(false);
+	dev.set_hsm(true);
+
+	base = 0;
+
+	comms_mutex.lock();
+
+#if 1
+	pc_puts("STATUS: Reading HuCard image.\n");
+	int fd = pc_fopen("card.bin", "wb");
+	for(int bank_num = 0; bank_num < 0x80; bank_num++)
+	{
+
+		// read bank
+		for(int page_num = 0; page_num < 0x20; page_num++)
+		{
+			dev.set_address(bank_num * 8192 + page_num * 0x100);
+			dev.read_page(rom_bank + (page_num * 0x100));
+		}
+
+		pc_fwrite(fd, rom_bank, 0x2000);
+	}
+	pc_fclose(fd);
+	pc_exit();
+
+	comms_mutex.unlock();
+#else
+/*
+	printf("send exit..\n");
+	pc_puts("open file\n");
+	int k = pc_fopen("debug.txt", "wb");
+	pc_puts("close file\n");
+	pc_fwrite(k, (uint8_t *)0, 0x8000);
+	pc_fclose(k);
+
+	pc_exit();
+	printf("post exit...\n");
+
+*/
+
+	dev.set_address(0x1f00);	
+	dev.read_page(page);
+	//huread_page_auto(page);
+
+	// Print buffer
+	for(int i = 0; i < 0x100; i++)
+	{
+		uint32_t offset = base + i;
+		if((i & 0x0F) == 0x00)
+			printf("%08X : ", offset);
+		printf("%02X ", page[i]);
+		if((i & 0x0F) == 0x0F)
+			printf("\n");
+	}
+#endif
+	printf("End of test.\n");
+	return 0;
+}
+
+int cmd_uptime(int argc, char *argv[])
+{
+	printf("Uptime: %08X ticks.\n", __systick_count);
+	return 0;
+}
+
+
+
 cli_cmd_t terminal_cmds[] = 
 {
 	{"?",       cmd_list},
@@ -2534,6 +2837,9 @@ cli_cmd_t terminal_cmds[] =
 	{"int",     cmd_int},
 	{"new",     cmd_new},
 	{"ex",      cmd_ex},
+	{"status",  cmd_status},
+	{"hu",      cmd_hu},
+	{"uptime",  cmd_uptime},
 	{NULL, 		NULL}
 };
 

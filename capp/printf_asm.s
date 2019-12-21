@@ -14,6 +14,12 @@ __printf_buffer:
 __printf_buffer_end:       
 __printf_save:
                 .space 4*32
+
+
+                .global  __kernel_page_buffer
+__kernel_page_buffer:
+                .space  256
+__kernel_page_buffer_end:       
                 .section .text
 
 #-------------------------------------------------------------------------------

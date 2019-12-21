@@ -6,8 +6,10 @@
 extern "C" {
 #endif
 
-void *sbrk(int incr);
-int printf(const char *fmt, ...);
+//extern "C" void *sbrk(int incr);
+
+extern "C" int puts(const char *msg);
+extern "C" int printf(const char *fmt, ...);
 
 #ifdef __cplusplus
 };

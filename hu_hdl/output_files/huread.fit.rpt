@@ -1,0 +1,710 @@
+Fitter report for huread
+Mon Dec 16 11:18:39 2019
+Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Fitter Summary
+  3. Fitter Settings
+  4. Parallel Compilation
+  5. Fitter Equations
+  6. Pin-Out File
+  7. Fitter Resource Usage Summary
+  8. Input Pins
+  9. Output Pins
+ 10. Bidir Pins
+ 11. All Package Pins
+ 12. I/O Standard
+ 13. Dedicated Inputs I/O
+ 14. Output Pin Default Load For Reported TCO
+ 15. Fitter Resource Utilization by Entity
+ 16. Control Signals
+ 17. Global & Other Fast Signals
+ 18. Non-Global High Fan-Out Signals
+ 19. Other Routing Usage Summary
+ 20. LAB External Interconnect
+ 21. LAB Macrocells
+ 22. Parallel Expander
+ 23. Shareable Expander
+ 24. Logic Cell Interconnection
+ 25. Fitter Device Options
+ 26. Fitter Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 1991-2013 Altera Corporation
+Your use of Altera Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Altera Program License 
+Subscription Agreement, Altera MegaCore Function License 
+Agreement, or other applicable license agreement, including, 
+without limitation, that your use is for the sole purpose of 
+programming logic devices manufactured by Altera and sold by 
+Altera or its authorized distributors.  Please refer to the 
+applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------+
+; Fitter Summary                                                              ;
++---------------------------+-------------------------------------------------+
+; Fitter Status             ; Successful - Mon Dec 16 11:18:39 2019           ;
+; Quartus II 64-Bit Version ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
+; Revision Name             ; huread                                          ;
+; Top-level Entity Name     ; top                                             ;
+; Family                    ; MAX7000S                                        ;
+; Device                    ; EPM7128SLC84-15                                 ;
+; Timing Models             ; Final                                           ;
+; Total macrocells          ; 71 / 128 ( 55 % )                               ;
+; Total pins                ; 68 / 68 ( 100 % )                               ;
++---------------------------+-------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------+
+; Fitter Settings                                                                                              ;
++----------------------------------------------------------------------------+-----------------+---------------+
+; Option                                                                     ; Setting         ; Default Value ;
++----------------------------------------------------------------------------+-----------------+---------------+
+; Device                                                                     ; EPM7128SLC84-15 ;               ;
+; Use smart compilation                                                      ; Off             ; Off           ;
+; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On              ; On            ;
+; Enable compact report table                                                ; Off             ; Off           ;
+; Optimize Multi-Corner Timing                                               ; Off             ; Off           ;
+; Optimize Timing for ECOs                                                   ; Off             ; Off           ;
+; Regenerate full fit report during ECO compiles                             ; Off             ; Off           ;
+; Optimize IOC Register Placement for Timing                                 ; Normal          ; Normal        ;
+; Fitter Initial Placement Seed                                              ; 1               ; 1             ;
+; Slow Slew Rate                                                             ; Off             ; Off           ;
+; Fitter Effort                                                              ; Auto Fit        ; Auto Fit      ;
+; Force Fitter to Avoid Periphery Placement Warnings                         ; Off             ; Off           ;
++----------------------------------------------------------------------------+-----------------+---------------+
+
+
+Parallel compilation was disabled, but you have multiple processors available. Enable parallel compilation to reduce compilation time.
++-------------------------------------+
+; Parallel Compilation                ;
++----------------------------+--------+
+; Processors                 ; Number ;
++----------------------------+--------+
+; Number detected on machine ; 4      ;
+; Maximum allowed            ; 1      ;
++----------------------------+--------+
+
+
++------------------+
+; Fitter Equations ;
++------------------+
+The equations can be found in C:/sbc/sbc_mk3/hu_hdl/output_files/huread.fit.eqn.
+
+
++--------------+
+; Pin-Out File ;
++--------------+
+The pin-out file can be found in C:/sbc/sbc_mk3/hu_hdl/output_files/huread.pin.
+
+
++--------------------------------------------------+
+; Fitter Resource Usage Summary                    ;
++------------------------------+-------------------+
+; Resource                     ; Usage             ;
++------------------------------+-------------------+
+; Logic cells                  ; 71 / 128 ( 55 % ) ;
+; Registers                    ; 36 / 128 ( 28 % ) ;
+; Number of pterms used        ; 203               ;
+; I/O pins                     ; 68 / 68 ( 100 % ) ;
+;     -- Clock pins            ; 2 / 2 ( 100 % )   ;
+;     -- Dedicated input pins  ; 2 / 2 ( 100 % )   ;
+;                              ;                   ;
+; Global signals               ; 1                 ;
+; Shareable expanders          ; 8 / 128 ( 6 % )   ;
+; Parallel expanders           ; 6 / 120 ( 5 % )   ;
+; Cells using turbo bit        ; 71 / 128 ( 55 % ) ;
+; Maximum fan-out              ; 58                ;
+; Highest non-global fan-out   ; 58                ;
+; Total fan-out                ; 523               ;
+; Average fan-out              ; 3.56              ;
++------------------------------+-------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------+
+; Input Pins                                                                                                                                          ;
++---------------+-------+----------+-----+-----------------------+--------------------+--------+----------------+--------------+----------------------+
+; Name          ; Pin # ; I/O Bank ; LAB ; Combinational Fan-Out ; Registered Fan-Out ; Global ; Input Register ; I/O Standard ; Location assigned by ;
++---------------+-------+----------+-----+-----------------------+--------------------+--------+----------------+--------------+----------------------+
+; card_detect_n ; 67    ; --       ; 7   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hirq2_n       ; 35    ; --       ; 4   ; 2                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[0]        ; 24    ; --       ; 3   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[1]        ; 25    ; --       ; 3   ; 2                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[2]        ; 22    ; --       ; 2   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[3]        ; 20    ; --       ; 2   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[4]        ; 21    ; --       ; 2   ; 2                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[5]        ; 18    ; --       ; 2   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[6]        ; 16    ; --       ; 2   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; hrx[7]        ; 17    ; --       ; 2   ; 1                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; pa[1]         ; 74    ; --       ; 8   ; 58                    ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; pa[2]         ; 76    ; --       ; 8   ; 58                    ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; pa[3]         ; 75    ; --       ; 8   ; 57                    ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; pexp_cs_n     ; 79    ; --       ; 8   ; 18                    ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; pio_rst_n     ; 1     ; --       ; --  ; 36                    ; 0                  ; yes    ; no             ; TTL          ; User                 ;
+; prd_n         ; 84    ; --       ; --  ; 10                    ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; pwr_n         ; 83    ; --       ; --  ; 16                    ; 0                  ; no     ; no             ; TTL          ; User                 ;
+; x8m           ; 2     ; --       ; --  ; 0                     ; 0                  ; no     ; no             ; TTL          ; User                 ;
++---------------+-------+----------+-----+-----------------------+--------------------+--------+----------------+--------------+----------------------+
+
+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Output Pins                                                                                                                                                                                          ;
++------------------+-------+----------+-----+-----------------+----------------+------------+---------------+--------------+----------------------+-------+----------------------+---------------------+
+; Name             ; Pin # ; I/O Bank ; LAB ; Output Register ; Slow Slew Rate ; Open Drain ; TRI Primitive ; I/O Standard ; Location assigned by ; Load  ; Output Enable Source ; Output Enable Group ;
++------------------+-------+----------+-----+-----------------+----------------+------------+---------------+--------------+----------------------+-------+----------------------+---------------------+
+; card_detect_n_rx ; 69    ; --       ; 7   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[0]            ; 56    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[10]           ; 51    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[11]           ; 49    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[12]           ; 77    ; --       ; 8   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[13]           ; 50    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[14]           ; 46    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[15]           ; 73    ; --       ; 8   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[16]           ; 70    ; --       ; 7   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[17]           ; 45    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[18]           ; 41    ; --       ; 4   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[19]           ; 68    ; --       ; 7   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[1]            ; 54    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[20]           ; 57    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[2]            ; 61    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[3]            ; 58    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[4]            ; 63    ; --       ; 7   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[5]            ; 60    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[6]            ; 64    ; --       ; 7   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[7]            ; 65    ; --       ; 7   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[8]            ; 48    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; ha[9]            ; 52    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; hirq2_n_rx       ; 37    ; --       ; 4   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; hrd_n            ; 55    ; --       ; 6   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; hreset_n         ; 39    ; --       ; 4   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; hsm              ; 40    ; --       ; 4   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; hwr_n            ; 44    ; --       ; 5   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; rx_ld            ; 6     ; --       ; 1   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; spio0            ; 80    ; --       ; 8   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
+; spio1            ; 81    ; --       ; 8   ; no              ; no             ; no         ; no            ; TTL          ; User                 ; 10 pF ; -                    ; -                   ;
++------------------+-------+----------+-----+-----------------+----------------+------------+---------------+--------------+----------------------+-------+----------------------+---------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Bidir Pins                                                                                                                                                                                                                                       ;
++-------+-------+----------+-----+-----------------------+--------------------+--------+----------------+-----------------+----------------+------------+--------------+----------------------+-------+----------------------+---------------------+
+; Name  ; Pin # ; I/O Bank ; LAB ; Combinational Fan-Out ; Registered Fan-Out ; Global ; Input Register ; Output Register ; Slow Slew Rate ; Open Drain ; I/O Standard ; Location assigned by ; Load  ; Output Enable Source ; Output Enable Group ;
++-------+-------+----------+-----+-----------------------+--------------------+--------+----------------+-----------------+----------------+------------+--------------+----------------------+-------+----------------------+---------------------+
+; hd[0] ; 33    ; --       ; 4   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[1] ; 36    ; --       ; 4   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[2] ; 34    ; --       ; 4   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[3] ; 30    ; --       ; 3   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[4] ; 31    ; --       ; 3   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[5] ; 28    ; --       ; 3   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[6] ; 29    ; --       ; 3   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; hd[7] ; 27    ; --       ; 3   ; 1                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hwr_n~4 (inverted)   ; -                   ;
+; pd[0] ; 4     ; --       ; 1   ; 6                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[1] ; 5     ; --       ; 1   ; 6                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[2] ; 8     ; --       ; 1   ; 6                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[3] ; 9     ; --       ; 1   ; 6                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[4] ; 10    ; --       ; 1   ; 5                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[5] ; 11    ; --       ; 1   ; 5                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[6] ; 12    ; --       ; 1   ; 5                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
+; pd[7] ; 15    ; --       ; 2   ; 5                     ; 0                  ; no     ; no             ; no              ; no             ; no         ; TTL          ; User                 ; 10 pF ; hrd_n~7              ; -                   ;
++-------+-------+----------+-----+-----------------------+--------------------+--------+----------------+-----------------+----------------+------------+--------------+----------------------+-------+----------------------+---------------------+
+
+
++---------------------------------------------------------------------------------------------------------+
+; All Package Pins                                                                                        ;
++----------+------------+----------+------------------+--------+--------------+---------+-----------------+
+; Location ; Pad Number ; I/O Bank ; Pin Name/Usage   ; Dir.   ; I/O Standard ; Voltage ; User Assignment ;
++----------+------------+----------+------------------+--------+--------------+---------+-----------------+
+; 1        ; 0          ; --       ; pio_rst_n        ; input  ; TTL          ;         ; Y               ;
+; 2        ; 1          ; --       ; x8m              ; input  ; TTL          ;         ; Y               ;
+; 3        ; 2          ; --       ; VCCINT           ; power  ;              ; 5.0V    ;                 ;
+; 4        ; 3          ; --       ; pd[0]            ; bidir  ; TTL          ;         ; Y               ;
+; 5        ; 4          ; --       ; pd[1]            ; bidir  ; TTL          ;         ; Y               ;
+; 6        ; 5          ; --       ; rx_ld            ; output ; TTL          ;         ; Y               ;
+; 7        ; 6          ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 8        ; 7          ; --       ; pd[2]            ; bidir  ; TTL          ;         ; Y               ;
+; 9        ; 8          ; --       ; pd[3]            ; bidir  ; TTL          ;         ; Y               ;
+; 10       ; 9          ; --       ; pd[4]            ; bidir  ; TTL          ;         ; Y               ;
+; 11       ; 10         ; --       ; pd[5]            ; bidir  ; TTL          ;         ; Y               ;
+; 12       ; 11         ; --       ; pd[6]            ; bidir  ; TTL          ;         ; Y               ;
+; 13       ; 12         ; --       ; VCCIO            ; power  ;              ; 5.0V    ;                 ;
+; 14       ; 13         ; --       ; TDI              ; input  ; TTL          ;         ; N               ;
+; 15       ; 14         ; --       ; pd[7]            ; bidir  ; TTL          ;         ; Y               ;
+; 16       ; 15         ; --       ; hrx[6]           ; input  ; TTL          ;         ; Y               ;
+; 17       ; 16         ; --       ; hrx[7]           ; input  ; TTL          ;         ; Y               ;
+; 18       ; 17         ; --       ; hrx[5]           ; input  ; TTL          ;         ; Y               ;
+; 19       ; 18         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 20       ; 19         ; --       ; hrx[3]           ; input  ; TTL          ;         ; Y               ;
+; 21       ; 20         ; --       ; hrx[4]           ; input  ; TTL          ;         ; Y               ;
+; 22       ; 21         ; --       ; hrx[2]           ; input  ; TTL          ;         ; Y               ;
+; 23       ; 22         ; --       ; TMS              ; input  ; TTL          ;         ; N               ;
+; 24       ; 23         ; --       ; hrx[0]           ; input  ; TTL          ;         ; Y               ;
+; 25       ; 24         ; --       ; hrx[1]           ; input  ; TTL          ;         ; Y               ;
+; 26       ; 25         ; --       ; VCCIO            ; power  ;              ; 5.0V    ;                 ;
+; 27       ; 26         ; --       ; hd[7]            ; bidir  ; TTL          ;         ; Y               ;
+; 28       ; 27         ; --       ; hd[5]            ; bidir  ; TTL          ;         ; Y               ;
+; 29       ; 28         ; --       ; hd[6]            ; bidir  ; TTL          ;         ; Y               ;
+; 30       ; 29         ; --       ; hd[3]            ; bidir  ; TTL          ;         ; Y               ;
+; 31       ; 30         ; --       ; hd[4]            ; bidir  ; TTL          ;         ; Y               ;
+; 32       ; 31         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 33       ; 32         ; --       ; hd[0]            ; bidir  ; TTL          ;         ; Y               ;
+; 34       ; 33         ; --       ; hd[2]            ; bidir  ; TTL          ;         ; Y               ;
+; 35       ; 34         ; --       ; hirq2_n          ; input  ; TTL          ;         ; Y               ;
+; 36       ; 35         ; --       ; hd[1]            ; bidir  ; TTL          ;         ; Y               ;
+; 37       ; 36         ; --       ; hirq2_n_rx       ; output ; TTL          ;         ; Y               ;
+; 38       ; 37         ; --       ; VCCIO            ; power  ;              ; 5.0V    ;                 ;
+; 39       ; 38         ; --       ; hreset_n         ; output ; TTL          ;         ; Y               ;
+; 40       ; 39         ; --       ; hsm              ; output ; TTL          ;         ; Y               ;
+; 41       ; 40         ; --       ; ha[18]           ; output ; TTL          ;         ; Y               ;
+; 42       ; 41         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 43       ; 42         ; --       ; VCCINT           ; power  ;              ; 5.0V    ;                 ;
+; 44       ; 43         ; --       ; hwr_n            ; output ; TTL          ;         ; Y               ;
+; 45       ; 44         ; --       ; ha[17]           ; output ; TTL          ;         ; Y               ;
+; 46       ; 45         ; --       ; ha[14]           ; output ; TTL          ;         ; Y               ;
+; 47       ; 46         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 48       ; 47         ; --       ; ha[8]            ; output ; TTL          ;         ; Y               ;
+; 49       ; 48         ; --       ; ha[11]           ; output ; TTL          ;         ; Y               ;
+; 50       ; 49         ; --       ; ha[13]           ; output ; TTL          ;         ; Y               ;
+; 51       ; 50         ; --       ; ha[10]           ; output ; TTL          ;         ; Y               ;
+; 52       ; 51         ; --       ; ha[9]            ; output ; TTL          ;         ; Y               ;
+; 53       ; 52         ; --       ; VCCIO            ; power  ;              ; 5.0V    ;                 ;
+; 54       ; 53         ; --       ; ha[1]            ; output ; TTL          ;         ; Y               ;
+; 55       ; 54         ; --       ; hrd_n            ; output ; TTL          ;         ; Y               ;
+; 56       ; 55         ; --       ; ha[0]            ; output ; TTL          ;         ; Y               ;
+; 57       ; 56         ; --       ; ha[20]           ; output ; TTL          ;         ; Y               ;
+; 58       ; 57         ; --       ; ha[3]            ; output ; TTL          ;         ; Y               ;
+; 59       ; 58         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 60       ; 59         ; --       ; ha[5]            ; output ; TTL          ;         ; Y               ;
+; 61       ; 60         ; --       ; ha[2]            ; output ; TTL          ;         ; Y               ;
+; 62       ; 61         ; --       ; TCK              ; input  ; TTL          ;         ; N               ;
+; 63       ; 62         ; --       ; ha[4]            ; output ; TTL          ;         ; Y               ;
+; 64       ; 63         ; --       ; ha[6]            ; output ; TTL          ;         ; Y               ;
+; 65       ; 64         ; --       ; ha[7]            ; output ; TTL          ;         ; Y               ;
+; 66       ; 65         ; --       ; VCCIO            ; power  ;              ; 5.0V    ;                 ;
+; 67       ; 66         ; --       ; card_detect_n    ; input  ; TTL          ;         ; Y               ;
+; 68       ; 67         ; --       ; ha[19]           ; output ; TTL          ;         ; Y               ;
+; 69       ; 68         ; --       ; card_detect_n_rx ; output ; TTL          ;         ; Y               ;
+; 70       ; 69         ; --       ; ha[16]           ; output ; TTL          ;         ; Y               ;
+; 71       ; 70         ; --       ; TDO              ; output ; TTL          ;         ; N               ;
+; 72       ; 71         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 73       ; 72         ; --       ; ha[15]           ; output ; TTL          ;         ; Y               ;
+; 74       ; 73         ; --       ; pa[1]            ; input  ; TTL          ;         ; Y               ;
+; 75       ; 74         ; --       ; pa[3]            ; input  ; TTL          ;         ; Y               ;
+; 76       ; 75         ; --       ; pa[2]            ; input  ; TTL          ;         ; Y               ;
+; 77       ; 76         ; --       ; ha[12]           ; output ; TTL          ;         ; Y               ;
+; 78       ; 77         ; --       ; VCCIO            ; power  ;              ; 5.0V    ;                 ;
+; 79       ; 78         ; --       ; pexp_cs_n        ; input  ; TTL          ;         ; Y               ;
+; 80       ; 79         ; --       ; spio0            ; output ; TTL          ;         ; Y               ;
+; 81       ; 80         ; --       ; spio1            ; output ; TTL          ;         ; Y               ;
+; 82       ; 81         ; --       ; GND              ; gnd    ;              ;         ;                 ;
+; 83       ; 82         ; --       ; pwr_n            ; input  ; TTL          ;         ; Y               ;
+; 84       ; 83         ; --       ; prd_n            ; input  ; TTL          ;         ; Y               ;
++----------+------------+----------+------------------+--------+--------------+---------+-----------------+
+Note: Pin directions (input, output or bidir) are based on device operating in user mode.
+
+
++--------------------------------------------------------------------------------------------------+
+; I/O Standard                                                                                     ;
++--------------+------------+----------------------+-------------------+-------------------+-------+
+; I/O Standard ; Input Vref ; Dedicated Input Pins ; Pins in I/O Bank1 ; Pins in I/O Bank2 ; Total ;
++--------------+------------+----------------------+-------------------+-------------------+-------+
+; TTL          ; -          ; 4                    ; 0                 ; 0                 ; 4     ;
++--------------+------------+----------------------+-------------------+-------------------+-------+
+
+
++-------------------------------------------------------------------------+
+; Dedicated Inputs I/O                                                    ;
++-----------+-------+-------+-------+--------------+------------+---------+
+; Name      ; Pin # ; Type  ; VCCIO ; I/O Standard ; Input Vref ; Current ;
++-----------+-------+-------+-------+--------------+------------+---------+
+; pio_rst_n ; 1     ; Input ; --    ; TTL          ; -          ; 0 mA    ;
+; prd_n     ; 84    ; Input ; --    ; TTL          ; -          ; 0 mA    ;
+; pwr_n     ; 83    ; Input ; --    ; TTL          ; -          ; 0 mA    ;
+; x8m       ; 2     ; Input ; --    ; TTL          ; -          ; 0 mA    ;
++-----------+-------+-------+-------+--------------+------------+---------+
+
+
++-----------------------------------------------+
+; Output Pin Default Load For Reported TCO      ;
++--------------+-------+------------------------+
+; I/O Standard ; Load  ; Termination Resistance ;
++--------------+-------+------------------------+
+; 3.3-V LVTTL  ; 10 pF ; Not Available          ;
+; 3.3-V LVCMOS ; 10 pF ; Not Available          ;
+; TTL          ; 10 pF ; Not Available          ;
++--------------+-------+------------------------+
+Note: User assignments will override these defaults. The user specified values are listed in the Output Pins and Bidir Pins tables.
+
+
++----------------------------------------------------------------------------------------------------+
+; Fitter Resource Utilization by Entity                                                              ;
++--------------------------------+------------+------+--------------------------------+--------------+
+; Compilation Hierarchy Node     ; Macrocells ; Pins ; Full Hierarchy Name            ; Library Name ;
++--------------------------------+------------+------+--------------------------------+--------------+
+; |top                           ; 71         ; 68   ; |top                           ; work         ;
+;    |decoder:comb_7|            ; 1          ; 0    ; |top|decoder:comb_7            ; work         ;
+;    |flopren:comb_10|           ; 8          ; 0    ; |top|flopren:comb_10           ; work         ;
+;    |flopren:comb_11|           ; 4          ; 0    ; |top|flopren:comb_11           ; work         ;
+;    |flopren:comb_8|            ; 8          ; 0    ; |top|flopren:comb_8            ; work         ;
+;    |flopren:comb_9|            ; 8          ; 0    ; |top|flopren:comb_9            ; work         ;
+;    |loadable_counter:comb_104| ; 8          ; 0    ; |top|loadable_counter:comb_104 ; work         ;
+;    |mux8:comb_37|              ; 20         ; 0    ; |top|mux8:comb_37              ; work         ;
++--------------------------------+------------+------+--------------------------------+--------------+
+
+
++-------------------------------------------------------------------------------------------------------------------+
+; Control Signals                                                                                                   ;
++-------------+----------+---------+-----------------------------+--------+----------------------+------------------+
+; Name        ; Location ; Fan-Out ; Usage                       ; Global ; Global Resource Used ; Global Line Name ;
++-------------+----------+---------+-----------------------------+--------+----------------------+------------------+
+; cnt_ld_n~30 ; SEXP97   ; 10      ; Clock                       ; no     ; --                   ; --               ;
+; cnt_ld_n~60 ; SEXP20   ; 2       ; Clock                       ; no     ; --                   ; --               ;
+; cnt_ld_n~61 ; SEXP85   ; 2       ; Clock                       ; no     ; --                   ; --               ;
+; cnt_ld_n~62 ; SEXP49   ; 5       ; Clock                       ; no     ; --                   ; --               ;
+; cnt_ld_n~63 ; SEXP65   ; 7       ; Clock                       ; no     ; --                   ; --               ;
+; cnt_ld_n~64 ; SEXP115  ; 2       ; Clock                       ; no     ; --                   ; --               ;
+; pa[1]       ; PIN_74   ; 58      ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pa[2]       ; PIN_76   ; 58      ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pa[3]       ; PIN_75   ; 57      ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[0]       ; PIN_4    ; 6       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[1]       ; PIN_5    ; 6       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[2]       ; PIN_8    ; 6       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[3]       ; PIN_9    ; 6       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[4]       ; PIN_10   ; 5       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[5]       ; PIN_11   ; 5       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[6]       ; PIN_12   ; 5       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pd[7]       ; PIN_15   ; 5       ; Async. clear, Preset        ; no     ; --                   ; --               ;
+; pexp_cs_n   ; PIN_79   ; 18      ; Async. clear, Clock, Preset ; no     ; --                   ; --               ;
+; pio_rst_n   ; PIN_1    ; 36      ; Async. clear                ; yes    ; On                   ; --               ;
+; pio_rst_n   ; PIN_1    ; 36      ; Async. clear                ; no     ; --                   ; --               ;
+; prd_n       ; PIN_84   ; 10      ; Clock                       ; no     ; --                   ; --               ;
+; pwr_n       ; PIN_83   ; 16      ; Async. clear, Preset        ; no     ; --                   ; --               ;
++-------------+----------+---------+-----------------------------+--------+----------------------+------------------+
+
+
++--------------------------------------------------------------------------+
+; Global & Other Fast Signals                                              ;
++-----------+----------+---------+----------------------+------------------+
+; Name      ; Location ; Fan-Out ; Global Resource Used ; Global Line Name ;
++-----------+----------+---------+----------------------+------------------+
+; pio_rst_n ; PIN_1    ; 36      ; On                   ; --               ;
++-----------+----------+---------+----------------------+------------------+
+
+
++-------------------------------------------------+
+; Non-Global High Fan-Out Signals                 ;
++---------------------------------------+---------+
+; Name                                  ; Fan-Out ;
++---------------------------------------+---------+
+; pa[2]                                 ; 58      ;
+; pa[1]                                 ; 58      ;
+; pa[3]                                 ; 57      ;
+; pexp_cs_n                             ; 18      ;
+; pwr_n                                 ; 16      ;
+; prd_n                                 ; 10      ;
+; cnt_ld_n~30                           ; 10      ;
+; loadable_counter:comb_104|ldcnt[1].ff ; 9       ;
+; loadable_counter:comb_104|ldcnt[0].ff ; 9       ;
+; hwr_n~4                               ; 8       ;
+; hrd_n~7                               ; 8       ;
+; cnt_ld_n~63                           ; 7       ;
+; loadable_counter:comb_104|ldcnt[2].ff ; 7       ;
+; pd[3]~3                               ; 6       ;
+; pd[2]~2                               ; 6       ;
+; pd[1]~1                               ; 6       ;
+; pd[0]~0                               ; 6       ;
+; loadable_counter:comb_104|ldcnt[4].ff ; 6       ;
+; loadable_counter:comb_104|ldcnt[3].ff ; 6       ;
+; cnt_ld_n~62                           ; 5       ;
+; pd[7]~7                               ; 5       ;
+; pd[6]~6                               ; 5       ;
+; pd[5]~5                               ; 5       ;
+; pd[4]~4                               ; 5       ;
+; loadable_counter:comb_104|ldcnt[5].ff ; 4       ;
+; flopren:comb_11|q[1]                  ; 4       ;
+; flopren:comb_9|q[1]                   ; 4       ;
+; flopren:comb_9|q[4]                   ; 4       ;
+; flopren:comb_10|q[1]                  ; 4       ;
+; flopren:comb_10|q[4]                  ; 4       ;
+; loadable_counter:comb_104|ldcnt[6].ff ; 3       ;
+; flopren:comb_11|q[2]                  ; 3       ;
+; flopren:comb_11|q[3]                  ; 3       ;
+; flopren:comb_11|q[0]                  ; 3       ;
+; flopren:comb_9|q[2]                   ; 3       ;
+; flopren:comb_9|q[3]                   ; 3       ;
+; flopren:comb_9|q[5]                   ; 3       ;
+; flopren:comb_9|q[6]                   ; 3       ;
+; flopren:comb_9|q[7]                   ; 3       ;
+; flopren:comb_9|q[0]                   ; 3       ;
+; flopren:comb_10|q[2]                  ; 3       ;
+; flopren:comb_10|q[3]                  ; 3       ;
+; flopren:comb_10|q[0]                  ; 3       ;
+; cnt_ld_n~64                           ; 2       ;
+; cnt_ld_n~61                           ; 2       ;
+; cnt_ld_n~60                           ; 2       ;
+; hirq2_n                               ; 2       ;
+; hrx[4]                                ; 2       ;
+; hrx[1]                                ; 2       ;
+; loadable_counter:comb_104|ldcnt[7].ff ; 2       ;
+; flopren:comb_8|q[1]                   ; 2       ;
+; flopren:comb_8|q[2]                   ; 2       ;
+; flopren:comb_8|q[3]                   ; 2       ;
+; flopren:comb_8|q[4]                   ; 2       ;
+; flopren:comb_8|q[5]                   ; 2       ;
+; flopren:comb_8|q[6]                   ; 2       ;
+; flopren:comb_8|q[7]                   ; 2       ;
+; flopren:comb_8|q[0]                   ; 2       ;
+; flopren:comb_10|q[5]                  ; 2       ;
+; flopren:comb_10|q[6]                  ; 2       ;
+; flopren:comb_10|q[7]                  ; 2       ;
+; hwr_n~2                               ; 2       ;
+; hrd_n~3                               ; 2       ;
+; mux8:comb_37|Mux5~27                  ; 1       ;
+; mux8:comb_37|Mux7~27                  ; 1       ;
+; mux8:comb_37|Mux3~31                  ; 1       ;
+; mux8:comb_37|Mux6~31                  ; 1       ;
+; hd[7]~7                               ; 1       ;
+; hd[6]~6                               ; 1       ;
+; hd[5]~5                               ; 1       ;
+; hd[4]~4                               ; 1       ;
+; hd[3]~3                               ; 1       ;
+; hd[2]~2                               ; 1       ;
+; hd[1]~1                               ; 1       ;
+; hd[0]~0                               ; 1       ;
+; card_detect_n                         ; 1       ;
+; hrx[7]                                ; 1       ;
+; hrx[6]                                ; 1       ;
+; hrx[5]                                ; 1       ;
+; hrx[3]                                ; 1       ;
+; hrx[2]                                ; 1       ;
+; hrx[0]                                ; 1       ;
+; mux8:comb_37|Mux3~18bal               ; 1       ;
+; mux8:comb_37|Mux6~18bal               ; 1       ;
+; mux8:comb_37|Mux0~21                  ; 1       ;
+; mux8:comb_37|Mux1~21                  ; 1       ;
+; mux8:comb_37|Mux2~24                  ; 1       ;
+; mux8:comb_37|Mux4~24                  ; 1       ;
+; mux8:comb_37|Mux5~24                  ; 1       ;
+; mux8:comb_37|Mux7~24                  ; 1       ;
+; hrd_n~5                               ; 1       ;
+; rx_ld~2                               ; 1       ;
+; decoder:comb_7|ShiftLeft0~10          ; 1       ;
+; pd[7]~38                              ; 1       ;
+; pd[6]~36                              ; 1       ;
+; pd[5]~34                              ; 1       ;
+; pd[4]~32                              ; 1       ;
+; pd[3]~30                              ; 1       ;
+; pd[2]~28                              ; 1       ;
+; pd[1]~26                              ; 1       ;
+; pd[0]~24                              ; 1       ;
+; mux8:comb_37|Mux0~20                  ; 1       ;
+; mux8:comb_37|Mux1~20                  ; 1       ;
+; mux8:comb_37|Mux2~23                  ; 1       ;
+; mux8:comb_37|Mux3~28                  ; 1       ;
+; mux8:comb_37|Mux3~23                  ; 1       ;
+; mux8:comb_37|Mux4~23                  ; 1       ;
+; mux8:comb_37|Mux5~23                  ; 1       ;
+; mux8:comb_37|Mux6~28                  ; 1       ;
+; mux8:comb_37|Mux6~23                  ; 1       ;
+; mux8:comb_37|Mux7~23                  ; 1       ;
++---------------------------------------+---------+
+
+
++--------------------------------------------------+
+; Other Routing Usage Summary                      ;
++-----------------------------+--------------------+
+; Other Routing Resource Type ; Usage              ;
++-----------------------------+--------------------+
+; Output enables              ; 2 / 6 ( 33 % )     ;
+; PIA buffers                 ; 145 / 288 ( 50 % ) ;
+; PIAs                        ; 169 / 288 ( 59 % ) ;
++-----------------------------+--------------------+
+
+
++-----------------------------------------------------------------------------+
+; LAB External Interconnect                                                   ;
++-----------------------------------------------+-----------------------------+
+; LAB External Interconnects  (Average = 21.13) ; Number of LABs  (Total = 8) ;
++-----------------------------------------------+-----------------------------+
+; 0 - 2                                         ; 0                           ;
+; 3 - 5                                         ; 0                           ;
+; 6 - 8                                         ; 0                           ;
+; 9 - 11                                        ; 1                           ;
+; 12 - 14                                       ; 0                           ;
+; 15 - 17                                       ; 1                           ;
+; 18 - 20                                       ; 2                           ;
+; 21 - 23                                       ; 0                           ;
+; 24 - 26                                       ; 2                           ;
+; 27 - 29                                       ; 1                           ;
+; 30 - 32                                       ; 1                           ;
++-----------------------------------------------+-----------------------------+
+
+
++----------------------------------------------------------------------+
+; LAB Macrocells                                                       ;
++----------------------------------------+-----------------------------+
+; Number of Macrocells  (Average = 8.88) ; Number of LABs  (Total = 8) ;
++----------------------------------------+-----------------------------+
+; 0                                      ; 0                           ;
+; 1                                      ; 0                           ;
+; 2                                      ; 0                           ;
+; 3                                      ; 0                           ;
+; 4                                      ; 1                           ;
+; 5                                      ; 0                           ;
+; 6                                      ; 0                           ;
+; 7                                      ; 1                           ;
+; 8                                      ; 2                           ;
+; 9                                      ; 0                           ;
+; 10                                     ; 2                           ;
+; 11                                     ; 1                           ;
+; 12                                     ; 0                           ;
+; 13                                     ; 1                           ;
++----------------------------------------+-----------------------------+
+
+
++---------------------------------------------------------+
+; Parallel Expander                                       ;
++--------------------------+------------------------------+
+; Parallel Expander Length ; Number of Parallel Expanders ;
++--------------------------+------------------------------+
+; 0                        ; 0                            ;
+; 1                        ; 6                            ;
++--------------------------+------------------------------+
+
+
++-------------------------------------------------------------------------------+
+; Shareable Expander                                                            ;
++-------------------------------------------------+-----------------------------+
+; Number of shareable expanders  (Average = 1.00) ; Number of LABs  (Total = 6) ;
++-------------------------------------------------+-----------------------------+
+; 0                                               ; 2                           ;
+; 1                                               ; 4                           ;
+; 2                                               ; 2                           ;
++-------------------------------------------------+-----------------------------+
+
+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Logic Cell Interconnection                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;
++-----+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; LAB ; Logic Cell ; Input                                                                                                                                                                                                                                                                                                                                           ; Output                                                                                                                                                                                                                                                                                                       ;
++-----+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+;  A  ; LC13       ; pa[1], pexp_cs_n, pwr_n, pa[2], pa[3]                                                                                                                                                                                                                                                                                                           ; rx_ld                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC8        ; mux8:comb_37|Mux4~24, flopren:comb_11|q[3], pa[2], pa[1], pa[3], flopren:comb_9|q[3], hd[3], loadable_counter:comb_104|ldcnt[3].ff, flopren:comb_10|q[3]                                                                                                                                                                                        ; pd[3]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC7        ; flopren:comb_8|q[3], pa[2], pa[1], pa[3], hrx[3]                                                                                                                                                                                                                                                                                                ; mux8:comb_37|Mux4~23                                                                                                                                                                                                                                                                                         ;
+;  A  ; LC5        ; mux8:comb_37|Mux2~24, card_detect_n, pa[2], pa[1], pa[3], flopren:comb_9|q[5], hd[5], loadable_counter:comb_104|ldcnt[5].ff, flopren:comb_10|q[5]                                                                                                                                                                                               ; pd[5]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC3        ; mux8:comb_37|Mux1~21, hrx[6], pa[3], pa[1], pa[2], loadable_counter:comb_104|ldcnt[6].ff, flopren:comb_10|q[6], flopren:comb_9|q[6], hd[6]                                                                                                                                                                                                      ; pd[6]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC11       ; mux8:comb_37|Mux5~23                                                                                                                                                                                                                                                                                                                            ; pd[2]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC16       ; mux8:comb_37|Mux7~23                                                                                                                                                                                                                                                                                                                            ; pd[0]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC6        ; mux8:comb_37|Mux3~28                                                                                                                                                                                                                                                                                                                            ; pd[4]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC14       ; mux8:comb_37|Mux6~28                                                                                                                                                                                                                                                                                                                            ; pd[1]                                                                                                                                                                                                                                                                                                        ;
+;  A  ; LC2        ; flopren:comb_8|q[6], pa[3], pa[1], pa[2]                                                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux1~20                                                                                                                                                                                                                                                                                         ;
+;  A  ; LC4        ; flopren:comb_8|q[5], pa[2], pa[1], pa[3], hrx[5]                                                                                                                                                                                                                                                                                                ; mux8:comb_37|Mux2~23                                                                                                                                                                                                                                                                                         ;
+;  B  ; LC29       ; mux8:comb_37|Mux0~21, hrx[7], pa[3], pa[1], pa[2], loadable_counter:comb_104|ldcnt[7].ff, flopren:comb_10|q[7], flopren:comb_9|q[7], hd[7]                                                                                                                                                                                                      ; pd[7]                                                                                                                                                                                                                                                                                                        ;
+;  B  ; LC17       ; mux8:comb_37|Mux6~18bal, mux8:comb_37|Mux6~23, flopren:comb_10|q[1], pa[2], pa[1], pa[3], flopren:comb_11|q[1], flopren:comb_9|q[1], hrx[1]                                                                                                                                                                                                     ; mux8:comb_37|Mux6~31                                                                                                                                                                                                                                                                                         ;
+;  B  ; LC20       ; pio_rst_n, pd[5], pa[1], pa[2], pa[3], flopren:comb_8|q[5], cnt_ld_n~60                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[5], mux8:comb_37|Mux2~24                                                                                                                                                                                                                                                                    ;
+;  B  ; LC24       ; hwr_n~2                                                                                                                                                                                                                                                                                                                                         ; hd[0], hd[1], hd[2], hd[3], hd[4], hd[5], hd[6], hd[7]                                                                                                                                                                                                                                                       ;
+;  B  ; LC28       ; flopren:comb_8|q[7], pa[3], pa[1], pa[2]                                                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux0~20                                                                                                                                                                                                                                                                                         ;
+;  B  ; LC21       ; hrd_n~3                                                                                                                                                                                                                                                                                                                                         ; pd[0], pd[1], pd[2], pd[3], pd[4], pd[5], pd[6], pd[7]                                                                                                                                                                                                                                                       ;
+;  B  ; LC19       ; pio_rst_n, pd[5], pa[1], pa[2], pa[3], flopren:comb_10|q[5], cnt_ld_n~60                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux2~23, flopren:comb_10|q[5]                                                                                                                                                                                                                                                                   ;
+;  B  ; LC22       ; flopren:comb_8|q[1], flopren:comb_9|q[1], flopren:comb_11|q[1], hrx[1], pa[2], loadable_counter:comb_104|ldcnt[1].ff, flopren:comb_10|q[1], pa[1], hd[1], pa[3]                                                                                                                                                                                 ; mux8:comb_37|Mux6~28                                                                                                                                                                                                                                                                                         ;
+;  C  ; LC37       ; pd[3]                                                                                                                                                                                                                                                                                                                                           ; hd[3]                                                                                                                                                                                                                                                                                                        ;
+;  C  ; LC35       ; pd[4]                                                                                                                                                                                                                                                                                                                                           ; hd[4]                                                                                                                                                                                                                                                                                                        ;
+;  C  ; LC40       ; pd[5]                                                                                                                                                                                                                                                                                                                                           ; hd[5]                                                                                                                                                                                                                                                                                                        ;
+;  C  ; LC38       ; pd[6]                                                                                                                                                                                                                                                                                                                                           ; hd[6]                                                                                                                                                                                                                                                                                                        ;
+;  C  ; LC43       ; pd[7]                                                                                                                                                                                                                                                                                                                                           ; hd[7]                                                                                                                                                                                                                                                                                                        ;
+;  C  ; LC34       ; mux8:comb_37|Mux7~24, flopren:comb_11|q[0], pa[2], pa[1], pa[3], flopren:comb_9|q[0], hd[0], loadable_counter:comb_104|ldcnt[0].ff, flopren:comb_10|q[0]                                                                                                                                                                                        ; mux8:comb_37|Mux7~27                                                                                                                                                                                                                                                                                         ;
+;  C  ; LC33       ; flopren:comb_8|q[0], pa[2], pa[1], pa[3], hrx[0]                                                                                                                                                                                                                                                                                                ; mux8:comb_37|Mux7~23                                                                                                                                                                                                                                                                                         ;
+;  D  ; LC57       ; pd[1]                                                                                                                                                                                                                                                                                                                                           ; hd[1]                                                                                                                                                                                                                                                                                                        ;
+;  D  ; LC55       ; mux8:comb_37|Mux5~24, flopren:comb_11|q[2], pa[2], pa[1], pa[3], flopren:comb_9|q[2], hd[2], loadable_counter:comb_104|ldcnt[2].ff, flopren:comb_10|q[2]                                                                                                                                                                                        ; mux8:comb_37|Mux5~27                                                                                                                                                                                                                                                                                         ;
+;  D  ; LC64       ; pd[0]                                                                                                                                                                                                                                                                                                                                           ; hd[0]                                                                                                                                                                                                                                                                                                        ;
+;  D  ; LC61       ; pd[2]                                                                                                                                                                                                                                                                                                                                           ; hd[2]                                                                                                                                                                                                                                                                                                        ;
+;  D  ; LC51       ; pio_rst_n, pd[2], pa[1], pa[2], pa[3], flopren:comb_11|q[2], cnt_ld_n~62                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux5~23, flopren:comb_11|q[2], hsm                                                                                                                                                                                                                                                              ;
+;  D  ; LC56       ; pio_rst_n, pd[0], pa[1], pa[2], pa[3], flopren:comb_11|q[0], cnt_ld_n~62                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux7~23, flopren:comb_11|q[0], hirq2_n_rx                                                                                                                                                                                                                                                       ;
+;  D  ; LC53       ; pio_rst_n, pd[3], pa[1], pa[2], pa[3], flopren:comb_11|q[3], cnt_ld_n~62                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux4~23, flopren:comb_11|q[3], hreset_n                                                                                                                                                                                                                                                         ;
+;  D  ; LC54       ; flopren:comb_8|q[2], pa[2], pa[1], pa[3], hrx[2]                                                                                                                                                                                                                                                                                                ; mux8:comb_37|Mux5~23                                                                                                                                                                                                                                                                                         ;
+;  D  ; LC50       ; pio_rst_n, pd[2], pa[1], pa[2], pa[3], flopren:comb_8|q[2], cnt_ld_n~62                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[2], mux8:comb_37|Mux5~24                                                                                                                                                                                                                                                                    ;
+;  D  ; LC49       ; pio_rst_n, pd[2], pa[1], pa[2], pa[3], flopren:comb_10|q[2], cnt_ld_n~62                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux5~23, flopren:comb_10|q[2], ha[18]                                                                                                                                                                                                                                                           ;
+;  E  ; LC65       ; pa[3], pexp_cs_n, pwr_n, pa[1], pa[2]                                                                                                                                                                                                                                                                                                           ; hwr_n, hwr_n~4                                                                                                                                                                                                                                                                                               ;
+;  E  ; LC72       ; pio_rst_n, pd[0], pa[1], pa[2], pa[3], flopren:comb_9|q[0], cnt_ld_n~63                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux7~23, flopren:comb_9|q[0], ha[8]                                                                                                                                                                                                                                                             ;
+;  E  ; LC69       ; pio_rst_n, pd[6], pa[1], pa[2], pa[3], flopren:comb_9|q[6], cnt_ld_n~63                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux1~20, flopren:comb_9|q[6], ha[14]                                                                                                                                                                                                                                                            ;
+;  E  ; LC75       ; pio_rst_n, pd[5], pa[1], pa[2], pa[3], flopren:comb_9|q[5], cnt_ld_n~63                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux2~23, flopren:comb_9|q[5], ha[13]                                                                                                                                                                                                                                                            ;
+;  E  ; LC73       ; pio_rst_n, pd[3], pa[1], pa[2], pa[3], flopren:comb_9|q[3], cnt_ld_n~63                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux4~23, flopren:comb_9|q[3], ha[11]                                                                                                                                                                                                                                                            ;
+;  E  ; LC77       ; pio_rst_n, pd[2], pa[1], pa[2], pa[3], flopren:comb_9|q[2], cnt_ld_n~63                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux5~23, flopren:comb_9|q[2], ha[10]                                                                                                                                                                                                                                                            ;
+;  E  ; LC80       ; pio_rst_n, pd[1], pa[1], pa[2], pa[3], flopren:comb_9|q[1], cnt_ld_n~63                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux6~28, flopren:comb_9|q[1], ha[9], mux8:comb_37|Mux6~18bal                                                                                                                                                                                                                                    ;
+;  E  ; LC67       ; pio_rst_n, pd[1], pa[1], pa[2], pa[3], flopren:comb_10|q[1], cnt_ld_n~63                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux6~28, flopren:comb_10|q[1], ha[17], mux8:comb_37|Mux6~18bal                                                                                                                                                                                                                                  ;
+;  F  ; LC82       ; mux8:comb_37|Mux3~18bal, mux8:comb_37|Mux3~23, flopren:comb_9|q[4], pa[1], pa[2], pa[3], loadable_counter:comb_104|ldcnt[4].ff, flopren:comb_10|q[4], hrx[4]                                                                                                                                                                                    ; mux8:comb_37|Mux3~31                                                                                                                                                                                                                                                                                         ;
+;  F  ; LC93       ; loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[0].ff, loadable_counter:comb_104|ldcnt[1].ff, pa[3], pa[1], pa[2], pd[5], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                                                               ; mux8:comb_37|Mux2~23, ha[5], loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[7].ff                                                                                                                                                                                                    ;
+;  F  ; LC91       ; loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[0].ff, loadable_counter:comb_104|ldcnt[1].ff, pa[3], pa[1], pa[2], pd[3], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                                                                                                                                             ; mux8:comb_37|Mux4~23, ha[3], loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[7].ff                                                                                                                      ;
+;  F  ; LC85       ; pa[1], pa[2], pexp_cs_n, prd_n                                                                                                                                                                                                                                                                                                                  ; hrd_n                                                                                                                                                                                                                                                                                                        ;
+;  F  ; LC94       ; loadable_counter:comb_104|ldcnt[0].ff, loadable_counter:comb_104|ldcnt[1].ff, pa[3], pa[1], pa[2], pd[2], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                                                                                                                                                                                    ; mux8:comb_37|Mux5~23, ha[2], loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[7].ff                                                                               ;
+;  F  ; LC83       ; loadable_counter:comb_104|ldcnt[0].ff, pa[3], pa[1], pa[2], pd[1], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                                                                                                                                                                                                                           ; mux8:comb_37|Mux6~23, ha[1], loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[7].ff, mux8:comb_37|Mux6~18bal               ;
+;  F  ; LC86       ; pa[3], pa[1], pa[2], pd[0], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                                                                                                                                                                                                                                                                  ; mux8:comb_37|Mux7~23, ha[0], loadable_counter:comb_104|ldcnt[1].ff, loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[7].ff ;
+;  F  ; LC89       ; pio_rst_n, pd[4], pa[1], pa[2], pa[3], flopren:comb_8|q[4], cnt_ld_n~61                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[4], mux8:comb_37|Mux3~18bal                                                                                                                                                                                                                                                                 ;
+;  F  ; LC84       ; flopren:comb_8|q[4], flopren:comb_10|q[4], loadable_counter:comb_104|ldcnt[4].ff, hrx[4], pa[1], hirq2_n, flopren:comb_9|q[4], pa[2], hd[4], pa[3]                                                                                                                                                                                              ; mux8:comb_37|Mux3~28                                                                                                                                                                                                                                                                                         ;
+;  F  ; LC88       ; pio_rst_n, pd[4], pa[1], pa[2], pa[3], flopren:comb_10|q[4], cnt_ld_n~61                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux3~28, flopren:comb_10|q[4], ha[20], mux8:comb_37|Mux3~18bal                                                                                                                                                                                                                                  ;
+;  G  ; LC109      ; pio_rst_n, pd[0], pa[1], pa[2], pa[3], flopren:comb_10|q[0], cnt_ld_n~30                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux7~23, flopren:comb_10|q[0], ha[16]                                                                                                                                                                                                                                                           ;
+;  G  ; LC98       ; pio_rst_n, pd[7], pa[1], pa[2], pa[3], flopren:comb_10|q[7], cnt_ld_n~30                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux0~20, flopren:comb_10|q[7]                                                                                                                                                                                                                                                                   ;
+;  G  ; LC97       ; loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[0].ff, loadable_counter:comb_104|ldcnt[1].ff, pa[3], pa[1], pa[2], pd[4], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                                                                                                      ; mux8:comb_37|Mux3~28, ha[4], loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[7].ff, mux8:comb_37|Mux3~18bal                                                                                                                                    ;
+;  G  ; LC104      ; pio_rst_n, pd[7], pa[1], pa[2], pa[3], flopren:comb_8|q[7], cnt_ld_n~30                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[7], mux8:comb_37|Mux0~21                                                                                                                                                                                                                                                                    ;
+;  G  ; LC112      ; pio_rst_n, pd[3], pa[1], pa[2], pa[3], flopren:comb_8|q[3], cnt_ld_n~30                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[3], mux8:comb_37|Mux4~24                                                                                                                                                                                                                                                                    ;
+;  G  ; LC102      ; pio_rst_n, pd[0], pa[1], pa[2], pa[3], flopren:comb_8|q[0], cnt_ld_n~30                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[0], mux8:comb_37|Mux7~24                                                                                                                                                                                                                                                                    ;
+;  G  ; LC99       ; loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[0].ff, loadable_counter:comb_104|ldcnt[1].ff, pa[3], pa[1], pa[2], pd[6], pio_rst_n, pexp_cs_n, pwr_n, prd_n                                        ; mux8:comb_37|Mux1~20, ha[6], loadable_counter:comb_104|ldcnt[7].ff                                                                                                                                                                                                                                           ;
+;  G  ; LC107      ; pio_rst_n, pd[1], pa[1], pa[2], pa[3], flopren:comb_11|q[1], cnt_ld_n~30                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux6~28, flopren:comb_11|q[1], card_detect_n_rx, mux8:comb_37|Mux6~18bal                                                                                                                                                                                                                        ;
+;  G  ; LC101      ; loadable_counter:comb_104|ldcnt[6].ff, loadable_counter:comb_104|ldcnt[5].ff, loadable_counter:comb_104|ldcnt[4].ff, loadable_counter:comb_104|ldcnt[3].ff, loadable_counter:comb_104|ldcnt[2].ff, loadable_counter:comb_104|ldcnt[0].ff, loadable_counter:comb_104|ldcnt[1].ff, pa[3], pa[1], pa[2], pd[7], pio_rst_n, pexp_cs_n, pwr_n, prd_n ; mux8:comb_37|Mux0~20, ha[7]                                                                                                                                                                                                                                                                                  ;
+;  G  ; LC105      ; pio_rst_n, pd[3], pa[1], pa[2], pa[3], flopren:comb_10|q[3], cnt_ld_n~30                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux4~23, flopren:comb_10|q[3], ha[19]                                                                                                                                                                                                                                                           ;
+;  G  ; LC111      ; pio_rst_n, pd[1], pa[1], pa[2], pa[3], flopren:comb_8|q[1], cnt_ld_n~30                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[1], mux8:comb_37|Mux6~18bal                                                                                                                                                                                                                                                                 ;
+;  G  ; LC103      ; pio_rst_n, pd[6], pa[1], pa[2], pa[3], flopren:comb_10|q[6], cnt_ld_n~30                                                                                                                                                                                                                                                                        ; mux8:comb_37|Mux1~20, flopren:comb_10|q[6]                                                                                                                                                                                                                                                                   ;
+;  G  ; LC110      ; pio_rst_n, pd[6], pa[1], pa[2], pa[3], flopren:comb_8|q[6], cnt_ld_n~30                                                                                                                                                                                                                                                                         ; flopren:comb_8|q[6], mux8:comb_37|Mux1~21                                                                                                                                                                                                                                                                    ;
+;  H  ; LC126      ; pexp_cs_n, prd_n                                                                                                                                                                                                                                                                                                                                ; spio0, hrd_n~7                                                                                                                                                                                                                                                                                               ;
+;  H  ; LC128      ; pa[3], pa[1], pa[2]                                                                                                                                                                                                                                                                                                                             ; spio1                                                                                                                                                                                                                                                                                                        ;
+;  H  ; LC123      ; pio_rst_n, pd[4], pa[1], pa[2], pa[3], flopren:comb_9|q[4], cnt_ld_n~64                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux3~28, flopren:comb_9|q[4], ha[12], mux8:comb_37|Mux3~18bal                                                                                                                                                                                                                                   ;
+;  H  ; LC115      ; pio_rst_n, pd[7], pa[1], pa[2], pa[3], flopren:comb_9|q[7], cnt_ld_n~64                                                                                                                                                                                                                                                                         ; mux8:comb_37|Mux0~20, flopren:comb_9|q[7], ha[15]                                                                                                                                                                                                                                                            ;
++-----+------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------+
+; Fitter Device Options                                         ;
++----------------------------------------------+----------------+
+; Option                                       ; Setting        ;
++----------------------------------------------+----------------+
+; Enable user-supplied start-up clock (CLKUSR) ; Off            ;
+; Enable device-wide reset (DEV_CLRn)          ; Off            ;
+; Enable device-wide output enable (DEV_OE)    ; Off            ;
+; Enable INIT_DONE output                      ; Off            ;
+; Configuration scheme                         ; Passive Serial ;
+; Security bit                                 ; Off            ;
+; Base pin-out file on sameframe device        ; Off            ;
++----------------------------------------------+----------------+
+
+
++-----------------+
+; Fitter Messages ;
++-----------------+
+Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (119006): Selected device EPM7128SLC84-15 for design "huread"
+Warning (163076): Macrocell buffer inserted after node "mux8:comb_37|Mux6~28"
+Warning (163076): Macrocell buffer inserted after node "mux8:comb_37|Mux3~28"
+Warning (163076): Macrocell buffer inserted after node "mux8:comb_37|Mux7~23"
+Warning (163076): Macrocell buffer inserted after node "mux8:comb_37|Mux5~23"
+Warning (163076): Macrocell buffer inserted after node "hrd_n~3"
+Warning (163076): Macrocell buffer inserted after node "hwr_n~2"
+Info: Quartus II 64-Bit Fitter was successful. 0 errors, 7 warnings
+    Info: Peak virtual memory: 456 megabytes
+    Info: Processing ended: Mon Dec 16 11:18:39 2019
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:03
+
+

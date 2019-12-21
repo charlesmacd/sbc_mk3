@@ -1,0 +1,1013 @@
+-- Copyright (C) 1991-2013 Altera Corporation
+-- Your use of Altera Corporation's design tools, logic functions 
+-- and other software and tools, and its AMPP partner logic 
+-- functions, and any output files from any of the foregoing 
+-- (including device programming or simulation files), and any 
+-- associated documentation or information are expressly subject 
+-- to the terms and conditions of the Altera Program License 
+-- Subscription Agreement, Altera MegaCore Function License 
+-- Agreement, or other applicable license agreement, including, 
+-- without limitation, that your use is for the sole purpose of 
+-- programming logic devices manufactured by Altera and sold by 
+-- Altera or its authorized distributors.  Please refer to the 
+-- applicable agreement for further details.
+--D1L17 is mux8:comb_37|Mux7~23
+D1L17_p0_out = pa[2] & !pa[1] & !pa[3] & C3_q[0];
+D1L17_p1_out = C4_q[0] & !pa[2] & pa[1] & pa[3];
+D1L17_p2_out = !pa[2] & pa[1] & !pa[3] & C2_q[0];
+D1L17_p3_out = pa[2] & pa[1] & A1L28;
+D1L17_p4_out = pa[2] & !pa[1] & pa[3] & E1_ldcnt[0].ff;
+D1L17_or_out = D1L18 # D1L17_p0_out # D1L17_p1_out # D1L17_p2_out # D1L17_p3_out # D1L17_p4_out;
+D1L17 = D1L17_or_out;
+
+
+--A1L46 is hrd_n~3
+A1L46_p1_out = !pexp_cs_n & !prd_n;
+A1L46_or_out = A1L46_p1_out;
+A1L46 = A1L46_or_out;
+
+
+--D1L15 is mux8:comb_37|Mux6~23
+D1L15 = EXP(!E1_ldcnt[1].ff & pa[2] & !pa[1] & pa[3]);
+
+
+--D1L16 is mux8:comb_37|Mux6~28
+D1L16_p1_out = D1L14 & D1L15;
+D1L16_p0_out = D1L14 & D1L15 & !pa[2] & !pa[1] & pa[3] & !hrx[1];
+D1L16_p2_out = D1L14 & D1L15 & !C3_q[1] & pa[2] & !pa[1] & !pa[3];
+D1L16_p3_out = D1L14 & D1L15 & !pa[2] & pa[1] & pa[3] & !C4_q[1];
+D1L16_p4_out = D1L14 & D1L15 & !pa[2] & pa[1] & !pa[3] & !C2_q[1];
+D1L16_or_out = D1L16_p0_out # D1L16_p2_out # D1L16_p3_out # D1L16_p4_out;
+D1L16 = D1L16_p1_out $ D1L16_or_out;
+
+
+--D1L12 is mux8:comb_37|Mux5~23
+D1L12_p0_out = pa[2] & !pa[1] & !pa[3] & C3_q[2];
+D1L12_p1_out = C4_q[2] & !pa[2] & pa[1] & pa[3];
+D1L12_p2_out = !pa[2] & pa[1] & !pa[3] & C2_q[2];
+D1L12_p3_out = pa[2] & pa[1] & A1L32;
+D1L12_p4_out = pa[2] & !pa[1] & pa[3] & E1_ldcnt[2].ff;
+D1L12_or_out = D1L13 # D1L12_p0_out # D1L12_p1_out # D1L12_p2_out # D1L12_p3_out # D1L12_p4_out;
+D1L12 = D1L12_or_out;
+
+
+--D1L10 is mux8:comb_37|Mux4~23
+D1L10_p0_out = pa[2] & !pa[1] & !pa[3] & C3_q[3];
+D1L10_p1_out = C4_q[3] & !pa[2] & pa[1] & pa[3];
+D1L10_p2_out = !pa[2] & pa[1] & !pa[3] & C2_q[3];
+D1L10_p3_out = pa[2] & pa[1] & A1L34;
+D1L10_p4_out = pa[2] & !pa[1] & pa[3] & E1_ldcnt[3].ff;
+D1L10_or_out = D1L11 # D1L10_p0_out # D1L10_p1_out # D1L10_p2_out # D1L10_p3_out # D1L10_p4_out;
+D1L10 = D1L10_or_out;
+
+
+--D1L8 is mux8:comb_37|Mux3~23
+D1L8 = EXP(!hirq2_n & pa[1] & !pa[2] & pa[3]);
+
+
+--D1L9 is mux8:comb_37|Mux3~28
+D1L9_p1_out = D1L7 & D1L8;
+D1L9_p0_out = D1L7 & D1L8 & !pa[1] & !pa[2] & pa[3] & !hrx[4];
+D1L9_p2_out = D1L7 & D1L8 & !C2_q[4] & pa[1] & !pa[2] & !pa[3];
+D1L9_p3_out = D1L7 & D1L8 & !pa[1] & pa[2] & pa[3] & !E1_ldcnt[4].ff;
+D1L9_p4_out = D1L7 & D1L8 & !pa[1] & pa[2] & !pa[3] & !C3_q[4];
+D1L9_or_out = D1L9_p0_out # D1L9_p2_out # D1L9_p3_out # D1L9_p4_out;
+D1L9 = D1L9_p1_out $ D1L9_or_out;
+
+
+--D1L5 is mux8:comb_37|Mux2~23
+D1L5_p0_out = pa[2] & !pa[1] & !pa[3] & C3_q[5];
+D1L5_p1_out = card_detect_n & !pa[2] & pa[1] & pa[3];
+D1L5_p2_out = !pa[2] & pa[1] & !pa[3] & C2_q[5];
+D1L5_p3_out = pa[2] & pa[1] & A1L38;
+D1L5_p4_out = pa[2] & !pa[1] & pa[3] & E1_ldcnt[5].ff;
+D1L5_or_out = D1L6 # D1L5_p0_out # D1L5_p1_out # D1L5_p2_out # D1L5_p3_out # D1L5_p4_out;
+D1L5 = D1L5_or_out;
+
+
+--D1L3 is mux8:comb_37|Mux1~20
+D1L3_p0_out = pa[1] & pa[2] & A1L40;
+D1L3_p1_out = hrx[6] & pa[3] & !pa[1] & !pa[2];
+D1L3_p2_out = pa[3] & !pa[1] & pa[2] & E1_ldcnt[6].ff;
+D1L3_p3_out = !pa[3] & !pa[1] & pa[2] & C3_q[6];
+D1L3_p4_out = !pa[3] & pa[1] & !pa[2] & C2_q[6];
+D1L3_or_out = D1L4 # D1L3_p0_out # D1L3_p1_out # D1L3_p2_out # D1L3_p3_out # D1L3_p4_out;
+D1L3 = D1L3_or_out;
+
+
+--D1L1 is mux8:comb_37|Mux0~20
+D1L1_p0_out = pa[1] & pa[2] & A1L42;
+D1L1_p1_out = hrx[7] & pa[3] & !pa[1] & !pa[2];
+D1L1_p2_out = pa[3] & !pa[1] & pa[2] & E1_ldcnt[7].ff;
+D1L1_p3_out = !pa[3] & !pa[1] & pa[2] & C3_q[7];
+D1L1_p4_out = !pa[3] & pa[1] & !pa[2] & C2_q[7];
+D1L1_or_out = D1L2 # D1L1_p0_out # D1L1_p1_out # D1L1_p2_out # D1L1_p3_out # D1L1_p4_out;
+D1L1 = D1L1_or_out;
+
+
+--A1L68 is pd[0]~24
+A1L68_or_out = A1L67;
+A1L68 = A1L68_or_out;
+
+
+--A1L60 is hwr_n~2
+A1L60_p1_out = !pa[3] & !pexp_cs_n & !pwr_n & pa[1] & pa[2];
+A1L60_or_out = A1L60_p1_out;
+A1L60 = !(A1L60_or_out);
+
+
+--A1L71 is pd[1]~26
+A1L71_or_out = A1L70;
+A1L71 = A1L71_or_out;
+
+
+--A1L74 is pd[2]~28
+A1L74_or_out = A1L73;
+A1L74 = A1L74_or_out;
+
+
+--A1L77 is pd[3]~30
+A1L77_or_out = A1L76;
+A1L77 = A1L77_or_out;
+
+
+--A1L80 is pd[4]~32
+A1L80_or_out = A1L79;
+A1L80 = A1L80_or_out;
+
+
+--A1L83 is pd[5]~34
+A1L83_or_out = A1L82;
+A1L83 = A1L83_or_out;
+
+
+--A1L86 is pd[6]~36
+A1L86_or_out = A1L85;
+A1L86 = A1L86_or_out;
+
+
+--A1L89 is pd[7]~38
+A1L89_or_out = A1L88;
+A1L89 = A1L89_or_out;
+
+
+--B1L1 is decoder:comb_7|ShiftLeft0~10
+B1L1_p1_out = pa[3] & pa[1] & pa[2];
+B1L1_or_out = B1L1_p1_out;
+B1L1 = B1L1_or_out;
+
+
+--A1L95 is rx_ld~2
+A1L95_p1_out = !pa[1] & !pexp_cs_n & !pwr_n & !pa[2] & pa[3];
+A1L95_or_out = A1L95_p1_out;
+A1L95 = A1L95_or_out;
+
+
+--A1L47 is hrd_n~5
+A1L47_p1_out = pa[1] & pa[2] & !pexp_cs_n & !prd_n;
+A1L47_or_out = A1L47_p1_out;
+A1L47 = !(A1L47_or_out);
+
+
+--C3_q[0] is flopren:comb_10|q[0]
+C3_q[0]_p1_out = A1L67 & !pa[1] & pa[2] & !pa[3] & !C3_q[0];
+C3_q[0]_p2_out = !A1L67 & !pa[1] & pa[2] & !pa[3] & C3_q[0];
+C3_q[0]_or_out = C3_q[0]_p1_out # C3_q[0]_p2_out;
+C3_q[0]_reg_input = C3_q[0]_or_out;
+C3_q[0] = TFFE(C3_q[0]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--A1L3 is cnt_ld_n~30
+A1L3 = EXP(!pexp_cs_n & !pwr_n);
+
+
+--C3_q[7] is flopren:comb_10|q[7]
+C3_q[7]_p1_out = A1L88 & !pa[1] & pa[2] & !pa[3] & !C3_q[7];
+C3_q[7]_p2_out = !A1L88 & !pa[1] & pa[2] & !pa[3] & C3_q[7];
+C3_q[7]_or_out = C3_q[7]_p1_out # C3_q[7]_p2_out;
+C3_q[7]_reg_input = C3_q[7]_or_out;
+C3_q[7] = TFFE(C3_q[7]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C3_q[6] is flopren:comb_10|q[6]
+C3_q[6]_p1_out = A1L85 & !pa[1] & pa[2] & !pa[3] & !C3_q[6];
+C3_q[6]_p2_out = !A1L85 & !pa[1] & pa[2] & !pa[3] & C3_q[6];
+C3_q[6]_or_out = C3_q[6]_p1_out # C3_q[6]_p2_out;
+C3_q[6]_reg_input = C3_q[6]_or_out;
+C3_q[6] = TFFE(C3_q[6]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C3_q[5] is flopren:comb_10|q[5]
+C3_q[5]_p1_out = A1L82 & !pa[1] & pa[2] & !pa[3] & !C3_q[5];
+C3_q[5]_p2_out = !A1L82 & !pa[1] & pa[2] & !pa[3] & C3_q[5];
+C3_q[5]_or_out = C3_q[5]_p1_out # C3_q[5]_p2_out;
+C3_q[5]_reg_input = C3_q[5]_or_out;
+C3_q[5] = TFFE(C3_q[5]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C3_q[4] is flopren:comb_10|q[4]
+C3_q[4]_p1_out = A1L79 & !pa[1] & pa[2] & !pa[3] & !C3_q[4];
+C3_q[4]_p2_out = !A1L79 & !pa[1] & pa[2] & !pa[3] & C3_q[4];
+C3_q[4]_or_out = C3_q[4]_p1_out # C3_q[4]_p2_out;
+C3_q[4]_reg_input = C3_q[4]_or_out;
+C3_q[4] = TFFE(C3_q[4]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C3_q[3] is flopren:comb_10|q[3]
+C3_q[3]_p1_out = A1L76 & !pa[1] & pa[2] & !pa[3] & !C3_q[3];
+C3_q[3]_p2_out = !A1L76 & !pa[1] & pa[2] & !pa[3] & C3_q[3];
+C3_q[3]_or_out = C3_q[3]_p1_out # C3_q[3]_p2_out;
+C3_q[3]_reg_input = C3_q[3]_or_out;
+C3_q[3] = TFFE(C3_q[3]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C3_q[2] is flopren:comb_10|q[2]
+C3_q[2]_p1_out = A1L73 & !pa[1] & pa[2] & !pa[3] & !C3_q[2];
+C3_q[2]_p2_out = !A1L73 & !pa[1] & pa[2] & !pa[3] & C3_q[2];
+C3_q[2]_or_out = C3_q[2]_p1_out # C3_q[2]_p2_out;
+C3_q[2]_reg_input = C3_q[2]_or_out;
+C3_q[2] = TFFE(C3_q[2]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C3_q[1] is flopren:comb_10|q[1]
+C3_q[1]_p1_out = A1L70 & !pa[1] & pa[2] & !pa[3] & !C3_q[1];
+C3_q[1]_p2_out = !A1L70 & !pa[1] & pa[2] & !pa[3] & C3_q[1];
+C3_q[1]_or_out = C3_q[1]_p1_out # C3_q[1]_p2_out;
+C3_q[1]_reg_input = C3_q[1]_or_out;
+C3_q[1] = TFFE(C3_q[1]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[0] is flopren:comb_8|q[0]
+C1_q[0]_p1_out = A1L67 & !pa[1] & !pa[2] & !pa[3] & !C1_q[0];
+C1_q[0]_p2_out = !A1L67 & !pa[1] & !pa[2] & !pa[3] & C1_q[0];
+C1_q[0]_or_out = C1_q[0]_p1_out # C1_q[0]_p2_out;
+C1_q[0]_reg_input = C1_q[0]_or_out;
+C1_q[0] = TFFE(C1_q[0]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[7] is flopren:comb_8|q[7]
+C1_q[7]_p1_out = A1L88 & !pa[1] & !pa[2] & !pa[3] & !C1_q[7];
+C1_q[7]_p2_out = !A1L88 & !pa[1] & !pa[2] & !pa[3] & C1_q[7];
+C1_q[7]_or_out = C1_q[7]_p1_out # C1_q[7]_p2_out;
+C1_q[7]_reg_input = C1_q[7]_or_out;
+C1_q[7] = TFFE(C1_q[7]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[6] is flopren:comb_8|q[6]
+C1_q[6]_p1_out = A1L85 & !pa[1] & !pa[2] & !pa[3] & !C1_q[6];
+C1_q[6]_p2_out = !A1L85 & !pa[1] & !pa[2] & !pa[3] & C1_q[6];
+C1_q[6]_or_out = C1_q[6]_p1_out # C1_q[6]_p2_out;
+C1_q[6]_reg_input = C1_q[6]_or_out;
+C1_q[6] = TFFE(C1_q[6]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[5] is flopren:comb_8|q[5]
+C1_q[5]_p1_out = A1L82 & !pa[1] & !pa[2] & !pa[3] & !C1_q[5];
+C1_q[5]_p2_out = !A1L82 & !pa[1] & !pa[2] & !pa[3] & C1_q[5];
+C1_q[5]_or_out = C1_q[5]_p1_out # C1_q[5]_p2_out;
+C1_q[5]_reg_input = C1_q[5]_or_out;
+C1_q[5] = TFFE(C1_q[5]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[4] is flopren:comb_8|q[4]
+C1_q[4]_p1_out = A1L79 & !pa[1] & !pa[2] & !pa[3] & !C1_q[4];
+C1_q[4]_p2_out = !A1L79 & !pa[1] & !pa[2] & !pa[3] & C1_q[4];
+C1_q[4]_or_out = C1_q[4]_p1_out # C1_q[4]_p2_out;
+C1_q[4]_reg_input = C1_q[4]_or_out;
+C1_q[4] = TFFE(C1_q[4]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[3] is flopren:comb_8|q[3]
+C1_q[3]_p1_out = A1L76 & !pa[1] & !pa[2] & !pa[3] & !C1_q[3];
+C1_q[3]_p2_out = !A1L76 & !pa[1] & !pa[2] & !pa[3] & C1_q[3];
+C1_q[3]_or_out = C1_q[3]_p1_out # C1_q[3]_p2_out;
+C1_q[3]_reg_input = C1_q[3]_or_out;
+C1_q[3] = TFFE(C1_q[3]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[2] is flopren:comb_8|q[2]
+C1_q[2]_p1_out = A1L73 & !pa[1] & !pa[2] & !pa[3] & !C1_q[2];
+C1_q[2]_p2_out = !A1L73 & !pa[1] & !pa[2] & !pa[3] & C1_q[2];
+C1_q[2]_or_out = C1_q[2]_p1_out # C1_q[2]_p2_out;
+C1_q[2]_reg_input = C1_q[2]_or_out;
+C1_q[2] = TFFE(C1_q[2]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C1_q[1] is flopren:comb_8|q[1]
+C1_q[1]_p1_out = A1L70 & !pa[1] & !pa[2] & !pa[3] & !C1_q[1];
+C1_q[1]_p2_out = !A1L70 & !pa[1] & !pa[2] & !pa[3] & C1_q[1];
+C1_q[1]_or_out = C1_q[1]_p1_out # C1_q[1]_p2_out;
+C1_q[1]_reg_input = C1_q[1]_or_out;
+C1_q[1] = TFFE(C1_q[1]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[0] is flopren:comb_9|q[0]
+C2_q[0]_p1_out = A1L67 & pa[1] & !pa[2] & !pa[3] & !C2_q[0];
+C2_q[0]_p2_out = !A1L67 & pa[1] & !pa[2] & !pa[3] & C2_q[0];
+C2_q[0]_or_out = C2_q[0]_p1_out # C2_q[0]_p2_out;
+C2_q[0]_reg_input = C2_q[0]_or_out;
+C2_q[0] = TFFE(C2_q[0]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[7] is flopren:comb_9|q[7]
+C2_q[7]_p1_out = A1L88 & pa[1] & !pa[2] & !pa[3] & !C2_q[7];
+C2_q[7]_p2_out = !A1L88 & pa[1] & !pa[2] & !pa[3] & C2_q[7];
+C2_q[7]_or_out = C2_q[7]_p1_out # C2_q[7]_p2_out;
+C2_q[7]_reg_input = C2_q[7]_or_out;
+C2_q[7] = TFFE(C2_q[7]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[6] is flopren:comb_9|q[6]
+C2_q[6]_p1_out = A1L85 & pa[1] & !pa[2] & !pa[3] & !C2_q[6];
+C2_q[6]_p2_out = !A1L85 & pa[1] & !pa[2] & !pa[3] & C2_q[6];
+C2_q[6]_or_out = C2_q[6]_p1_out # C2_q[6]_p2_out;
+C2_q[6]_reg_input = C2_q[6]_or_out;
+C2_q[6] = TFFE(C2_q[6]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[5] is flopren:comb_9|q[5]
+C2_q[5]_p1_out = A1L82 & pa[1] & !pa[2] & !pa[3] & !C2_q[5];
+C2_q[5]_p2_out = !A1L82 & pa[1] & !pa[2] & !pa[3] & C2_q[5];
+C2_q[5]_or_out = C2_q[5]_p1_out # C2_q[5]_p2_out;
+C2_q[5]_reg_input = C2_q[5]_or_out;
+C2_q[5] = TFFE(C2_q[5]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[4] is flopren:comb_9|q[4]
+C2_q[4]_p1_out = A1L79 & pa[1] & !pa[2] & !pa[3] & !C2_q[4];
+C2_q[4]_p2_out = !A1L79 & pa[1] & !pa[2] & !pa[3] & C2_q[4];
+C2_q[4]_or_out = C2_q[4]_p1_out # C2_q[4]_p2_out;
+C2_q[4]_reg_input = C2_q[4]_or_out;
+C2_q[4] = TFFE(C2_q[4]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[3] is flopren:comb_9|q[3]
+C2_q[3]_p1_out = A1L76 & pa[1] & !pa[2] & !pa[3] & !C2_q[3];
+C2_q[3]_p2_out = !A1L76 & pa[1] & !pa[2] & !pa[3] & C2_q[3];
+C2_q[3]_or_out = C2_q[3]_p1_out # C2_q[3]_p2_out;
+C2_q[3]_reg_input = C2_q[3]_or_out;
+C2_q[3] = TFFE(C2_q[3]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[2] is flopren:comb_9|q[2]
+C2_q[2]_p1_out = A1L73 & pa[1] & !pa[2] & !pa[3] & !C2_q[2];
+C2_q[2]_p2_out = !A1L73 & pa[1] & !pa[2] & !pa[3] & C2_q[2];
+C2_q[2]_or_out = C2_q[2]_p1_out # C2_q[2]_p2_out;
+C2_q[2]_reg_input = C2_q[2]_or_out;
+C2_q[2] = TFFE(C2_q[2]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C2_q[1] is flopren:comb_9|q[1]
+C2_q[1]_p1_out = A1L70 & pa[1] & !pa[2] & !pa[3] & !C2_q[1];
+C2_q[1]_p2_out = !A1L70 & pa[1] & !pa[2] & !pa[3] & C2_q[1];
+C2_q[1]_or_out = C2_q[1]_p1_out # C2_q[1]_p2_out;
+C2_q[1]_reg_input = C2_q[1]_or_out;
+C2_q[1] = TFFE(C2_q[1]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C4_q[0] is flopren:comb_11|q[0]
+C4_q[0]_p1_out = A1L67 & pa[1] & !pa[2] & pa[3] & !C4_q[0];
+C4_q[0]_p2_out = !A1L67 & pa[1] & !pa[2] & pa[3] & C4_q[0];
+C4_q[0]_or_out = C4_q[0]_p1_out # C4_q[0]_p2_out;
+C4_q[0]_reg_input = C4_q[0]_or_out;
+C4_q[0] = TFFE(C4_q[0]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C4_q[3] is flopren:comb_11|q[3]
+C4_q[3]_p1_out = A1L76 & pa[1] & !pa[2] & pa[3] & !C4_q[3];
+C4_q[3]_p2_out = !A1L76 & pa[1] & !pa[2] & pa[3] & C4_q[3];
+C4_q[3]_or_out = C4_q[3]_p1_out # C4_q[3]_p2_out;
+C4_q[3]_reg_input = C4_q[3]_or_out;
+C4_q[3] = TFFE(C4_q[3]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C4_q[2] is flopren:comb_11|q[2]
+C4_q[2]_p1_out = A1L73 & pa[1] & !pa[2] & pa[3] & !C4_q[2];
+C4_q[2]_p2_out = !A1L73 & pa[1] & !pa[2] & pa[3] & C4_q[2];
+C4_q[2]_or_out = C4_q[2]_p1_out # C4_q[2]_p2_out;
+C4_q[2]_reg_input = C4_q[2]_or_out;
+C4_q[2] = TFFE(C4_q[2]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--C4_q[1] is flopren:comb_11|q[1]
+C4_q[1]_p1_out = A1L70 & pa[1] & !pa[2] & pa[3] & !C4_q[1];
+C4_q[1]_p2_out = !A1L70 & pa[1] & !pa[2] & pa[3] & C4_q[1];
+C4_q[1]_or_out = C4_q[1]_p1_out # C4_q[1]_p2_out;
+C4_q[1]_reg_input = C4_q[1]_or_out;
+C4_q[1] = TFFE(C4_q[1]_reg_input, A1L3, GLOBAL(pio_rst_n), , );
+
+
+--E1_ldcnt[0].ff is loadable_counter:comb_104|ldcnt[0].ff
+E1_ldcnt[0].ff_p1_out = pa[3] & pa[1] & pa[2];
+E1_ldcnt[0].ff_or_out = E1_ldcnt[0].ff_p1_out;
+E1_ldcnt[0].ff_reg_input = E1_ldcnt[0].ff_or_out;
+E1_ldcnt[0].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[0].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L67 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[0].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L67 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[0].ff = TFFE(E1_ldcnt[0].ff_reg_input, E1_ldcnt[0].ff_p3_out, !E1_ldcnt[0].ff_p2_out, !E1_ldcnt[0].ff_p4_out, );
+
+
+--E1_ldcnt[1].ff is loadable_counter:comb_104|ldcnt[1].ff
+E1_ldcnt[1].ff_p1_out = E1_ldcnt[0].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[1].ff_or_out = E1_ldcnt[1].ff_p1_out;
+E1_ldcnt[1].ff_reg_input = E1_ldcnt[1].ff_or_out;
+E1_ldcnt[1].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[1].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L70 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[1].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L70 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[1].ff = TFFE(E1_ldcnt[1].ff_reg_input, E1_ldcnt[1].ff_p3_out, !E1_ldcnt[1].ff_p2_out, !E1_ldcnt[1].ff_p4_out, );
+
+
+--E1_ldcnt[2].ff is loadable_counter:comb_104|ldcnt[2].ff
+E1_ldcnt[2].ff_p1_out = E1_ldcnt[0].ff & E1_ldcnt[1].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[2].ff_or_out = E1_ldcnt[2].ff_p1_out;
+E1_ldcnt[2].ff_reg_input = E1_ldcnt[2].ff_or_out;
+E1_ldcnt[2].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[2].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L73 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[2].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L73 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[2].ff = TFFE(E1_ldcnt[2].ff_reg_input, E1_ldcnt[2].ff_p3_out, !E1_ldcnt[2].ff_p2_out, !E1_ldcnt[2].ff_p4_out, );
+
+
+--E1_ldcnt[3].ff is loadable_counter:comb_104|ldcnt[3].ff
+E1_ldcnt[3].ff_p1_out = E1_ldcnt[2].ff & E1_ldcnt[0].ff & E1_ldcnt[1].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[3].ff_or_out = E1_ldcnt[3].ff_p1_out;
+E1_ldcnt[3].ff_reg_input = E1_ldcnt[3].ff_or_out;
+E1_ldcnt[3].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[3].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L76 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[3].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L76 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[3].ff = TFFE(E1_ldcnt[3].ff_reg_input, E1_ldcnt[3].ff_p3_out, !E1_ldcnt[3].ff_p2_out, !E1_ldcnt[3].ff_p4_out, );
+
+
+--E1_ldcnt[4].ff is loadable_counter:comb_104|ldcnt[4].ff
+E1_ldcnt[4].ff_p1_out = E1_ldcnt[3].ff & E1_ldcnt[2].ff & E1_ldcnt[0].ff & E1_ldcnt[1].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[4].ff_or_out = E1_ldcnt[4].ff_p1_out;
+E1_ldcnt[4].ff_reg_input = E1_ldcnt[4].ff_or_out;
+E1_ldcnt[4].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[4].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L79 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[4].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L79 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[4].ff = TFFE(E1_ldcnt[4].ff_reg_input, E1_ldcnt[4].ff_p3_out, !E1_ldcnt[4].ff_p2_out, !E1_ldcnt[4].ff_p4_out, );
+
+
+--E1_ldcnt[5].ff is loadable_counter:comb_104|ldcnt[5].ff
+E1_ldcnt[5].ff_p1_out = E1_ldcnt[4].ff & E1_ldcnt[3].ff & E1_ldcnt[2].ff & E1_ldcnt[0].ff & E1_ldcnt[1].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[5].ff_or_out = E1_ldcnt[5].ff_p1_out;
+E1_ldcnt[5].ff_reg_input = E1_ldcnt[5].ff_or_out;
+E1_ldcnt[5].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[5].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L82 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[5].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L82 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[5].ff = TFFE(E1_ldcnt[5].ff_reg_input, E1_ldcnt[5].ff_p3_out, !E1_ldcnt[5].ff_p2_out, !E1_ldcnt[5].ff_p4_out, );
+
+
+--E1_ldcnt[6].ff is loadable_counter:comb_104|ldcnt[6].ff
+E1_ldcnt[6].ff_p1_out = E1_ldcnt[5].ff & E1_ldcnt[4].ff & E1_ldcnt[3].ff & E1_ldcnt[2].ff & E1_ldcnt[0].ff & E1_ldcnt[1].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[6].ff_or_out = E1_ldcnt[6].ff_p1_out;
+E1_ldcnt[6].ff_reg_input = E1_ldcnt[6].ff_or_out;
+E1_ldcnt[6].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[6].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L85 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[6].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L85 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[6].ff = TFFE(E1_ldcnt[6].ff_reg_input, E1_ldcnt[6].ff_p3_out, !E1_ldcnt[6].ff_p2_out, !E1_ldcnt[6].ff_p4_out, );
+
+
+--E1_ldcnt[7].ff is loadable_counter:comb_104|ldcnt[7].ff
+E1_ldcnt[7].ff_p1_out = E1_ldcnt[6].ff & E1_ldcnt[5].ff & E1_ldcnt[4].ff & E1_ldcnt[3].ff & E1_ldcnt[2].ff & E1_ldcnt[0].ff & E1_ldcnt[1].ff & pa[3] & pa[1] & pa[2];
+E1_ldcnt[7].ff_or_out = E1_ldcnt[7].ff_p1_out;
+E1_ldcnt[7].ff_reg_input = E1_ldcnt[7].ff_or_out;
+E1_ldcnt[7].ff_p3_out = !pexp_cs_n & !prd_n;
+E1_ldcnt[7].ff_p2_out = !pa[3] & !pa[1] & !pa[2] & !A1L88 & GLOBAL(pio_rst_n) & !pexp_cs_n & !pwr_n;
+E1_ldcnt[7].ff_p4_out = !pa[3] & !pa[1] & !pa[2] & A1L88 & !pexp_cs_n & !pwr_n;
+E1_ldcnt[7].ff = TFFE(E1_ldcnt[7].ff_reg_input, E1_ldcnt[7].ff_p3_out, !E1_ldcnt[7].ff_p2_out, !E1_ldcnt[7].ff_p4_out, );
+
+
+--D1L18 is mux8:comb_37|Mux7~24
+D1L18_p1_out = C1_q[0] & !pa[2] & !pa[1] & !pa[3];
+D1L18_p2_out = !pa[2] & !pa[1] & pa[3] & hrx[0];
+D1L18 = D1L18_p1_out # D1L18_p2_out;
+
+
+--D1L13 is mux8:comb_37|Mux5~24
+D1L13_p1_out = C1_q[2] & !pa[2] & !pa[1] & !pa[3];
+D1L13_p2_out = !pa[2] & !pa[1] & pa[3] & hrx[2];
+D1L13 = D1L13_p1_out # D1L13_p2_out;
+
+
+--D1L11 is mux8:comb_37|Mux4~24
+D1L11_p1_out = C1_q[3] & !pa[2] & !pa[1] & !pa[3];
+D1L11_p2_out = !pa[2] & !pa[1] & pa[3] & hrx[3];
+D1L11 = D1L11_p1_out # D1L11_p2_out;
+
+
+--D1L6 is mux8:comb_37|Mux2~24
+D1L6_p1_out = C1_q[5] & !pa[2] & !pa[1] & !pa[3];
+D1L6_p2_out = !pa[2] & !pa[1] & pa[3] & hrx[5];
+D1L6 = D1L6_p1_out # D1L6_p2_out;
+
+
+--D1L4 is mux8:comb_37|Mux1~21
+D1L4_p1_out = C1_q[6] & !pa[3] & !pa[1] & !pa[2];
+D1L4 = D1L4_p1_out;
+
+
+--D1L2 is mux8:comb_37|Mux0~21
+D1L2_p1_out = C1_q[7] & !pa[3] & !pa[1] & !pa[2];
+D1L2 = D1L2_p1_out;
+
+
+--D1L14 is mux8:comb_37|Mux6~18bal
+D1L14_p0_out = pa[2] & pa[1] & !A1L30;
+D1L14_p1_out = !C1_q[1] & !C2_q[1] & !C4_q[1] & !hrx[1] & !pa[2];
+D1L14_p2_out = !C1_q[1] & !hrx[1] & !E1_ldcnt[1].ff & !C3_q[1] & !pa[1];
+D1L14_p3_out = !C1_q[1] & !C2_q[1] & !C3_q[1] & !A1L30 & !pa[3];
+D1L14_p4_out = !C1_q[1] & !pa[2] & !pa[1] & !pa[3];
+D1L14_or_out = D1L14_p0_out # D1L14_p1_out # D1L14_p2_out # D1L14_p3_out # D1L14_p4_out;
+D1L14 = !(D1L14_or_out);
+
+
+--D1L7 is mux8:comb_37|Mux3~18bal
+D1L7_p0_out = pa[1] & pa[2] & !A1L36;
+D1L7_p1_out = !C1_q[4] & !C3_q[4] & !E1_ldcnt[4].ff & !hrx[4] & !pa[1];
+D1L7_p2_out = !C1_q[4] & !hrx[4] & !hirq2_n & !C2_q[4] & !pa[2];
+D1L7_p3_out = !C1_q[4] & !C3_q[4] & !C2_q[4] & !A1L36 & !pa[3];
+D1L7_p4_out = !C1_q[4] & !pa[1] & !pa[2] & !pa[3];
+D1L7_or_out = D1L7_p0_out # D1L7_p1_out # D1L7_p2_out # D1L7_p3_out # D1L7_p4_out;
+D1L7 = !(D1L7_or_out);
+
+
+--pio_rst_n is pio_rst_n
+--operation mode is input
+
+pio_rst_n = INPUT();
+
+
+--pexp_cs_n is pexp_cs_n
+--operation mode is input
+
+pexp_cs_n = INPUT();
+
+
+--prd_n is prd_n
+--operation mode is input
+
+prd_n = INPUT();
+
+
+--pwr_n is pwr_n
+--operation mode is input
+
+pwr_n = INPUT();
+
+
+--pa[1] is pa[1]
+--operation mode is input
+
+pa[1] = INPUT();
+
+
+--pa[2] is pa[2]
+--operation mode is input
+
+pa[2] = INPUT();
+
+
+--pa[3] is pa[3]
+--operation mode is input
+
+pa[3] = INPUT();
+
+
+--hrx[0] is hrx[0]
+--operation mode is input
+
+hrx[0] = INPUT();
+
+
+--hrx[1] is hrx[1]
+--operation mode is input
+
+hrx[1] = INPUT();
+
+
+--hrx[2] is hrx[2]
+--operation mode is input
+
+hrx[2] = INPUT();
+
+
+--hrx[3] is hrx[3]
+--operation mode is input
+
+hrx[3] = INPUT();
+
+
+--hrx[4] is hrx[4]
+--operation mode is input
+
+hrx[4] = INPUT();
+
+
+--hrx[5] is hrx[5]
+--operation mode is input
+
+hrx[5] = INPUT();
+
+
+--hrx[6] is hrx[6]
+--operation mode is input
+
+hrx[6] = INPUT();
+
+
+--hrx[7] is hrx[7]
+--operation mode is input
+
+hrx[7] = INPUT();
+
+
+--card_detect_n is card_detect_n
+--operation mode is input
+
+card_detect_n = INPUT();
+
+
+--hirq2_n is hirq2_n
+--operation mode is input
+
+hirq2_n = INPUT();
+
+
+--x8m is x8m
+--operation mode is input
+
+x8m = INPUT();
+
+
+--A1L67 is pd[0]~0
+--operation mode is bidir
+
+A1L67 = pd[0];
+
+--pd[0] is pd[0]
+--operation mode is bidir
+
+pd[0]_tri_out = TRI(D1L17, A1L46);
+pd[0] = BIDIR(pd[0]_tri_out);
+
+
+--A1L70 is pd[1]~1
+--operation mode is bidir
+
+A1L70 = pd[1];
+
+--pd[1] is pd[1]
+--operation mode is bidir
+
+pd[1]_tri_out = TRI(D1L16, A1L46);
+pd[1] = BIDIR(pd[1]_tri_out);
+
+
+--A1L73 is pd[2]~2
+--operation mode is bidir
+
+A1L73 = pd[2];
+
+--pd[2] is pd[2]
+--operation mode is bidir
+
+pd[2]_tri_out = TRI(D1L12, A1L46);
+pd[2] = BIDIR(pd[2]_tri_out);
+
+
+--A1L76 is pd[3]~3
+--operation mode is bidir
+
+A1L76 = pd[3];
+
+--pd[3] is pd[3]
+--operation mode is bidir
+
+pd[3]_tri_out = TRI(D1L10, A1L46);
+pd[3] = BIDIR(pd[3]_tri_out);
+
+
+--A1L79 is pd[4]~4
+--operation mode is bidir
+
+A1L79 = pd[4];
+
+--pd[4] is pd[4]
+--operation mode is bidir
+
+pd[4]_tri_out = TRI(D1L9, A1L46);
+pd[4] = BIDIR(pd[4]_tri_out);
+
+
+--A1L82 is pd[5]~5
+--operation mode is bidir
+
+A1L82 = pd[5];
+
+--pd[5] is pd[5]
+--operation mode is bidir
+
+pd[5]_tri_out = TRI(D1L5, A1L46);
+pd[5] = BIDIR(pd[5]_tri_out);
+
+
+--A1L85 is pd[6]~6
+--operation mode is bidir
+
+A1L85 = pd[6];
+
+--pd[6] is pd[6]
+--operation mode is bidir
+
+pd[6]_tri_out = TRI(D1L3, A1L46);
+pd[6] = BIDIR(pd[6]_tri_out);
+
+
+--A1L88 is pd[7]~7
+--operation mode is bidir
+
+A1L88 = pd[7];
+
+--pd[7] is pd[7]
+--operation mode is bidir
+
+pd[7]_tri_out = TRI(D1L1, A1L46);
+pd[7] = BIDIR(pd[7]_tri_out);
+
+
+--A1L28 is hd[0]~0
+--operation mode is bidir
+
+A1L28 = hd[0];
+
+--hd[0] is hd[0]
+--operation mode is bidir
+
+hd[0]_tri_out = TRI(A1L68, !A1L60);
+hd[0] = BIDIR(hd[0]_tri_out);
+
+
+--A1L30 is hd[1]~1
+--operation mode is bidir
+
+A1L30 = hd[1];
+
+--hd[1] is hd[1]
+--operation mode is bidir
+
+hd[1]_tri_out = TRI(A1L71, !A1L60);
+hd[1] = BIDIR(hd[1]_tri_out);
+
+
+--A1L32 is hd[2]~2
+--operation mode is bidir
+
+A1L32 = hd[2];
+
+--hd[2] is hd[2]
+--operation mode is bidir
+
+hd[2]_tri_out = TRI(A1L74, !A1L60);
+hd[2] = BIDIR(hd[2]_tri_out);
+
+
+--A1L34 is hd[3]~3
+--operation mode is bidir
+
+A1L34 = hd[3];
+
+--hd[3] is hd[3]
+--operation mode is bidir
+
+hd[3]_tri_out = TRI(A1L77, !A1L60);
+hd[3] = BIDIR(hd[3]_tri_out);
+
+
+--A1L36 is hd[4]~4
+--operation mode is bidir
+
+A1L36 = hd[4];
+
+--hd[4] is hd[4]
+--operation mode is bidir
+
+hd[4]_tri_out = TRI(A1L80, !A1L60);
+hd[4] = BIDIR(hd[4]_tri_out);
+
+
+--A1L38 is hd[5]~5
+--operation mode is bidir
+
+A1L38 = hd[5];
+
+--hd[5] is hd[5]
+--operation mode is bidir
+
+hd[5]_tri_out = TRI(A1L83, !A1L60);
+hd[5] = BIDIR(hd[5]_tri_out);
+
+
+--A1L40 is hd[6]~6
+--operation mode is bidir
+
+A1L40 = hd[6];
+
+--hd[6] is hd[6]
+--operation mode is bidir
+
+hd[6]_tri_out = TRI(A1L86, !A1L60);
+hd[6] = BIDIR(hd[6]_tri_out);
+
+
+--A1L42 is hd[7]~7
+--operation mode is bidir
+
+A1L42 = hd[7];
+
+--hd[7] is hd[7]
+--operation mode is bidir
+
+hd[7]_tri_out = TRI(A1L89, !A1L60);
+hd[7] = BIDIR(hd[7]_tri_out);
+
+
+--spio0 is spio0
+--operation mode is output
+
+spio0 = OUTPUT(A1L46);
+
+
+--hwr_n is hwr_n
+--operation mode is output
+
+hwr_n = OUTPUT(A1L60);
+
+
+--hrd_n is hrd_n
+--operation mode is output
+
+hrd_n = OUTPUT(A1L47);
+
+
+--rx_ld is rx_ld
+--operation mode is output
+
+rx_ld = OUTPUT(A1L95);
+
+
+--spio1 is spio1
+--operation mode is output
+
+spio1 = OUTPUT(B1L1);
+
+
+--ha[16] is ha[16]
+--operation mode is output
+
+ha[16] = OUTPUT(C3_q[0]);
+
+
+--ha[17] is ha[17]
+--operation mode is output
+
+ha[17] = OUTPUT(C3_q[1]);
+
+
+--ha[18] is ha[18]
+--operation mode is output
+
+ha[18] = OUTPUT(C3_q[2]);
+
+
+--ha[19] is ha[19]
+--operation mode is output
+
+ha[19] = OUTPUT(C3_q[3]);
+
+
+--ha[20] is ha[20]
+--operation mode is output
+
+ha[20] = OUTPUT(C3_q[4]);
+
+
+--ha[8] is ha[8]
+--operation mode is output
+
+ha[8] = OUTPUT(C2_q[0]);
+
+
+--ha[9] is ha[9]
+--operation mode is output
+
+ha[9] = OUTPUT(C2_q[1]);
+
+
+--ha[10] is ha[10]
+--operation mode is output
+
+ha[10] = OUTPUT(C2_q[2]);
+
+
+--ha[11] is ha[11]
+--operation mode is output
+
+ha[11] = OUTPUT(C2_q[3]);
+
+
+--ha[12] is ha[12]
+--operation mode is output
+
+ha[12] = OUTPUT(C2_q[4]);
+
+
+--ha[13] is ha[13]
+--operation mode is output
+
+ha[13] = OUTPUT(C2_q[5]);
+
+
+--ha[14] is ha[14]
+--operation mode is output
+
+ha[14] = OUTPUT(C2_q[6]);
+
+
+--ha[15] is ha[15]
+--operation mode is output
+
+ha[15] = OUTPUT(C2_q[7]);
+
+
+--hsm is hsm
+--operation mode is output
+
+hsm = OUTPUT(C4_q[2]);
+
+
+--hreset_n is hreset_n
+--operation mode is output
+
+hreset_n = OUTPUT(C4_q[3]);
+
+
+--card_detect_n_rx is card_detect_n_rx
+--operation mode is output
+
+card_detect_n_rx = OUTPUT(C4_q[1]);
+
+
+--hirq2_n_rx is hirq2_n_rx
+--operation mode is output
+
+hirq2_n_rx = OUTPUT(C4_q[0]);
+
+
+--ha[0] is ha[0]
+--operation mode is output
+
+ha[0] = OUTPUT(E1_ldcnt[0].ff);
+
+
+--ha[1] is ha[1]
+--operation mode is output
+
+ha[1] = OUTPUT(E1_ldcnt[1].ff);
+
+
+--ha[2] is ha[2]
+--operation mode is output
+
+ha[2] = OUTPUT(E1_ldcnt[2].ff);
+
+
+--ha[3] is ha[3]
+--operation mode is output
+
+ha[3] = OUTPUT(E1_ldcnt[3].ff);
+
+
+--ha[4] is ha[4]
+--operation mode is output
+
+ha[4] = OUTPUT(E1_ldcnt[4].ff);
+
+
+--ha[5] is ha[5]
+--operation mode is output
+
+ha[5] = OUTPUT(E1_ldcnt[5].ff);
+
+
+--ha[6] is ha[6]
+--operation mode is output
+
+ha[6] = OUTPUT(E1_ldcnt[6].ff);
+
+
+--ha[7] is ha[7]
+--operation mode is output
+
+ha[7] = OUTPUT(E1_ldcnt[7].ff);
+
+

@@ -36,16 +36,16 @@
 #define CMD_DOWNLOAD_CHECKSUM   0x11
 
 /* Dispatch commands */
-#define PC_FOPEN        		0x10
-#define PC_FCLOSE       		0x11
-#define PC_FWRITE       		0x12
-#define PC_FREAD        		0x13
-#define PC_FTELL        		0x14
-#define PC_FSIZE        		0x15
-#define PC_FSEEK        		0x16
-#define PC_PUTS         		0x17
-#define PC_EXIT         		0x18
-#define PC_PRINTF				0x19
+#define PC_FOPEN        		0x20
+#define PC_FCLOSE       		0x21
+#define PC_FWRITE       		0x22
+#define PC_FREAD        		0x23
+#define PC_FTELL        		0x24
+#define PC_FSIZE        		0x25
+#define PC_FSEEK        		0x26
+#define PC_PUTS         		0x27
+#define PC_EXIT         		0x28
+#define PC_PRINTF				0x29
 
 
 /* Function prototypes */
@@ -864,14 +864,76 @@ int opt_dispatch(int argc, char *argv[])
     uint32_t size;
     int left = argc - 2;
 
-    int i;
+
+//////////////////////////////////////////
+//////////////////////////////////////////
+
+    /* Check parameters */
+    if(left < 2)
+        die("Insufficient arguments.\n");
+
+    /* Convert parameters */
+    address = strtoul(argv[3], NULL, 16);
+
+    /* Open input file */
+    fd = fopen(argv[2], "rb");
+    if(!fd)
+        die("Couldn't open file `%s' for reading.\n", argv[2]);
+
+    /* Get file size */
+    fseek(fd, 0, SEEK_END);
+    size = ftell(fd);
+    fseek(fd, 0, SEEK_SET);
+
+    /* Check file size */
+    if(!size)
+    {
+        fclose(fd);
+        die("Invalid input file size (%d bytes).\n", (int)size);
+        return 0;
+    }
+
+    /* Allocate buffer */
+    buffer = (uint8_t *)malloc(size);
+    if(!buffer)
+    {
+        die("Error allocating %d bytes.\n", (int)size);
+        fclose(fd);
+        return 0;
+    }
+
+    /* Clear buffer */
+    memset(buffer, 0, size);
+
+    /* Read file data */
+    fread(buffer, size, 1, fd);
+    fclose(fd);
+
+    /* Upload data */
+    error(ERR_INFO, "Loading `%s' to $%08lX-$%08lX.\n", argv[2], address, (address + size - 1));
+    usb_init();
+
+	printf("-debug: upload cmd\n");
+    usb_sendb(CMD_UPLOAD);
+	printf("-debug: upload addr (%08X)\n", address);
+    usb_sendl(address);
+	printf("-debug: upload size (%08X)\n", size);
+    usb_sendl(size);
+	printf("-debug: upload data (%08X)\n", size);
+    usb_send(buffer, size);
+
+	// issue exec command (address and mode)
+    usb_sendb(CMD_EXEC);
+    usb_sendl(address);
+    usb_sendb(0x01); // jmp a0
+
+//////////////////////////////////////////
+//////////////////////////////////////////
 
     printf("Entering dispatch loop.\n");
 
-    usb_init();
 
-
-    for(i = 0; i < 0x100; i++)
+    for(int i = 0; i < 0x100; i++)
         file_handles[i] = NULL;
 
 
