@@ -1,3 +1,4 @@
+*.pce
 *.bin
 *.elf
 *.rom
