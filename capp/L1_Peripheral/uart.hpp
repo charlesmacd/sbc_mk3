@@ -36,13 +36,21 @@ typedef struct
     volatile uint8_t *REG_BRG_TEST;
 } uart_register_t;
 
+
+
+
 class Uart
 {
 private:
-    uart_register_t reg;
     void command_delay(void);
     void send_command(uint8_t data);
+    
 public:
+
+    uart_register_t reg;
+    RingBuffer rx_ringbuf;
+    RingBuffer tx_ringbuf;
+
     void initialize(void);
 
     /* Write one byte */

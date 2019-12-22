@@ -43,8 +43,6 @@
 #define UART_BAUD_115200        		       0x66
 
 extern Uart uart;
-RingBuffer uart_rx_ringbuf;
-RingBuffer uart_tx_ringbuf;
 
 
 /* Short delay for command processing */
@@ -131,8 +129,8 @@ void Uart::set_baud_rate(int rate)
 	*reg.REG_CR = 0x05;
 
 	/* Initialize ring buffers */
-	uart_tx_ringbuf.initialize(0x80);
-	uart_rx_ringbuf.initialize(0x80);
+	tx_ringbuf.initialize(0x80);
+	rx_ringbuf.initialize(0x80);
 }
 
 
@@ -156,7 +154,7 @@ void Uart::initialize(void)
 
 void Uart::write(uint8_t data)
 {
-	uart_tx_ringbuf.insert(data);
+	tx_ringbuf.insert(data);
 	/* Rewrite IMR to enable transceiver */
 	*reg.REG_IMR = 0x05;
 }
@@ -171,7 +169,7 @@ void Uart::write(uint8_t *data, uint32_t size)
 
 uint8_t Uart::read(void)
 {
-	return uart_rx_ringbuf.remove();
+	return rx_ringbuf.remove();
 }
 
 void Uart::read(uint8_t *data, uint32_t size)
@@ -189,7 +187,7 @@ void Uart::puts(const char *str)
 
 bool Uart::keypressed(void)
 {
-	return (uart_rx_ringbuf.size() == 0) ? false : true;
+	return (rx_ringbuf.size() == 0) ? false : true;
 }
 
 uint8_t Uart::read_blocking(void)
@@ -296,5 +294,75 @@ void uart_printd(uint32_t value)
 		uart_hexout(stack[index]);
 	}
 }
+
+
+
+
+#if 0
+B_UART_SR_RXRDY   				=       0
+
+# ISR register bits 
+B_UART_ISR_RXRDY  				=       2
+B_UART_ISR_TXEMT  				=       1
+B_UART_ISR_TXRDY  				=       0
+
+B_STATUS_RECEIVED_BREAK 		=       7
+B_STATUS_FRAMING_ERROR  		=       6
+B_STATUS_PARITY_ERROR   		=       5
+B_STATUS_OVERRUN        		=       4
+B_STATUS_TXEMT          		=       3
+B_STATUS_TXRDY          		=       2
+B_STATUS_FIFO_FULL      		=       1
+B_STATUS_RXRDY          		=       0
+
+#endif
+
+
+#define B_UART_ISR_RXRDY  				2
+#define B_UART_SR_RXRDY   				0
+#define B_UART_ISR_TXRDY  				0
+
+
+extern "C" {
+
+struct interrupt_frame;
+__attribute__((interrupt)) void handler_isr(struct interrupt_frame *frame)
+{
+//	const uint8_t F_ISR_RXRDY = (1 << B_UART_ISR_RXRDY);
+//	const uint8_t F_SR_RXRDY  = (1 << B_UART_SR_RXRDY);
+	const uint8_t F_ISR_TXRDY = (1 << B_UART_ISR_TXRDY);
+
+	/* If RXRDY cause was set, empty read FIFO into RX ring buffer */
+	if(*uart.reg.REG_ISR & F_ISR_RXRDY)
+	{
+		do {
+			char ch = *uart.reg.REG_RHR;
+			uart.rx_ringbuf.insert(ch);
+		} while(uart.reg.REG_SR[0] & F_SR_RXRDY);
+	}
+
+	/* If TXRDY cause was set, output a character if present to transmitter */
+	if(*uart.reg.REG_ISR & F_ISR_TXRDY)
+	{
+		if(uart.tx_ringbuf.size() != 0)
+		{
+			char ch;
+			ch = uart.tx_ringbuf.remove();
+			*uart.reg.REG_THR = ch;
+		}
+		else
+		{
+			/* Nothing to send; stop transmitting */
+			*uart.reg.REG_IMR = 0x04;		
+		}
+	}
+
+	/* Acknowledge interrupt (not actually needed) */
+	interrupt_controller.clear_pending(0x08);
+}
+
+}; /* extern "C" */
+
+
 
 /* End */
