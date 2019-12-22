@@ -44,12 +44,16 @@ class Uart
 private:
     void command_delay(void);
     void send_command(uint8_t data);
-    
+
 public:
 
     uart_register_t reg;
     RingBuffer rx_ringbuf;
     RingBuffer tx_ringbuf;
+    uint8_t state_imr;
+
+    void enable_interrupts(uint8_t mask);
+    void disable_interrupts(uint8_t mask);
 
     void initialize(void);
 

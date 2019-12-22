@@ -42,6 +42,10 @@
 #define UART_BAUD_57600         		       0x55
 #define UART_BAUD_115200        		       0x66
 
+
+#define UART_INTEN_TXRDY						0x01
+#define UART_INTEN_RXRDY						0x04
+
 extern Uart uart;
 
 
@@ -82,9 +86,6 @@ void Uart::set_baud_rate(int rate)
 	send_command(CR_STOP_CT);
 	send_command(CR_RESET_MPI_CHANGE_INT);
 	send_command(CR_RESET_MR);
-
-	/* Enable RxRDY/FFUL interrupt (bit 2) */
-	*reg.REG_IMR = 0x04;
 
 	/* Set MR1 to 8-N-1 */
 	*reg.REG_MR = 0x013;
@@ -131,6 +132,9 @@ void Uart::set_baud_rate(int rate)
 	/* Initialize ring buffers */
 	tx_ringbuf.initialize(0x80);
 	rx_ringbuf.initialize(0x80);
+
+	/* Enable RxRDY/FFUL interrupt (bit 2) */
+	enable_interrupts(UART_INTEN_RXRDY);
 }
 
 
@@ -152,19 +156,49 @@ void Uart::initialize(void)
 	set_baud_rate(115200);
 }
 
+void Uart::enable_interrupts(uint8_t mask)
+{
+	state_imr |= mask;
+	*reg.REG_IMR = state_imr;
+}
+
+void Uart::disable_interrupts(uint8_t mask)
+{
+	state_imr &= ~mask;
+	*reg.REG_IMR = state_imr;
+}
+
 void Uart::write(uint8_t data)
 {
+	if(tx_ringbuf.full())
+	{
+		enable_interrupts(UART_INTEN_TXRDY);
+		while(tx_ringbuf.full())
+		{
+			;
+		}			
+	}
+
 	tx_ringbuf.insert(data);
-	/* Rewrite IMR to enable transceiver */
-	*reg.REG_IMR = 0x05;
+	enable_interrupts(UART_INTEN_TXRDY);
 }
 
 void Uart::write(uint8_t *data, uint32_t size)
 {
 	for(int i = 0; i < size; i++)
 	{
-		write(data[i]);
+		if(tx_ringbuf.full())
+		{
+			enable_interrupts(UART_INTEN_TXRDY);
+			while(tx_ringbuf.full())
+			{
+				;
+			}			
+		}
+
+		tx_ringbuf.insert(data[i]);
 	}
+	enable_interrupts(UART_INTEN_TXRDY);
 }
 
 uint8_t Uart::read(void)
@@ -176,7 +210,7 @@ void Uart::read(uint8_t *data, uint32_t size)
 {
 	for(int i = 0; i < size; i++)
 	{
-		data[i] = read();
+		data[i] = rx_ringbuf.remove();
 	}
 }
 
@@ -187,7 +221,7 @@ void Uart::puts(const char *str)
 
 bool Uart::keypressed(void)
 {
-	return (rx_ringbuf.size() == 0) ? false : true;
+	return rx_ringbuf.empty() ? false : true;
 }
 
 uint8_t Uart::read_blocking(void)
@@ -297,31 +331,13 @@ void uart_printd(uint32_t value)
 
 
 
-
-#if 0
-B_UART_SR_RXRDY   				=       0
-
-# ISR register bits 
-B_UART_ISR_RXRDY  				=       2
-B_UART_ISR_TXEMT  				=       1
-B_UART_ISR_TXRDY  				=       0
-
-B_STATUS_RECEIVED_BREAK 		=       7
-B_STATUS_FRAMING_ERROR  		=       6
-B_STATUS_PARITY_ERROR   		=       5
-B_STATUS_OVERRUN        		=       4
-B_STATUS_TXEMT          		=       3
-B_STATUS_TXRDY          		=       2
-B_STATUS_FIFO_FULL      		=       1
-B_STATUS_RXRDY          		=       0
-
-#endif
-
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 
 #define B_UART_ISR_RXRDY  				2
 #define B_UART_SR_RXRDY   				0
 #define B_UART_ISR_TXRDY  				0
-
 
 extern "C" {
 
@@ -332,34 +348,47 @@ __attribute__((interrupt)) void handler_isr(struct interrupt_frame *frame)
 //	const uint8_t F_SR_RXRDY  = (1 << B_UART_SR_RXRDY);
 	const uint8_t F_ISR_TXRDY = (1 << B_UART_ISR_TXRDY);
 
+	/* TODO: Point to current device context (ISR preamble should assign this) */
+	Uart *device = &uart;
+
 	/* If RXRDY cause was set, empty read FIFO into RX ring buffer */
-	if(*uart.reg.REG_ISR & F_ISR_RXRDY)
+	if(*device->reg.REG_ISR & F_ISR_RXRDY)
 	{
-		do {
-			char ch = *uart.reg.REG_RHR;
-			uart.rx_ringbuf.insert(ch);
-		} while(uart.reg.REG_SR[0] & F_SR_RXRDY);
+		do {			
+			if(device->rx_ringbuf.full())
+			{
+				/* Can't accept more data; turn off receiver interrupt */
+//				device->disable_interrupts(UART_INTEN_RXRDY);
+// we need ringbuf remove to notify to turn back on
+			}
+			else
+			{
+				char ch = *device->reg.REG_RHR;
+				device->rx_ringbuf.insert(ch); /* Note: If full will discard */
+			}
+		} while(device->reg.REG_SR[0] & F_SR_RXRDY);
 	}
 
 	/* If TXRDY cause was set, output a character if present to transmitter */
-	if(*uart.reg.REG_ISR & F_ISR_TXRDY)
+	if(*device->reg.REG_ISR & F_ISR_TXRDY)
 	{
-		if(uart.tx_ringbuf.size() != 0)
+		if(!device->tx_ringbuf.empty())
 		{
 			char ch;
-			ch = uart.tx_ringbuf.remove();
-			*uart.reg.REG_THR = ch;
+			ch = device->tx_ringbuf.remove();
+			*device->reg.REG_THR = ch;
 		}
 		else
 		{
-			/* Nothing to send; stop transmitting */
-			*uart.reg.REG_IMR = 0x04;		
+			/* Nothing to send; disable transmitter interrupt */
+			device->disable_interrupts(UART_INTEN_TXRDY);
 		}
 	}
 
 	/* Acknowledge interrupt (not actually needed) */
 	interrupt_controller.clear_pending(0x08);
-}
+
+} /* handler_isr */
 
 }; /* extern "C" */
 

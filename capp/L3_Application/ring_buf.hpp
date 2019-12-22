@@ -64,7 +64,8 @@ public:
     {
         if(full())
         {
-            overflow = 1;
+            overflow = true;
+            // Count # of lost bytes here
             return;
         }
         buffer[write_index++ & index_mask] = data;
@@ -77,10 +78,9 @@ public:
     {
         if(empty())
         {
-            underflow = 1;
+            underflow = true;
             return 0xFF;
         }
-
         return buffer[read_index & index_mask];
     }
 
@@ -92,7 +92,7 @@ public:
 
         if(empty())
         {		
-            underflow = 1;
+            underflow = true;
             return 0xFF;
         }
 
@@ -109,11 +109,14 @@ public:
         return (count == 0);
     }
 
-
-    /* Get size of available data to read from ring buffer */
-    uint8_t size(void)
+    uint8_t used(void)
     {
         return count;
+    }
+
+    uint8_t remaining(void)
+    {
+        return capacity - count;
     }
 
 

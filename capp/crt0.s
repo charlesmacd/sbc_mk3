@@ -132,12 +132,12 @@ __level2_isr:
                 .extern handler_isr
 __level3_isr:
                 jmp     handler_isr
-                
+
 #--------------------------------------------------------
 # Interrupt handler for 1ms interval timer 
 #--------------------------------------------------------
 __level4_isr:
-                st.b    (__interval_1ms_flag)
+                tas.b    (__interval_1ms_flag)
                 movem.l d0-d7/a0-a6, -(sp)
                 jsr     interval_1ms_handler
                 movem.l (sp)+, d0-d7/a0-a6
@@ -148,7 +148,7 @@ __level4_isr:
 # Interrupt handler for 1us interval timer 
 #--------------------------------------------------------
 __level5_isr:
-                st.b    (__interval_1us_flag)
+                tas.b    (__interval_1us_flag)
                 movem.l d0-d7/a0-a6, -(sp)
                 jsr     interval_1us_handler
                 movem.l (sp)+, d0-d7/a0-a6
@@ -161,7 +161,7 @@ __level5_isr:
 #--------------------------------------------------------
                 .extern systick_handler
 __level6_isr:
-                st.b    (__systick_flag)
+                tas.b    (__systick_flag)
                 addi.l  #1, (__systick_count)
                 movem.l d0-d7/a0-a6, -(sp)
                 jsr     systick_handler
