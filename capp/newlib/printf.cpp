@@ -9,9 +9,10 @@
 #include <stdint.h>
 #include <string.h>
 #include "printf.hpp"
-#include "sbc.hpp"
-#include "L1_Peripheral/uart.hpp"
-#include "debug.h"
+#include "../sbc.hpp"
+#include "../L1_Peripheral/uart.hpp"
+#include "../debug.h"
+
 
 /*
 	BP (A6) offset:
@@ -23,6 +24,13 @@
 #define PARAMETER_BASE		3
 #define STATE_PARSING		0
 #define STATE_FORMATTING	1
+
+void hexout(uint8_t digit);
+void printhexb(uint8_t value);
+void printhexw(uint16_t value);
+void printhexl(uint32_t value);
+void printd_padding(uint32_t value, uint8_t padding_width, uint8_t padding_type);
+void printd(uint32_t value);
 
 extern "C" {
 
@@ -91,11 +99,11 @@ int printf(const char *fmt, ...)
 						case 'd':
 							if(width)
 							{
-								uart_printd_padding(*parameters++, width, !width_leading);
+								printd_padding(*parameters++, width, !width_leading);
 							}
 							else
 							{
-								uart_printd(*parameters++);
+								printd(*parameters++);
 							}
 							break;
 
@@ -104,16 +112,16 @@ int printf(const char *fmt, ...)
 							switch(width)
 							{
 								case 2:
-									uart_printhexb(*parameters++);
+									printhexb(*parameters++);
 									break;
 								case 4:
-									uart_printhexw(*parameters++);
+									printhexw(*parameters++);
 									break;
 								case 8:
-									uart_printhexl(*parameters++);
+									printhexl(*parameters++);
 									break;
 								default:									
-									uart_printhexl(*parameters++);
+									printhexl(*parameters++);
 									break;
 							}
 							break;
@@ -123,7 +131,7 @@ int printf(const char *fmt, ...)
 							break;
 
 						case 's':
-							uart.puts((char *)*parameters++);
+							puts((char *)*parameters++);
 							break;
 					}
 				}
@@ -141,14 +149,14 @@ int printf(const char *fmt, ...)
 							break;
 
 						default:
-							uart.puts("ERROR: Unknown format character [");
-							uart_printhexl(ch);
-							uart.puts(", ");
-							uart_printd(ch);
-							uart.puts(", ");
+							puts("ERROR: Unknown format character [");
+							printhexl(ch);
+							puts(", ");
+							printd(ch);
+							puts(", ");
 							uart.write(ch);
-							uart.puts("]\n");
-							uart.puts("ERROR: Unknown printf format.\n");
+							puts("]\n");
+							puts("ERROR: Unknown printf format.\n");
 							trigger_hard_fault();
 							break;
 					} /* end switch ch */
@@ -157,4 +165,95 @@ int printf(const char *fmt, ...)
 		} /* end switch */
 	} while (ch != 0);
 }
+
+
+
+
+
+void hexout(uint8_t digit)
+{
+	uart.write("0123456789ABCDEF"[digit & 0x0F]);
+}
+
+void printhexb(uint8_t value)
+{
+	hexout((value >> 4) & 0x0F);
+	hexout((value >> 0) & 0x0F);
+}
+
+void printhexw(uint16_t value)
+{
+	printhexb(	(value >> 8) & 0xFF);
+	printhexb((value >> 0) & 0xFF);
+}
+
+void printhexl(uint32_t value)
+{
+	printhexw((value >> 16) & 0xFFFF);
+	printhexw((value >> 0 ) & 0xFFFF);
+}
+
+
+/* Print 32-bit value as decimal with zero padding */
+void printd_padding(uint32_t value, uint8_t padding_width, uint8_t padding_type)
+{
+	uint8_t stack[10];
+	uint8_t index = 0; 
+
+	/* Push decimal digits back-to-front */
+	do {
+		stack[index++] = (value % 10);
+		value /= 10;		
+	} while(value);
+
+	
+	/* Print leading zeros */
+	if(padding_width)
+	{
+		for(int k = index; k < padding_width; k++)
+		{
+			if(padding_type == 0)
+				hexout(0);
+			else
+			{
+				uart.write(' ');
+			}
+		}
+	}
+
+	/* Pop digits and print them in order */
+	while(index--)
+	{
+		hexout(stack[index]);
+	}
+}
+
+
+/* Print 32-bit value as decimal */
+void printd(uint32_t value)
+{
+	uint8_t stack[10];
+	uint8_t index = 0; 
+
+	/* Push decimal digits back-to-front */
+	do {
+		stack[index++] = (value % 10);
+		value /= 10;		
+	} while(value);
+
+	/* Pop digits and print them in order */
+	while(index--)
+	{
+		hexout(stack[index]);
+	}
+}
+
+
+
+
+
+
+
+
+
 

@@ -10,6 +10,8 @@
 #include "uart.hpp"
 #include "../L3_Application/ring_buf.hpp"
 
+
+
 //# CR[7:4] values: 
 #define CR_NOP                                 0x00
 #define CR_RESET_MR                            0x10
@@ -214,10 +216,6 @@ void Uart::read(uint8_t *data, uint32_t size)
 	}
 }
 
-void Uart::puts(const char *str)
-{
-	write((uint8_t *)str, strlen(str));
-}
 
 bool Uart::keypressed(void)
 {
@@ -245,92 +243,6 @@ uint8_t Uart::read_blocking(void)
 
 
 
-
-
-
-
-
-
-void uart_hexout(uint8_t digit)
-{
-	uart.write("0123456789ABCDEF"[digit & 0x0F]);
-}
-
-void uart_printhexb(uint8_t value)
-{
-	uart_hexout((value >> 4) & 0x0F);
-	uart_hexout((value >> 0) & 0x0F);
-}
-
-void uart_printhexw(uint16_t value)
-{
-	uart_printhexb(	(value >> 8) & 0xFF);
-	uart_printhexb((value >> 0) & 0xFF);
-}
-
-void uart_printhexl(uint32_t value)
-{
-	uart_printhexw((value >> 16) & 0xFFFF);
-	uart_printhexw((value >> 0 ) & 0xFFFF);
-}
-
-
-/* Print 32-bit value as decimal with zero padding */
-void uart_printd_padding(uint32_t value, uint8_t padding_width, uint8_t padding_type)
-{
-	uint8_t stack[10];
-	uint8_t index = 0; 
-
-	/* Push decimal digits back-to-front */
-	do {
-		stack[index++] = (value % 10);
-		value /= 10;		
-	} while(value);
-
-	
-	/* Print leading zeros */
-	if(padding_width)
-	{
-		for(int k = index; k < padding_width; k++)
-		{
-			if(padding_type == 0)
-				uart_hexout(0);
-			else
-			{
-				uart.write(' ');
-			}
-		}
-	}
-
-	/* Pop digits and print them in order */
-	while(index--)
-	{
-		uart_hexout(stack[index]);
-	}
-}
-
-
-/* Print 32-bit value as decimal */
-void uart_printd(uint32_t value)
-{
-	uint8_t stack[10];
-	uint8_t index = 0; 
-
-	/* Push decimal digits back-to-front */
-	do {
-		stack[index++] = (value % 10);
-		value /= 10;		
-	} while(value);
-
-	/* Pop digits and print them in order */
-	while(index--)
-	{
-		uart_hexout(stack[index]);
-	}
-}
-
-
-
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
@@ -341,15 +253,18 @@ void uart_printd(uint32_t value)
 
 extern "C" {
 
-struct interrupt_frame;
-__attribute__((interrupt)) void handler_isr(struct interrupt_frame *frame)
+//
+// __attribute__((interrupt))
+//
+
+void UartSCC2681_ISR(void *param)
 {
 //	const uint8_t F_ISR_RXRDY = (1 << B_UART_ISR_RXRDY);
 //	const uint8_t F_SR_RXRDY  = (1 << B_UART_SR_RXRDY);
 	const uint8_t F_ISR_TXRDY = (1 << B_UART_ISR_TXRDY);
 
 	/* TODO: Point to current device context (ISR preamble should assign this) */
-	Uart *device = &uart;
+	Uart *device = (Uart *)param;
 
 	/* If RXRDY cause was set, empty read FIFO into RX ring buffer */
 	if(*device->reg.REG_ISR & F_ISR_RXRDY)
@@ -395,3 +310,9 @@ __attribute__((interrupt)) void handler_isr(struct interrupt_frame *frame)
 
 
 /* End */
+
+
+
+
+
+

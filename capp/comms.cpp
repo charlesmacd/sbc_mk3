@@ -21,42 +21,6 @@
 
 Mutex comms_mutex;
 
-class Comms
-{
-public:
-	Mutex mutex;
-
-
-	void lock(void)
-	{
-		mutex.lock();
-	}
-
-
-	void unlock(void)
-	{
-		mutex.unlock();
-	}
-
-
-	bool check_dispatch(void)
-	{
-		if(mutex.is_locked())
-		{
-			return false;
-		}
-
-		if(!usb_is_data_ready())
-		{
-			return false;				
-		}
-
-		/* Run dispatch */
-
-		return true;
-	}
-};
-
 /*---------------------------------------*/
 
 

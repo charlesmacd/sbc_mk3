@@ -4,7 +4,7 @@
 
                 .include "macros.inc"
                 .include "hw_defs.inc"
-                .include "cpu_asm.inc"
+                .include "L0_Platform/cpu_asm.inc"
                 
 #-------------------------------------------------------------------------------
 # Returns bit position of highest set bit in the value, or -1 if no bits set.

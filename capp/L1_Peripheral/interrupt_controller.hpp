@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 
+// fix timer
 extern volatile uint16_t *REG_IPENDING  ;
 extern volatile uint16_t *REG_IPEND_CLR ;
 extern volatile uint16_t *REG_IMASKED   ;

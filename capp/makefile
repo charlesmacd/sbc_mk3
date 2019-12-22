@@ -59,13 +59,12 @@ OBJ_CORE	=	\
 	obj/uart_asm.o \
 	obj/target_asm.o	\
 	obj/printf_asm.o	\
-	obj/syscall_asm.o	\
 	obj/interrupt_controller.o	\
 	obj/system_controller.o \
-	obj/target.o \
 	obj/post.o	\
 	obj/pit.o	\
-	obj/mutex.o
+	obj/mutex.o	\
+	obj/newlib.o
 
 OBJ_APP	=	\
 	obj/cli.o	\
@@ -103,6 +102,9 @@ obj/%.o : third_party/%.s $(AS_INC)
 obj/%.o : 	%.cpp %.hpp
 		$(CC) -c $< -o $@ $(CCFLAGS)
 	        
+obj/%.o : 	newlib/%.cpp newlib/%.hpp
+		$(CC) -c $< -o $@ $(CCFLAGS)
+	        
 obj/%.o : 	utility/%.cpp utility/%.hpp
 		$(CC) -c $< -o $@ $(CCFLAGS)
 	        
@@ -126,6 +128,14 @@ obj/%.o : L1_Peripheral/%.cpp L1_Peripheral/%.hpp
 		$(CC) -c $< -o $@ $(CCFLAGS)
 	        
 obj/%.o : L1_Peripheral/%.s $(AS_INC) 
+		$(AS) $< -o $@ $(ASFLAGS)
+
+# L0_Platform
+
+obj/%.o : L0_Platform/%.cpp L0_Platform/%.hpp
+		$(CC) -c $< -o $@ $(CCFLAGS)
+	        
+obj/%.o : L0_Platform/%.s $(AS_INC) 
 		$(AS) $< -o $@ $(ASFLAGS)
 
 # Phony targets

@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
-#include "../cpu_asm.hpp"
+#include "../L0_Platform/cpu_asm.hpp"
 
 #define RINGBUF_MAX_SIZE		128
 

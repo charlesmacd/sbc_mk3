@@ -14,7 +14,7 @@
 
                 .include "macros.inc"
                 .include "hw_defs.inc"
-                .include "cpu_asm.inc"
+                .include "L0_Platform/cpu_asm.inc"
                 .include "printf_asm.inc"
 
 #------------------------------------------------------------------------------
@@ -128,10 +128,15 @@ __level2_isr:
 #------------------------------------------------------------------------------
 # UART interrupt
 #------------------------------------------------------------------------------
-                .extern test_isr
-                .extern handler_isr
+                .extern UartSCC2681_ISR
+                .extern uart
 __level3_isr:
-                jmp     handler_isr
+                movem.l d0-d7/a0-a7, -(sp)
+                pea     uart
+                jsr     UartSCC2681_ISR
+                addq.l  #4, sp
+                movem.l (sp)+, d0-d7/a0-a7
+                rte
 
 #--------------------------------------------------------
 # Interrupt handler for 1ms interval timer 

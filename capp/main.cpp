@@ -20,7 +20,7 @@
 #include "L3_Application/cli.hpp"
 #include "L3_Application/mutex.hpp"
 #include "cli_cmd.hpp"
-#include "printf.hpp"
+#include "newlib/printf.hpp"
 #include "debug.h"
 
 /*------------------------------------------------------------------------*/
@@ -29,7 +29,6 @@
 /*------------------------------------------------------------------------*/
 
 extern cli_cmd_t terminal_cmds[];
-extern "C" void __cxa_pure_virtual() { while (1); }
 
 int main(void)
 {

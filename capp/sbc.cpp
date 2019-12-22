@@ -35,12 +35,6 @@ void sbc_initialize(void)
 	/* Set up system controller */
 	system_controller.initialize();
 
-//	system_controller.assert_peripheral_reset(PERIPHERAL_UART, false);
-
-    	volatile uint8_t *REG_UART_RESET 	= (volatile uint8_t *)(PIO_BASE  + 0x44);
-
-		*REG_UART_RESET = 0xFF;
-
 	/* Set up 82C55 PIT */
 	pit.initialize();
 
@@ -69,7 +63,6 @@ void sbc_initialize(void)
 	// Level 2 : Unused
 	// Level 1 : Unused
 	interrupt_controller.set_enable(0xF8);
-
 }
 
 

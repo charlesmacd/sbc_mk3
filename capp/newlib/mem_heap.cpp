@@ -8,8 +8,8 @@
             
 */
 #include <stdlib.h>
-#include "sys_types.hpp"
-#include "sbc.hpp"
+#include "../sys_types.hpp"
+#include "../sbc.hpp"
 
 extern "C" {
 

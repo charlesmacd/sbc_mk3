@@ -8,3 +8,4 @@
 *.lst
 *.cpu
 /obj
+*.txt

@@ -5,10 +5,10 @@
 #include <stdint.h>
 
 #include "hw_defs.hpp"
-#include "cpu_asm.hpp"
+#include "L0_Platform/cpu_asm.hpp"
 #include "sys_types.hpp"
 #include "crt0.hpp"
-#include "printf.hpp"
+#include "newlib/printf.hpp"
 #include "main.hpp"
 #include "L1_Peripheral/usb.hpp"
 #include "L1_Peripheral/system_controller.hpp"
