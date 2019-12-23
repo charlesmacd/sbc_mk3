@@ -7,10 +7,13 @@
 
 #include <cstdint>
 #include <cstring>
-#include "uart.hpp"
+#include "../L1_Peripheral/system_controller.hpp"
 #include "../L3_Application/ring_buf.hpp"
+#include "../sbc.hpp"
+#include "uart.hpp"
 
-
+#define F_ISR_RXRDY			0x04
+#define F_SR_RXRDY			0x01
 
 //# CR[7:4] values: 
 #define CR_NOP                                 0x00
@@ -44,11 +47,8 @@
 #define UART_BAUD_57600         		       0x55
 #define UART_BAUD_115200        		       0x66
 
-
 #define UART_INTEN_TXRDY						0x01
 #define UART_INTEN_RXRDY						0x04
-
-extern Uart uart;
 
 
 /* Short delay for command processing */
@@ -67,7 +67,7 @@ void Uart::send_command(uint8_t value)
 	command_delay();
 }
 
-void Uart::set_baud_rate(int rate)
+void Uart::reset(void)
 {
 	/* Reset UART via RESET line */
 	system_controller.assert_peripheral_reset(PERIPHERAL_UART, true);
@@ -98,6 +98,11 @@ void Uart::set_baud_rate(int rate)
 	/* Toggle baud rate test mode flip-flop from 0 (reset) to 1 */
 	uint8_t temp;
 	temp = *reg.REG_BRG_TEST;
+}
+
+void Uart::set_baud_rate(int rate)
+{
+	reset();
 
 	// Set baud rate to 1200 -> 115,200
 	// # NOTE: See Table 6 (Baud Rates Extended) in SCC2691 data sheet page 20

@@ -8,21 +8,13 @@
 #include "L1_Peripheral/interrupt_controller.hpp"
 #include "timer.hpp"
 
-volatile uint8_t *REG_STATUS 	= (volatile uint8_t *)(PIO_BASE  + 0x40);
-
-#define F_STATUS_BREAK		0x01
-
-#define F_ISR_RXRDY			0x04
-#define F_SR_RXRDY			0x01
-#define WORD_ADDRESS(x)		(x&~1)
-
-
+/* Global variables modified by ISRs */
 volatile uint8_t __systick_flag;
 volatile uint8_t __interval_1ms_flag;
 volatile uint8_t __interval_1us_flag;
 volatile uint32_t __systick_count;
 
-/* Global classes */
+/* Global objects */
 SystemController system_controller;
 InterruptController interrupt_controller;
 Post post;
@@ -54,21 +46,21 @@ void sbc_initialize(void)
 	interrupt_controller.clear_pending(0xFF);
 
 	/* Enable interrupt levels 7, 6, 3 */
-
-	// Level 7 : Break (NMI)
-	// Level 6 : System tick
-	// Level 5 : US timer
-	// Level 4 : MS timer
-	// Level 3 : UART
-	// Level 2 : Unused
-	// Level 1 : Unused
-	interrupt_controller.set_enable(0xF8);
+	interrupt_controller.set_enable(
+		INTCON_LV7_BRK     |
+		INTCON_LV6_SYSTICK |
+		INTCON_LV5_USTIMER |
+		INTCON_LV4_MSTIMER |
+		INTCON_LV3_UART    
+		);
 }
 
 
 bool get_break(void)
 {
-	return (REG_STATUS[0] & F_STATUS_BREAK) ? false : true;
+	const uint8_t kStatusBreak = 0x01;
+	volatile uint8_t *REG_STATUS = (volatile uint8_t *)(PIO_BASE + 0x40);
+	return (REG_STATUS[0] & kStatusBreak) ? false : true;
 }
 
 
@@ -79,16 +71,14 @@ bool get_break(void)
 
 extern "C" {
 
-// __interval_1us_flag is set by isr
 void interval_1us_handler(void)
 {
-	// called by isr
+	;
 }
 
-// __interval_1ms_flag is set by isr
 void interval_1ms_handler(void)
 {
-	// called by isr
+	;
 }
 
 void systick_handler(void)

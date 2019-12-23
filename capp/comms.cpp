@@ -1,23 +1,25 @@
 
 /*
-	blocking:
 
-	interrupt proc calls check dispatch
-	don't want to run this during main application i/o
+	NOTE:
 
-	comms_mutex
+	systick calls check dispatch
+	this means check dispatch runs inside systick isr (with ipl masking further systicks)
+	so cmd echo fails as it blocks, meaning uart print can never happen
 
-
+	solution is to lower interrupt level
+	but ideally don't want that to happen inside systick isr
 
 
 */
 
 #include <stdint.h>
+#include <string.h>
 #include "sbc.hpp"
 #include "comms.hpp"
-#include "L3_Application/mutex.hpp"
 #include "L1_Peripheral/uart.hpp"
-#include <string.h>
+#include "L3_Application/mutex.hpp"
+#include "debug.h"
 
 Mutex comms_mutex;
 
@@ -33,6 +35,7 @@ void cmd_echo(void)
 		ch = usb_getb();
 		printf("Received %c (%02X), transmitting ...\n", ch, ch);
 		usb_sendb(ch);
+		
 	} while(ch != ASCII_ESC);
 }
 
@@ -144,6 +147,8 @@ void check_comms_dispatch(void)
 		comms_mutex.unlock();
 		return;
 	}
+
+	set_ipl(2);
 
 	/* Get command */
 	uint8_t command = usb_getb();
