@@ -3,7 +3,6 @@
 #include "sbc.hpp"
 #include "L0_Platform/cpu_680x0.hpp"
 #include "L1_Peripheral/pit.hpp"
-#include "L1_Peripheral/post.hpp"
 #include "L1_Peripheral/uart.hpp"
 #include "L1_Peripheral/system_controller.hpp"
 #include "L1_Peripheral/interrupt_controller.hpp"
@@ -19,7 +18,6 @@ volatile uint32_t __systick_count;
 cpu_68000 cpu;
 SystemController system_controller;
 InterruptController interrupt_controller;
-Post post;
 ProgrammableIntervalTimer pit;
 Uart uart;
 
@@ -41,9 +39,6 @@ void sbc_initialize(void)
 
 	/* Set up 82C55 PIT */
 	pit.initialize();
-
-	/* Set up TIL311 */
-	post.initialize();
 
 	/* Set up interrupt controller */
 	interrupt_controller.initialize();

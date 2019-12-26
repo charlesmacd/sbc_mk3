@@ -205,7 +205,7 @@ public:
     {
         for(int i = 0; i < 4; i++)
         {
-            sysc->reg.w.OUT0.DP[i] = (mask & (1 << i)) ? 0 : 1;
+            sysc->reg.w.OUT0.DP[i] = (mask & (1 << i)) ? 0x01 : 0x00;
         }
     }
 

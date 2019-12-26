@@ -63,7 +63,6 @@ OBJ_CORE	=	\
 	obj/printf_asm.o	\
 	obj/interrupt_controller.o	\
 	obj/system_controller.o \
-	obj/post.o	\
 	obj/pit.o	\
 	obj/mutex.o	\
 	obj/newlib.o	\

@@ -1012,8 +1012,9 @@ static int cmd_post(int argc, char *argv[])
 {
 	if(argc == 2)
 	{
-		uint8_t value = strtoul(argv[1], NULL, 16);
-		post.set(value);
+		uint16_t value = strtoul(argv[1], NULL, 16);
+		system_controller.set_post(value);
+		system_controller.set_post_dp(value >> 8);
 	}
 	else
 	{
@@ -1099,18 +1100,14 @@ int cmd_iotest(int argc, char *argv[])
 	bool toggling = true;
 	while(toggling)
 	{
-		post.set(0xC1);
 		if(uart.read_blocking())
 		{
 			toggling = false;
 		}
-		post.set(0xD2);
 		delay_ms(10);
 //		OUT[4] = 1;
-		post.set(0x54);
 		delay_ms(10);
 //		OUT[4] = 0;
-		post.set(0xB2);
 	}
 	printf("Test finished.\n");
 }

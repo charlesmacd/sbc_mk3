@@ -16,7 +16,6 @@
 #include "sbc.hpp"
 #include "timer.hpp"
 #include "L1_Peripheral/interrupt_controller.hpp"
-#include "L1_Peripheral/post.hpp"
 #include "L3_Application/cli.hpp"
 #include "L3_Application/mutex.hpp"
 #include "cli_cmd.hpp"
