@@ -7,8 +7,8 @@ LDADDR	=	0x110000
 
 CPUTYPE	=	68000
 CPUDIR	=	m$(CPUTYPE)
-SGDIR	=	c:\SysGCC
-SGVER	=	4.8.0
+SGVER	=	8.2.0
+SGDIR	=	c:\outrun\outrun-gcc-$(SGVER)_mingw\gcc-$(SGVER)
 OPT		=	-O0
 LSCRIPT	=	L0_Platform/$(CPUTYPE)/linker_ram.ld
 
@@ -20,17 +20,19 @@ LD	=	m68k-elf-ld
 OC	=	m68k-elf-objcopy
 
 CINLCUDES =  -Iperipheral -Iutility -Iapplication -Iplatform
+CPPSTD    =	 c++2a
 
 ASFLAGS	=	-m$(CPUTYPE) --register-prefix-optional
 #LDFLAGS	=	--oformat binary -T $(LSCRIPT) 
 LDFLAGS	=	--oformat elf32-m68k -T $(LSCRIPT)
 # removed -no-rtti
 CCFLAGS	=	-march=$(CPUTYPE) -mcpu=$(CPUTYPE) -mtune=$(CPUTYPE) -msoft-float $(OPT) -g -fno-builtin \
-			$(CINCLUDES) -Wfatal-errors -fno-rtti -fno-exceptions -Wa,--register-prefix-optional -std=c++11
-LIBS	=	$(SGDIR)\m68k-elf\m68k-elf\lib\m68000\libc.a
-LIBS	+=	$(SGDIR)\m68k-elf\lib\gcc\m68k-elf\$(SGVER)\$(CPUDIR)\libgcc.a
-LIBS	+=	$(SGDIR)\m68k-elf\m68k-elf\lib\softfp\libm.a 
-LIBS	+=	$(SGDIR)\m68k-elf\m68k-elf\lib\softfp\libg.a
+			$(CINCLUDES) -Wfatal-errors -fno-rtti -fno-exceptions -Wa,--register-prefix-optional -std=$(CPPSTD)
+##CCFLAGS +=	-pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual 
+LIBS	=	$(SGDIR)\m68k-elf\lib\libc.a
+LIBS	+=	$(SGDIR)\m68k-elf\lib\libm.a 
+LIBS	+=	$(SGDIR)\m68k-elf\lib\libg.a
+LIBS	+=	$(SGDIR)\lib\gcc\m68k-elf\$(SGVER)\libgcc.a
 
 
 # Third party libraries

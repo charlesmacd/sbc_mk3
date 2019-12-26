@@ -27,6 +27,7 @@ public:
 			/* Spin (TODO: Issue STOP command) */
 			;
 		}
+		return true;
 	}
 
 	bool attempt_lock(void)
@@ -53,11 +54,12 @@ public:
 	bool unlock(void)
 	{
 		flag = 0;
+		return true;
 	}
 }; /* class Mutex */
 
 #ifdef __cpluslpus
-};
+}
 #endif
 
 #endif /* _MUTEX_HPP_ */

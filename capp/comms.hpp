@@ -17,7 +17,7 @@ void cmd_download(void);
 void check_comms_dispatch(void);
 void pc_exit(void);
 
-void usb_send_pstr(const char *msg);
+void usb_send_pstr(const uint8_t *msg);
 int pc_fopen(const char *filename, const char *mode);
 void pc_fclose(uint8_t handle);
 void pc_puts(const char *msg);

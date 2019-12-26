@@ -10,7 +10,7 @@ extern "C" void *sbrk(int incr);
 
 
 #ifndef __cplusplus
-};
+}
 #endif
 
 #endif /* _MEM_HEAP_H_ */

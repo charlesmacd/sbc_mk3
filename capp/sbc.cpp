@@ -81,13 +81,15 @@ void interval_1ms_handler(void)
 	;
 }
 
+extern void display_update(void);
+
 void systick_handler(void)
 {
 	check_comms_dispatch();
 }
 
 
-}; // extern c
+} // extern c
 
 
 /*------------------------------------------------------------------------*/

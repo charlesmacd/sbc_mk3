@@ -67,10 +67,9 @@ void line_editor_reset(void)
 
 
 
-size_t line_editor(char *buf, size_t buf_size, void *fileno, int (*escape_handler)(uint8_t code, line_editor_state_t *state))
+size_t line_editor(char *buf, int buf_size, void *fileno, int (*escape_handler)(uint8_t code, line_editor_state_t *state))
 {
 	const int esc_buffer_size = 10;
-	const int buffer_size = 80;
 
 	line_editor_state_t state;
 
@@ -188,7 +187,9 @@ size_t line_editor(char *buf, size_t buf_size, void *fileno, int (*escape_handle
 		{
 			state.buffer[state.index++] = ch;
 			if(state.index >= buf_size)
+			{
 				state.index = buf_size - 1;
+			}
 
 			uart.write(ch);
 		}

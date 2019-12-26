@@ -13,8 +13,7 @@ void debug_putch(char ch);
 void debug_printhexl(uint32_t value);
 
 #ifdef __cplusplus
-};
+}
 #endif
-
 
 #endif /* _DEBUG_H_ */

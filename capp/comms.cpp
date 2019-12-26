@@ -79,7 +79,8 @@ int pc_fwrite(uint8_t handle, const uint8_t *buf, uint32_t size)
 	usb_sendb(PC_FWRITE);
 	usb_sendb(handle);
 	usb_sendl(size);
-	usb_send((uint8_t *)buf, size);
+	usb_send(const_cast<uint8_t*>(buf), size);
+	return size;
 }
 
 int pc_fopen(const char *filename, const char *mode)
@@ -87,8 +88,8 @@ int pc_fopen(const char *filename, const char *mode)
 	uint8_t result;
 
 	usb_sendb(PC_FOPEN);
-	usb_send_pstr(filename);
-	usb_send_pstr(mode);
+	usb_send_pstr((const uint8_t *)filename);
+	usb_send_pstr((const uint8_t *)mode);
 	result = usb_getb();
 	return result;
 }
@@ -103,7 +104,7 @@ void pc_fclose(uint8_t handle)
 void pc_puts(const char *msg)
 {
 	usb_sendb(PC_PUTS);
-	usb_send_pstr(msg);
+	usb_send_pstr((const uint8_t *)msg);
 }
 
 void pc_exit(void)

@@ -26,7 +26,7 @@ void set_sr(uint16_t sr);
 void trigger_hard_fault(void);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif /* _CPU_ASM_H_ */

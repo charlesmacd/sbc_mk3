@@ -68,7 +68,7 @@ void usb_get(uint8_t *data, uint32_t size)
 {
 	while(size--)
 	{
-		*data++ == USB_DATA[0];
+		*data++ = USB_DATA[0];
 	}
 }
 
@@ -93,11 +93,11 @@ uint32_t usb_getl(void)
 	return temp;
 }
 
-void usb_send_pstr(const char *msg)
+void usb_send_pstr(const uint8_t *msg)
 {
-	int size = strlen(msg);
+	int size = strlen((const char *)msg);
 	usb_sendb(size);
-	usb_send((uint8_t *)msg, size);
+	usb_send(msg, size);
 }
 
 

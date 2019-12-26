@@ -36,23 +36,31 @@ extern "C" {
 
 int puts(const char *msg)
 {
-	uart.write((uint8_t *)msg, strlen(msg));
+	int len = strlen(msg);
+	uart.write((const uint8_t *)msg, len);
+	return len;
 }
 
-};
+} /* extern */
 
+#include <stdarg.h>
 
 int printf(const char *fmt, ...) 
 {
-	char *ptr = (char *)fmt;
-	uint32_t *parameters = &((uint32_t *)get_bp())[PARAMETER_BASE];
+
+	const char *ptr = (const char *)fmt;
+//	uint32_t *parameters = &((uint32_t *)get_bp())[PARAMETER_BASE];
+	uint32_t parameter;
 	char ch;
 	uint8_t state = STATE_PARSING;
 
 	char width_fmt[8];
-	char width_fmt_index = 0;
+	int width_fmt_index = 0;
 	bool width_leading = false;
 	int width;
+
+	va_list ap;
+	va_start(ap, fmt);
 
 	do
 	{
@@ -68,6 +76,7 @@ int printf(const char *fmt, ...)
 				switch(ch)
 				{
 					case '%':
+						parameter = va_arg(ap, uint32_t);
 						state = STATE_FORMATTING;
 						width_leading = false;
 						width = 0;
@@ -99,11 +108,11 @@ int printf(const char *fmt, ...)
 						case 'd':
 							if(width)
 							{
-								printd_padding(*parameters++, width, !width_leading);
+								printd_padding(parameter, width, !width_leading);
 							}
 							else
 							{
-								printd(*parameters++);
+								printd(parameter);
 							}
 							break;
 
@@ -112,26 +121,26 @@ int printf(const char *fmt, ...)
 							switch(width)
 							{
 								case 2:
-									printhexb(*parameters++);
+									printhexb(parameter);
 									break;
 								case 4:
-									printhexw(*parameters++);
+									printhexw(parameter);
 									break;
 								case 8:
-									printhexl(*parameters++);
+									printhexl(parameter);
 									break;
 								default:									
-									printhexl(*parameters++);
+									printhexl(parameter);
 									break;
 							}
 							break;
 
 						case 'c':
-							uart.write(*parameters++);
+							uart.write(parameter);
 							break;
 
 						case 's':
-							puts((char *)*parameters++);
+							puts((char *)parameter);
 							break;
 					}
 				}
@@ -139,7 +148,17 @@ int printf(const char *fmt, ...)
 				{
 					switch(ch)
 					{
-						case '0' ... '9':
+						case '0':
+						case '1': 
+						case '2':
+						case '3':
+						case '4':
+						case '5':
+						case '6':
+						case '7':
+						case '8':
+						case '9':						
+//						case '0' ... '9':
 							width_fmt[width_fmt_index++] = ch;
 							break;
 			
@@ -164,6 +183,10 @@ int printf(const char *fmt, ...)
 				break; /* end case state */
 		} /* end switch */
 	} while (ch != 0);
+
+	va_end(ap);
+
+	return 0;
 }
 
 

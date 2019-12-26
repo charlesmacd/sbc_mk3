@@ -1,4 +1,6 @@
 
+
+#if 1
 #include <stdio.h> // sprintf
 #include <stdlib.h>
 #include <string.h>
@@ -765,8 +767,8 @@ static int cmd_info(int argc, char *argv[])
 	printf("Build date: %s\n", __DATE__);
 	printf("Build time: %s\n", __TIME__);
 
-	printf("CPU clock:         %d MHz\n", TO_MHZ(system_controller.getCPUClock()));
-	printf("Peripheral clock:  %d MHz\n", TO_MHZ(system_controller.getPeripheralClock()));
+	printf("CPU clock:         %d MHz\n", TO_MHZ(system_controller.get_cpu_clock()));
+	printf("Peripheral clock:  %d MHz\n", TO_MHZ(system_controller.get_peripheral_clock()));
 
 	return 0;
 }
@@ -1150,7 +1152,7 @@ int cmd_timer(int argc, char *argv[])
 
 	while(running)
 	{
-		if(uart.read_blocking())
+		if(uart.keypressed())
 		{
 			running = false;
 			printf("Status: User requested exit.\n");
@@ -2741,8 +2743,6 @@ int cmd_hu(int argc, char *argv[])
 	dev.set_reset(false);
 	dev.set_hsm(true);
 
-	base = 0;
-
 	comms_mutex.lock();
 
 #if 1
@@ -2844,3 +2844,4 @@ cli_cmd_t terminal_cmds[] =
 };
 
 
+#endif

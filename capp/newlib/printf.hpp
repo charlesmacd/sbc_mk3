@@ -10,7 +10,7 @@ int puts(const char *msg);
 int printf(const char *fmt, ...);
 
 #ifdef __cplusplus
-};
+}
 #endif
 
 #endif /* _PRINTF_H_ */

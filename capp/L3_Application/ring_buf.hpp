@@ -38,15 +38,15 @@ public:
 
 
     /* Intialize ring buffer */
-    bool initialize(uint32_t capacity)
+    bool initialize(uint32_t buffer_capacity)
     {
         /* Validate capacity is a non-zero power-of-two */
-        if(capacity == 0 || __popcount32(capacity) != 1)
+        if(buffer_capacity == 0 || __popcount32(buffer_capacity) != 1)
         {
             return false;
         }
 
-        this->capacity = capacity;
+        capacity = buffer_capacity;
         index_mask = (capacity - 1);
         write_index = 0;
         read_index = 0;
@@ -129,7 +129,7 @@ public:
 
 
 #ifdef __cplusplus
-}; /* extern */
+} /* extern */
 #endif
 
 #endif /* _RING_BUF_H_ */

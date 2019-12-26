@@ -32,6 +32,7 @@ extern cli_cmd_t terminal_cmds[];
 
 int main(void)
 {
+	/* Initialize board peripherals */
 	sbc_initialize();
 
 	/* Enable interrupts */
@@ -40,7 +41,8 @@ int main(void)
 	/* Display banner */
 	printf("\n\nRAM program\nBuild time: %s\nBuild date: %s\n\n", __TIME__, __DATE__);
 
-	post.set(0xA5);
+	/* Set POST code */
+	system_controller.set_post(0xA5);
 
 	while(1)
 	{

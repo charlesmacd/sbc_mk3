@@ -18,6 +18,6 @@ uint32_t usb_getl(void);
 void usb_sendl(uint32_t value);
 bool usb_is_data_ready(void);
 bool usb_is_enumerated(void);
-void usb_send_pstr(const char *msg);
+void usb_send_pstr(const uint8_t *msg);
 
 #endif /* _USB_H_ */

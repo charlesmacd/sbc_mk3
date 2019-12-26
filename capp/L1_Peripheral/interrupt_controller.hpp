@@ -13,31 +13,54 @@ extern volatile uint16_t *REG_IPEND_SET ;
 extern volatile uint16_t *REG_IENABLE   ;
 extern volatile uint16_t *REG_IPRIORITY ;
 
-typedef struct 
+struct interrupt_controller_register_tag 
 {
-    volatile uint16_t *REG_IPENDING;
-    volatile uint16_t *REG_IPEND_CLR;
-    volatile uint16_t *REG_IMASKED;
-    volatile uint16_t *REG_IPEND_SET;
-    volatile uint16_t *REG_IENABLE;
-    volatile uint16_t *REG_IPRIORITY;    
-} interrupt_controller_register_t;
+    union
+    {
+        struct __attribute__((__packed__))
+        {        
+			uint8_t padding00[0x01]; 
+            uint8_t IPEND_CLR;          /* 0x01.b */
+            uint8_t padding01[0x3F];
+            uint8_t IPEND_SET;          /* 0x41.b */
+            uint8_t padding02[0x3F];
+            uint8_t IENABLE;            /* 0x81.b */
+            uint8_t padding03[0x3F];
+            uint8_t IUNUSED;            /* 0xC1.b */
+            uint8_t padding04[0x3E];
+        } w; /* Write */
+      
+        struct  __attribute__((__packed__))
+        {        
+            uint8_t padding00[0x01];
+            uint8_t IPENDING;           /* 0x01.b */
+            uint8_t padding01[0x3F];
+            uint8_t IMASKED;            /* 0x41.b */
+            uint8_t padding02[0x3F];
+            uint8_t IENABLE;            /* 0x81.b */
+            uint8_t padding03[0x3F];
+            uint8_t IPRIORITY;          /* 0xC1.b */
+            uint8_t padding04[0x3E];
+        } r; /* Read */
+    } reg;
+};
+
+typedef volatile interrupt_controller_register_tag interrupt_controller_register_t;
 
 class InterruptController
 {
 private:
-    interrupt_controller_register_t reg;
+    interrupt_controller_register_t *intc;
 
 public:
 
-    void initialize(void)
+    void initialize(interrupt_controller_register_t *external_reg = NULL)
     {
-        reg.REG_IPENDING  = (volatile uint16_t *)0xFFFFB000; /* R */
-        reg.REG_IPEND_CLR = (volatile uint16_t *)0xFFFFB000; /* W */
-        reg.REG_IMASKED   = (volatile uint16_t *)0xFFFFB040; /* R */
-        reg.REG_IPEND_SET = (volatile uint16_t *)0xFFFFB040; /* W */
-        reg.REG_IENABLE   = (volatile uint16_t *)0xFFFFB080; /* R/W */
-        reg.REG_IPRIORITY = (volatile uint16_t *)0xFFFFB0C0; /* R */
+        intc = external_reg;
+        if(intc == NULL)
+        {
+            intc = (interrupt_controller_register_t *)0xFFFFB000;
+        }
 
         /* Disable all interrupt sources */
         set_enable(0x00);
@@ -48,31 +71,31 @@ public:
 
     void set_enable(uint8_t mask)
     {
-        uint8_t temp = *reg.REG_IENABLE;
+        uint8_t temp = intc->reg.r.IENABLE;
         temp |= mask;
-        *reg.REG_IENABLE = temp;
+        intc->reg.w.IENABLE = temp;
     }
 
     void clear_enable(uint8_t mask)
     {
-        uint8_t temp = *reg.REG_IENABLE;
+        uint8_t temp = intc->reg.r.IENABLE;
         temp &= ~mask;
-        *reg.REG_IENABLE = temp;
+        intc->reg.w.IENABLE = temp;
     }
 
     void clear_pending(uint8_t mask)
     {
-        *reg.REG_IPEND_CLR = mask;    
+        intc->reg.w.IPEND_CLR = mask;    
     }
 
     void force_pending(uint8_t mask)
     {
-        *reg.REG_IPEND_SET = mask;
+        intc->reg.w.IPEND_SET = mask;
     }
 
     int8_t get_pending_level(void)
     {
-        uint8_t temp = *reg.REG_IPRIORITY;
+        uint8_t temp = intc->reg.r.IPRIORITY;
         if(temp & 0x80)
         {
             return (temp & 0x07);

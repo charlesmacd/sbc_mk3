@@ -21,7 +21,7 @@ MR[3:0] = Stop bit length (0.5, 1.0, 1.5, 2.0)
 #include "../sys_types.hpp"
 #include "../L3_Application/ring_buf.hpp"
 
-struct uart_register_tag
+typedef struct
 {
     volatile uint8_t *REG_CR;
     volatile uint8_t *REG_MR;
@@ -33,22 +33,10 @@ struct uart_register_tag
     volatile uint8_t *REG_CSR;
     volatile uint8_t *REG_ACR;
     volatile uint8_t *REG_BRG_TEST;
-};
+} uart_register_t;
 
-typedef volatile struct uart_register_tag uart_register_t;
 
-class UartDevice
-{
-public:
-    virtual void write(uint8_t value) = 0;
-    virtual void write(const uint8_t *data, uint32_t size) = 0;
-    virtual uint8_t read(void) = 0;
-    virtual uint8_t read_blocking(void) = 0;
-    virtual void read(uint8_t *data, uint32_t size) = 0;
-
-};
-
-class Uart //: public UartDevice
+class Uart
 {
 private:
     void command_delay(void);
@@ -56,10 +44,10 @@ private:
     void reset(void);
 public:
 
-    volatile uart_register_t reg;
+    uart_register_t reg;
     RingBuffer rx_ringbuf;
     RingBuffer tx_ringbuf;
-    volatile uint8_t state_imr;
+    uint8_t state_imr;
 
     void enable_interrupts(uint8_t mask);
     void disable_interrupts(uint8_t mask);
@@ -70,7 +58,7 @@ public:
     void write(uint8_t value);
 
     /* Write multiple bytes */
-    void write(const uint8_t *data, uint32_t size);
+    void write(uint8_t *data, uint32_t size);
 
     /* Read one byte, non-blocking */
     uint8_t read(void);
