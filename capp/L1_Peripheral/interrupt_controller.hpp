@@ -4,48 +4,67 @@
 #define _INTERRUPT_CONTROLLER_H_
 
 #include <stdint.h>
+#include "..\sys_types.hpp"
 
-// fix timer
-extern volatile uint16_t *REG_IPENDING  ;
-extern volatile uint16_t *REG_IPEND_CLR ;
-extern volatile uint16_t *REG_IMASKED   ;
-extern volatile uint16_t *REG_IPEND_SET ;
-extern volatile uint16_t *REG_IENABLE   ;
-extern volatile uint16_t *REG_IPRIORITY ;
 
-struct interrupt_controller_register_tag 
+/* Board specific address */
+constexpr uint32_t kInterruptControllerRegBase = 0xFFFFB000;
+
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+
+
+struct interrupt_controller_register_tag
 {
-    union
-    {
-        struct __attribute__((__packed__))
-        {        
-			uint8_t padding00[0x01]; 
-            uint8_t IPEND_CLR;          /* 0x01.b */
-            uint8_t padding01[0x3F];
-            uint8_t IPEND_SET;          /* 0x41.b */
-            uint8_t padding02[0x3F];
-            uint8_t IENABLE;            /* 0x81.b */
-            uint8_t padding03[0x3F];
-            uint8_t IUNUSED;            /* 0xC1.b */
-            uint8_t padding04[0x3E];
-        } w; /* Write */
-      
-        struct  __attribute__((__packed__))
-        {        
-            uint8_t padding00[0x01];
-            uint8_t IPENDING;           /* 0x01.b */
-            uint8_t padding01[0x3F];
-            uint8_t IMASKED;            /* 0x41.b */
-            uint8_t padding02[0x3F];
-            uint8_t IENABLE;            /* 0x81.b */
-            uint8_t padding03[0x3F];
-            uint8_t IPRIORITY;          /* 0xC1.b */
-            uint8_t padding04[0x3E];
-        } r; /* Read */
-    } reg;
-};
+	union
+	{
+		struct
+		{
+			/* 0x00 */
+			__OM uint16_t IPEND_CLR;
+			STRUCT_PADDING(0, 0x40, 1);
 
-typedef volatile interrupt_controller_register_tag interrupt_controller_register_t;
+			/* 0x40 */
+            __OM uint16_t IPEND_SET;
+			STRUCT_PADDING(1, 0x40, 1);
+
+			/* 0x80 */
+            __OM uint16_t IENABLE;
+			STRUCT_PADDING(2, 0x40, 1);
+
+			/* 0xC0 */
+            __OM uint16_t IUNUSED;
+			STRUCT_PADDING(3, 0x40, 1);
+		} w;
+
+		struct
+		{
+			/* 0x00 */
+			__IM uint16_t IPENDING;
+			STRUCT_PADDING(0, 0x40, 1);
+
+			/* 0x40 */
+			__IM uint16_t IMASKED;
+			STRUCT_PADDING(1, 0x40, 1);
+
+			/* 0x80 */
+			__IM uint16_t IENABLE;
+			STRUCT_PADDING(2, 0x40, 1);
+
+			/* 0xC0 */
+			__IM uint16_t IPRIORITY;
+			STRUCT_PADDING(3, 0x40, 1);
+		} r;	
+	} reg;
+} __attribute__((packed, aligned(2)));
+
+typedef interrupt_controller_register_tag interrupt_controller_register_t;
+
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+
 
 class InterruptController
 {
@@ -59,7 +78,7 @@ public:
         intc = external_reg;
         if(intc == NULL)
         {
-            intc = (interrupt_controller_register_t *)0xFFFFB000;
+            intc = (interrupt_controller_register_t *)kInterruptControllerRegBase;
         }
 
         /* Disable all interrupt sources */

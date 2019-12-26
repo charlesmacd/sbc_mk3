@@ -6,7 +6,6 @@ extern "C" {
 #endif
 
 #include <stdint.h>
-#include "../L0_Platform/cpu_asm.hpp"
 
 #define RINGBUF_MAX_SIZE		128
 
@@ -40,8 +39,9 @@ public:
     /* Intialize ring buffer */
     bool initialize(uint32_t buffer_capacity)
     {
+        __asm__ __volatile__("reset");
         /* Validate capacity is a non-zero power-of-two */
-        if(buffer_capacity == 0 || __popcount32(buffer_capacity) != 1)
+        if(buffer_capacity == 0 || __builtin_popcount(buffer_capacity) != 1)
         {
             return false;
         }

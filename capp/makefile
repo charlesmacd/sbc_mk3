@@ -66,7 +66,8 @@ OBJ_CORE	=	\
 	obj/post.o	\
 	obj/pit.o	\
 	obj/mutex.o	\
-	obj/newlib.o
+	obj/newlib.o	\
+	obj/cpu_680x0.o
 
 OBJ_APP	=	\
 	obj/cli.o	\
@@ -138,6 +139,12 @@ obj/%.o : L0_Platform/%.cpp L0_Platform/%.hpp
 		$(CC) -c $< -o $@ $(CCFLAGS)
 	        
 obj/%.o : L0_Platform/%.s $(AS_INC) 
+		$(AS) $< -o $@ $(ASFLAGS)
+
+obj/%.o : L0_Platform/68000/%.cpp L0_Platform/68000/%.hpp
+		$(CC) -c $< -o $@ $(CCFLAGS)
+	        
+obj/%.o : L0_Platform/68000/%.s $(AS_INC) 
 		$(AS) $< -o $@ $(ASFLAGS)
 
 # Phony targets

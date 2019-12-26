@@ -145,6 +145,18 @@ public:
         return sysc->reg.r.STATUS;
     }
 
+    uint8_t exchange_spi(uint8_t data)
+    {
+
+        sysc->reg.w.OUT1.SPI_SSEL_N = 0;
+
+        /* TODO */
+
+        sysc->reg.w.OUT1.SPI_SSEL_N = 1;
+
+        return sysc->reg.r.SPI_DATA;
+    }
+
     /* Write to a GPIO port */
     void write_gpio(uint8_t port, uint8_t bit, uint8_t state)
     {

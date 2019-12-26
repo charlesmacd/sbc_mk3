@@ -116,12 +116,14 @@ patch_interrupt_redirection_table:
 #------------------------------------------------------------------------------
 # ???
 #------------------------------------------------------------------------------
+                .globl __level1_isr
 __level1_isr:
                 move.b  #0x02, (REG_IPEND_CLR).w
                 rte                
 #------------------------------------------------------------------------------
 # ???
 #------------------------------------------------------------------------------
+                .globl __level2_isr
 __level2_isr:
                 move.b  #0x04, (REG_IPEND_CLR).w
                 rte                
@@ -130,6 +132,7 @@ __level2_isr:
 #------------------------------------------------------------------------------
                 .extern UartSCC2681_ISR
                 .extern uart
+                .globl __level3_isr
 __level3_isr:
                 movem.l d0-d7/a0-a7, -(sp)
                 pea     uart
@@ -141,6 +144,7 @@ __level3_isr:
 #--------------------------------------------------------
 # Interrupt handler for 1ms interval timer 
 #--------------------------------------------------------
+                .globl __level4_isr
 __level4_isr:
                 tas.b    (__interval_1ms_flag)
                 movem.l d0-d7/a0-a6, -(sp)
@@ -152,6 +156,7 @@ __level4_isr:
 #--------------------------------------------------------
 # Interrupt handler for 1us interval timer 
 #--------------------------------------------------------
+                .globl __level5_isr
 __level5_isr:
                 tas.b    (__interval_1us_flag)
                 movem.l d0-d7/a0-a6, -(sp)
@@ -165,6 +170,7 @@ __level5_isr:
 # Interrupt handler for 1ms system tick timer 
 #--------------------------------------------------------
                 .extern systick_handler
+                .globl __level6_isr
 __level6_isr:
                 tas.b    (__systick_flag)
                 addi.l  #1, (__systick_count)
@@ -178,6 +184,7 @@ __level6_isr:
 # Break button
 #--------------------------------------------------------
 
+                .globl __level7_isr
 __level7_isr:
                 move.b  #0x80, (REG_IPEND_CLR).w
                 st.b    (REG_DP3).w

@@ -1,6 +1,7 @@
 
 
 #include "sbc.hpp"
+#include "L0_Platform/cpu_680x0.hpp"
 #include "L1_Peripheral/pit.hpp"
 #include "L1_Peripheral/post.hpp"
 #include "L1_Peripheral/uart.hpp"
@@ -15,12 +16,23 @@ volatile uint8_t __interval_1us_flag;
 volatile uint32_t __systick_count;
 
 /* Global objects */
+cpu_68000 cpu;
 SystemController system_controller;
 InterruptController interrupt_controller;
 Post post;
 ProgrammableIntervalTimer pit;
 Uart uart;
 
+extern "C" 
+{
+	extern uint32_t __level1_isr;
+	extern uint32_t __level2_isr;
+	extern uint32_t __level3_isr;
+	extern uint32_t __level4_isr;
+	extern uint32_t __level5_isr;
+	extern uint32_t __level6_isr;
+	extern uint32_t __level7_isr;
+};
 
 void sbc_initialize(void)
 {
@@ -42,10 +54,19 @@ void sbc_initialize(void)
 	/* Set up UART */
 	uart.initialize();
 
+	/* Patch redirection table in RAM that vector table in Flash points to */
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL1, (IsrHandler)&__level1_isr);
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL2, (IsrHandler)&__level2_isr);
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL3, (IsrHandler)&__level3_isr);
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL4, (IsrHandler)&__level4_isr);
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL5, (IsrHandler)&__level5_isr);
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL6, (IsrHandler)&__level6_isr);
+	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL7, (IsrHandler)&__level7_isr);
+
 	/* Clear all pending interrupts */
 	interrupt_controller.clear_pending(0xFF);
 
-	/* Enable interrupt levels 7, 6, 3 */
+	/* Pick permitted interrupt sources */
 	interrupt_controller.set_enable(
 		INTCON_LV7_BRK     |
 		INTCON_LV6_SYSTICK |

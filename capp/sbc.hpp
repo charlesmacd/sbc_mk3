@@ -4,11 +4,11 @@
 
 #include <stdint.h>
 #include "hw_defs.hpp"
-#include "L0_Platform/cpu_asm.hpp"
 #include "sys_types.hpp"
-#include "crt0.hpp"
 #include "newlib/printf.hpp"
 #include "main.hpp"
+#include "crt0.hpp"
+#include "L0_Platform/cpu_680x0.hpp"
 #include "L1_Peripheral/usb.hpp"
 #include "L1_Peripheral/system_controller.hpp"
 #include "L1_Peripheral/interrupt_controller.hpp"
@@ -30,6 +30,7 @@ extern volatile uint8_t __interval_1ms_flag;
 extern volatile uint8_t __interval_1us_flag;
 extern volatile uint32_t __systick_count;
 
+extern cpu_68000 cpu;
 extern SystemController system_controller;
 extern Post post;
 extern ProgrammableIntervalTimer pit;

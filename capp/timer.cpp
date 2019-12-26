@@ -73,41 +73,30 @@ volatile uint8_t *REG_TIMER_1MS_ENABLE 	= (volatile uint8_t *)(PIO_BASE  + 0x42)
 
 void set_1ms_timer(uint16_t count)
 {
+	interrupt_controller.clear_enable(0x10);
+
 	timer_1ms_enable(false);
 	pit.write_control_word(2, PIT_ACCESS_SEQUENTIAL, PIT_COUNTER_MODE_SW_TRG, false);
 	pit.write_counter(2, count);
 	timer_1ms_enable(true);
 	__interval_1ms_flag = 0;
 
-
-//	interrupt_controller.clear_pending(0x10);
-//	interrupt_controller.set_enable(0x10);
-#if 1
-#if 1
-	REG_IPEND_CLR[0] = 0x10;
-	REG_IENABLE[0] |= 0x10;
-#else
-	intc_acknowledge(0x10);
-	intc_modify_enable(0x00, 0x10);
-#endif
-#endif
+	interrupt_controller.clear_pending(0x10);
+	interrupt_controller.set_enable(0x10);
 }
 
 void set_1us_timer(uint16_t count)
 {
+	interrupt_controller.clear_enable(0x20);
+
 	timer_1us_enable(false);
 	pit.write_control_word(0, PIT_ACCESS_SEQUENTIAL, PIT_COUNTER_MODE_SW_TRG, false);
 	pit.write_counter(0, count);
 	timer_1us_enable(true);
 	__interval_1us_flag = 0;
 
-#if 1
-	REG_IPEND_CLR[0] = 0x20;
-	REG_IENABLE[0] |= 0x20;
-#else	
-	intc_acknowledge(0x20);
-	intc_modify_enable(0x00, 0x20);
-#endif	
+	interrupt_controller.clear_pending(0x20);
+	interrupt_controller.set_enable(0x20);
 }
 
 void timer_1ms_enable(bool enabled)
