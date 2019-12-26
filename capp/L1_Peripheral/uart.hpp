@@ -23,19 +23,47 @@ MR[3:0] = Stop bit length (0.5, 1.0, 1.5, 2.0)
 
 struct uart_register_tag
 {
-    volatile uint8_t *REG_CR;
-    volatile uint8_t *REG_MR;
-    volatile uint8_t *REG_SR;
-    volatile uint8_t *REG_ISR;
-    volatile uint8_t *REG_RHR;
-    volatile uint8_t *REG_THR;
-    volatile uint8_t *REG_IMR;
-    volatile uint8_t *REG_CSR;
-    volatile uint8_t *REG_ACR;
-    volatile uint8_t *REG_BRG_TEST;
-};
+	union
+	{
+		struct
+		{
+            union 
+            {
+                __OM uint16_t MR1;
+                __OM uint16_t MR2;
+            };
+            __OM uint16_t CSR;
+            __OM uint16_t CR;
+            __OM uint16_t THR;
+            __OM uint16_t ACR;
+            __OM uint16_t IMR;
+            __OM uint16_t CTUR;
+            __OM uint16_t CTLR;
+        } w;
 
-typedef volatile struct uart_register_tag uart_register_t;
+		struct
+		{
+            union 
+            {
+                __IM uint16_t MR1;
+                __IM uint16_t MR2;
+            };
+            __IM uint16_t SR;
+            __IM uint16_t BRG_TEST;
+            __IM uint16_t RHR;
+            __IM uint16_t TEST;
+            __IM uint16_t ISR;
+            __IM uint16_t CTU;
+            __IM uint16_t CTL;
+		} r;	
+	} reg;
+} __attribute__((packed, aligned(2)));
+
+typedef uart_register_tag uart_register_t;
+
+
+
+
 
 class UartDevice
 {
@@ -56,15 +84,16 @@ private:
     void reset(void);
 public:
 
-    volatile uart_register_t reg;
+    uart_register_t *dev;
+    
     RingBuffer rx_ringbuf;
     RingBuffer tx_ringbuf;
-    volatile uint8_t state_imr;
+    uint8_t state_imr;
 
     void enable_interrupts(uint8_t mask);
     void disable_interrupts(uint8_t mask);
 
-    void initialize(void);
+    void initialize(uart_register_t *external_reg = NULL);
 
     /* Write one byte */
     void write(uint8_t value);

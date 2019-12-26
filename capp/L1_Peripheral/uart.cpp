@@ -63,7 +63,7 @@ void Uart::command_delay(void)
 /* Send command and delay */
 void Uart::send_command(uint8_t value)
 {
-	*reg.REG_CR = value;
+	dev->reg.w.CR = value;
 	command_delay();
 }
 
@@ -90,13 +90,13 @@ void Uart::reset(void)
 	send_command(CR_RESET_MR);
 
 	/* Set MR1 to 8-N-1 */
-	*reg.REG_MR = 0x013;
+	dev->reg.w.MR1 = 0x013;
 
 	/* Set MR2 to 1 stop bit */
-	*reg.REG_MR = 0x07;
+	dev->reg.w.MR2 = 0x07;
 
 	/* Toggle baud rate test mode flip-flop from 0 (reset) to 1 */
-	(void)*reg.REG_BRG_TEST;
+	(void)dev->reg.r.BRG_TEST;
 }
 
 void Uart::set_baud_rate(int rate)
@@ -105,35 +105,37 @@ void Uart::set_baud_rate(int rate)
 
 	// Set baud rate to 1200 -> 115,200
 	// # NOTE: See Table 6 (Baud Rates Extended) in SCC2691 data sheet page 20
+	uint8_t value;
 	switch(rate)
 	{
 		case 9600:
-			*reg.REG_CSR = UART_BAUD_9600;
+			value = UART_BAUD_9600;
 			break;
 		case 19200:
-			*reg.REG_CSR = UART_BAUD_19200;
+			value = UART_BAUD_19200;
 			break;
 		case 28800:
-			*reg.REG_CSR = UART_BAUD_28800;
+			value = UART_BAUD_28800;
 			break;
 		case 38400:
-			*reg.REG_CSR = UART_BAUD_38400;
+			value = UART_BAUD_38400;
 			break;
 		case 57600:
-			*reg.REG_CSR = UART_BAUD_57600;
+			value = UART_BAUD_57600;
 			break;
 		case 115200:
-			*reg.REG_CSR = UART_BAUD_115200;
+			value = UART_BAUD_115200;
 			break;
 	}
+	dev->reg.w.CSR = value;
 
   	// # Program auxilliary control register
     // # Set PWRDN=off (ACR[3] = 0b)
     // # Set TxC (1x) as MPO (ACR[2:0] = 011b)
-  	*reg.REG_ACR = 0x0B;
+  	dev->reg.w.ACR = 0x0B;
 
 	// # Start TX and RX 
-	*reg.REG_CR = 0x05;
+	dev->reg.w.CR = 0x05;
 
 	/* Initialize ring buffers */
 	tx_ringbuf.initialize(0x80);
@@ -146,32 +148,26 @@ void Uart::set_baud_rate(int rate)
 
 
 /* Initialize UART */
-void Uart::initialize(void)
+void Uart::initialize(uart_register_t *external_reg)
 {
-	reg.REG_MR         = (volatile uint8_t *)(UART_BASE + 0x00);
-	reg.REG_SR         = (volatile uint8_t *)(UART_BASE + 0x02);
-	reg.REG_CSR        = (volatile uint8_t *)(UART_BASE + 0x02);
-	reg.REG_BRG_TEST   = (volatile uint8_t *)(UART_BASE + 0x04);
-	reg.REG_CR         = (volatile uint8_t *)(UART_BASE + 0x04);
-	reg.REG_RHR        = (volatile uint8_t *)(UART_BASE + 0x06);
-	reg.REG_THR        = (volatile uint8_t *)(UART_BASE + 0x06);
-	reg.REG_ACR        = (volatile uint8_t *)(UART_BASE + 0x08);
-	reg.REG_IMR        = (volatile uint8_t *)(UART_BASE + 0x0A);
-	reg.REG_ISR        = (volatile uint8_t *)(UART_BASE + 0x0A);
-
+	dev = external_reg;
+	if(dev == NULL)
+	{
+		dev = (uart_register_t *)0xFFFF9000;
+	}
 	set_baud_rate(115200);
 }
 
 void Uart::enable_interrupts(uint8_t mask)
 {
 	state_imr |= mask;
-	*reg.REG_IMR = state_imr;
+	dev->reg.w.IMR = state_imr;
 }
 
 void Uart::disable_interrupts(uint8_t mask)
 {
 	state_imr &= ~mask;
-	*reg.REG_IMR = state_imr;
+	dev->reg.w.IMR = state_imr;
 }
 
 void Uart::write(uint8_t data)
@@ -271,7 +267,7 @@ void UartSCC2681_ISR(void *param)
 	Uart *device = (Uart *)param;
 
 	/* If RXRDY cause was set, empty read FIFO into RX ring buffer */
-	if(*device->reg.REG_ISR & F_ISR_RXRDY)
+	if(device->dev->reg.r.ISR & F_ISR_RXRDY)
 	{
 		do {			
 			if(device->rx_ringbuf.full())
@@ -282,20 +278,20 @@ void UartSCC2681_ISR(void *param)
 			}
 			else
 			{
-				char ch = *device->reg.REG_RHR;
+				char ch = device->dev->reg.r.RHR;
 				device->rx_ringbuf.insert(ch); /* Note: If full will discard */
 			}
-		} while(device->reg.REG_SR[0] & F_SR_RXRDY);
+		} while(device->dev->reg.r.SR & F_SR_RXRDY);
 	}
 
 	/* If TXRDY cause was set, output a character if present to transmitter */
-	if(*device->reg.REG_ISR & F_ISR_TXRDY)
+	if(device->dev->reg.r.ISR & F_ISR_TXRDY)
 	{
 		if(!device->tx_ringbuf.empty())
 		{
 			char ch;
 			ch = device->tx_ringbuf.remove();
-			*device->reg.REG_THR = ch;
+			device->dev->reg.w.THR = ch;
 		}
 		else
 		{

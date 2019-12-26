@@ -28,10 +28,12 @@
 /*------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------*/
 
+
 extern cli_cmd_t terminal_cmds[];
 
 int main(void)
 {
+
 	/* Initialize board peripherals */
 	sbc_initialize();
 
@@ -44,7 +46,7 @@ int main(void)
 
 	/* Set POST code */
 	system_controller.set_post(0xA5);
-
+	
 	while(1)
 	{
 		/* Process UART commands */
