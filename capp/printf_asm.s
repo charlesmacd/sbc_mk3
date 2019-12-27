@@ -66,7 +66,8 @@ mode_escape     =       1
                 .endm
 
                 .macro  write_output_char reg:req
-                move.b  \reg, (output_buffer)+
+#                move.b  \reg, (output_buffer)+
+                jsr     uart_putch_polling
                 .endm
 
                 .global print_formatted
@@ -74,8 +75,9 @@ print_formatted:
                 # Save registers
                 movem.l d0-d7/a0-a7, (__printf_save).l
 
+                
                 # Point A6 to stacked parameters after call address 
-                lea     4(sp), a6
+                lea     8(sp), a6
 
                 # Clear print state
                 moveq   #mode_parse, mode
@@ -91,6 +93,8 @@ print_formatted:
                 write_output_char d0
                 bra.s   .next_parse
 
+        # here, %X works
+        # here, %04X does not work
         .next_prefix:
                 get_format_char d0
                 is_match d0, '-', .is_minus
@@ -104,7 +108,7 @@ print_formatted:
         .is_padding:
                 set_flag flag_padding
                 bra.w   .next_escape
-        
+                nop
         .next_escape:
                 get_format_char d0
         .parse_escape:
@@ -117,8 +121,14 @@ print_formatted:
         .is_digit:
                 # Convert ASCII '0'-'9' to binary 0-9
                 sub.b   #'0', d0
-                add.l   d0, digits
-                
+                # Isolate digit
+                moveq   #0x0F, d1
+                and.l   d0, d1
+                # Shift digits up by one decimal place
+                mulu.w  #10, digits
+                # Add new digit in
+                add.l   d1, digits
+                bra.s   .next_escape
 
         .not_digit:
                 is_match d0, 'c', .parse_char
@@ -136,10 +146,32 @@ print_formatted:
                 bra.w   .next_parse
 
         .parse_hex:
+
+                cmpi.b  #8, digits 
+                beq.s   .print_long
+                cmpi.b  #4, digits
+                beq.s   .print_word
+                cmpi.b  #2, digits
+                beq.s   .print_byte
+#                ; fall through for other width
         .parse_digit:
-                ror.w   #4, digits
+        .print_long:
                 move.l  (a6)+, d0
                 jsr     printhexl
+                bra.s   .print_hex_done
+        .print_word:                
+                move.l  (a6)+, d0
+                jsr     printhexw
+                bra.s   .print_hex_done
+        .print_byte:                
+                move.l  (a6)+, d0
+                jsr     printhexb
+                bra.s   .print_hex_done
+                nop
+        .print_hex_done:                
+
+
+
                 bra.w   .next_parse
 
       .parse_pointer:

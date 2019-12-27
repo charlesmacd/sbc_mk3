@@ -34,6 +34,7 @@ extern SystemController system_controller;
 extern ProgrammableIntervalTimer pit;
 extern InterruptController interrupt_controller;
 extern Uart uart;
+extern FtdiUSB usb;
 
 /* Function prototypes */
 void sbc_initialize(void);

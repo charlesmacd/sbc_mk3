@@ -205,7 +205,7 @@ public:
     {
         for(int i = 0; i < 4; i++)
         {
-            sysc->reg.w.OUT0.DP[i] = (mask & (1 << i)) ? 0x01 : 0x00;
+            sysc->reg.w.OUT0.DP[i] = (mask & (1 << i)) ? 1 : 0;
         }
     }
 
@@ -218,7 +218,7 @@ public:
                 sysc->reg.w.OUT0.UART_RESET = (state) ? 1 : 0;
                 break;
             case PERIPHERAL_PCF:
-                sysc->reg.w.OUT1.PCF_RESET_N = (state) ? 1 : 0;
+                sysc->reg.w.OUT1.PCF_RESET_N = (state) ? 0 : 1;
                 break;
         }
     }

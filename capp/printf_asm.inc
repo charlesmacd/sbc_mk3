@@ -88,7 +88,7 @@ parsed          =       0
                 .endr # /* irp tokens */
 
                 # Save registers
-                movem.l a0, -(sp)
+                move.l  a0, -(sp)
 
                 # Get address of format string in A0
                 lea     (pc, data\@), a0

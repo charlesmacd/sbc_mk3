@@ -56,17 +56,27 @@ terminal_clrscr:
 # d0 = number
 # a0 = address
 register_isr:
-                movem.l d0/a0-a1, -(sp)
-                
-                # Compute A1 = ISR_BASE + (number * 8) + 2
-                lsl.l   #3, d0
-                addq.l  #2, d0
-                lea     ISR_BASE, a1
-                
-                # Patch table with new ISR address
-                move.l  a0, (a1, d0.w)
+                movem.l d0-d1/a0-a1, -(sp)
 
-                movem.l (sp)+, d0/a0-a1
+                move.l  d0, d1
+                andi.l  #0x000000FF, d1
+                lsl.l   #8, d1
+                lsl.l   #8, d1
+                lsl.l   #8, d1
+
+                andi.w  #0x000000FF, d0
+                lsl.w   #3, d0
+                addq.w  #2, d0
+                lea     ISR_BASE, a1
+                lea     (a1, d0.w), a1
+
+                move.l  a0, d0
+                andi.l  #0x00FFFFFF, d0
+                or.l    d1, d0
+                move.l  d0, (a1)
+
+
+                movem.l (sp)+, d0-d1/a0-a1
                 rts
 
 #------------------------------------------------------------------------------
@@ -266,6 +276,7 @@ soft_reboot:
 
                 .section .KERNELVARS  
 
+ex_regsave:     ds.l    64
 ex_pc:          ds.l    1
 ex_sp:          ds.l    1
 ex_sr:          ds.l    1
@@ -273,82 +284,92 @@ ex_ir:          ds.l    1
 ex_access:      ds.l    1
 ex_fc:          ds.l    1
 ex_is_group0:   ds.l    1
-ex_number       =       ex_pc           /* PC[31:24] */
+ex_regs:        ds.l    64
+ex_number:      ds.l    1
                 .section .text
                 
 
 generic_exception_handler:
 
                 # Save stack pointer
-                move.l sp, (ex_sp).l
+                move.l  sp, (ex_sp).l
 
+                # Save registers
+                movem.l d0-d7/a0-a7, (ex_regs).l
+
+                # Get MSB of PC into D0                
+                lea     0(pc), a0
+                move.l  a0, d0
+                rol.l   #8, d0
+                andi.l  #0xFF, d0
+                move.l  d0, (ex_number).l
+
+
+                move.l  (ex_number).l, d0
+                cmpi.l  #0x03, d0
+                bgt.s   .is_group12
+
+
+.is_group0:
+                # Save function code
+                move.w  (sp)+, (ex_fc).l
+
+                # Save access address 
+                move.l  (sp)+, (ex_access).l
+
+                # Save instruction register
+                move.w  (sp)+, (ex_ir).l
+
+
+.is_group12:
                 # Save stacked SR 
-                move.l (sp)+, (ex_sr).l
+                move.w (sp)+, (ex_sr).l
 
                 # Save stacked PC
                 move.l (sp)+, (ex_pc).l
 
-                # Check exception group type
-                clr.b   (ex_is_group0).l
-                cmpi.b  #0x02, (ex_number).l
-                bgt.s   .is_group12
-.is_group0:
-                # Save instruction register
-                move.w  (sp)+, (ex_ir).l
+                # Start new line for exception output                
+                jsr     newline
 
-                # Save access address 
-                move.w  (sp)+, (ex_access).l
-
-                # Save function code
-                move.w  (sp)+, (ex_fc).l
-
-                # Flag as a group 0 exception
-                st.b    (ex_is_group0).l
-.is_group12:
-
-
-
-                # Clear screen
-###                jsr     terminal_clrscr
-
-                # Print message
-                lea     msg0, a0
+                # Print common banner
+                lea     msg_banner, a0
                 jsr     uart_puts_polling
                 jsr     newline
 
-                # Print PC:
-                move.l  (ex_pc).l, d0
-                jsr     printhexl
+                # Print group type
+                lea     msg_is_group0, a0
+                tst.b   (ex_is_group0)
+                beq.s   .group0_msg
+                lea     msg_is_group12, a0
+        .group0_msg:                
+                jsr     uart_puts_polling
                 jsr     newline
 
-                # Print SR:
-                move.l  (ex_sr).l, d0
-                jsr     printhexw
-                jsr     newline
+                move.l  (ex_number), d0
+                printf  "V#: %02X\n", d0
 
-                tst.b   (ex_is_group0).l 
-                beq.s   .skip_print_group0
+                move.l  (ex_pc), d0
+                printf  "PC: %X\n", d0
+                move.w  (ex_sr), d0
+                printf  "SR: %04X\n", d0
 
-                # Print IR
-                move.l  (ex_ir).l, d0
-                jsr     printhexw
-                jsr     newline
 
-                # Print access address
+                move.l  (ex_number).l, d0
+                cmpi.l  #0x03, d0
+                bgt.s   .is_group12m
+
+                move.w  (ex_ir).l, d0
+                printf  "IR: %04X\n", d0
                 move.l  (ex_access).l, d0
-                jsr     printhexl
-                jsr     newline
-
-                # Print function code
-                move.l  (ex_fc).l, d0
-                jsr     printhexw
-                jsr     newline
-
+                printf  "AC: %08X\n", d0
+                move.w  (ex_fc).l, d0
+                printf  "FC: %04X\n", d0
+.is_group12m:
 
 .skip_print_group0:
 
                 # Print message
-                lea     msg1, a0
+                lea     msg_wait, a0
                 jsr     uart_puts_polling
                 jsr     newline
 
@@ -359,8 +380,16 @@ generic_exception_handler:
                 rte
 
 
-msg0:           .asciz  "Generic exception occurred."
-msg1:           .asciz  "Waiting for comms ..."
+msg_banner:     
+                .ascii  "================================================================\n"
+                .ascii  " EXCEPTION\n"
+                .ascii  "================================================================"
+                dc.b    0
+
+msg_is_group0:  .asciz  "Type 0 exception occurred.\n"
+msg_is_group12: .asciz  "Type 1 or 2 exception occurred.\n"
+
+msg_wait:       .asciz  "Waiting for comms ..."
 
 #------------------------------------------------------------------------------
 # End

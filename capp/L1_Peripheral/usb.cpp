@@ -20,6 +20,9 @@
 */
 #define USB_USE_POLLING		1
 
+
+
+
 static volatile uint8_t *USB_DATA		= (volatile uint8_t *)(USB_BASE);
 static volatile uint8_t *REG_STATUS 	= (volatile uint8_t *)(PIO_BASE  + 0x40);
 

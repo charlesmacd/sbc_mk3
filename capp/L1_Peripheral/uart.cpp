@@ -67,6 +67,13 @@ void Uart::send_command(uint8_t value)
 	command_delay();
 }
 
+
+void Uart::write_mr1(uint8_t value)
+{
+	send_command(CR_RESET_MR);	/* Reset pointer back to MR1 */
+	dev->reg.w.MR1 = value;		/* Write value and switch to MR2 */
+}
+
 void Uart::reset(void)
 {
 	/* Reset UART via RESET line */
@@ -87,10 +94,9 @@ void Uart::reset(void)
 	send_command(CR_RESET_BREAK_CHANGE_INT);
 	send_command(CR_STOP_CT);
 	send_command(CR_RESET_MPI_CHANGE_INT);
-	send_command(CR_RESET_MR);
 
 	/* Set MR1 to 8-N-1 */
-	dev->reg.w.MR1 = 0x013;
+	write_mr1(0x13);
 
 	/* Set MR2 to 1 stop bit */
 	dev->reg.w.MR2 = 0x07;
@@ -134,8 +140,8 @@ void Uart::set_baud_rate(int rate)
     // # Set TxC (1x) as MPO (ACR[2:0] = 011b)
   	dev->reg.w.ACR = 0x0B;
 
-	// # Start TX and RX 
-	dev->reg.w.CR = 0x05;
+	/* Send NOP command (MSN) and enable transmitter and receiever (LSN) */
+	send_command(CR_NOP | 0x05);
 
 	/* Initialize ring buffers */
 	tx_ringbuf.initialize(0x80);

@@ -20,6 +20,7 @@ SystemController system_controller;
 InterruptController interrupt_controller;
 ProgrammableIntervalTimer pit;
 Uart uart;
+FtdiUSB usb;
 
 extern "C" 
 {
@@ -36,6 +37,9 @@ void sbc_initialize(void)
 {
 	/* Set up system controller */
 	system_controller.initialize();
+
+	/* Set up FTDI UM245R module */
+	usb.initialize(&system_controller);
 
 	/* Set up 82C55 PIT */
 	pit.initialize();

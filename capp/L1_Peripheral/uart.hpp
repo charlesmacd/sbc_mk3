@@ -21,6 +21,9 @@ MR[3:0] = Stop bit length (0.5, 1.0, 1.5, 2.0)
 #include "../sys_types.hpp"
 #include "../L3_Application/ring_buf.hpp"
 
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+
 struct uart_register_tag
 {
 	union
@@ -61,8 +64,8 @@ struct uart_register_tag
 
 typedef uart_register_tag uart_register_t;
 
-
-
+/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
 
 
 class UartDevice
@@ -79,6 +82,8 @@ public:
 class Uart //: public UartDevice
 {
 private:
+
+    void write_mr1(uint8_t value);
     void command_delay(void);
     void send_command(uint8_t data);
     void reset(void);
