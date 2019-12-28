@@ -44,8 +44,6 @@ int main(void)
 
 	/* Set POST code */
 	system_controller.set_post(0xA5);
-
-//	__asm__ __volatile__ ("clr.w 1");
 	
 	while(1)
 	{

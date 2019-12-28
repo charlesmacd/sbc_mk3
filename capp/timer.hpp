@@ -22,6 +22,7 @@ class Timer
 {
 public:
     timer_register_t reg;
+//    SystemController *sysc;
 
     void initialize(void)
     {

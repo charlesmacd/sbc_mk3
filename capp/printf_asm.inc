@@ -2,26 +2,16 @@
 # printf_asm.inc
 #-------------------------------------------------------------------------------
 
+
 nargs           =       0
 parsed          =       0
 
+
 # Macro to count number of arguments
-
-                .macro count_args first, args:vararg
-                    nargs = 0
-                    count_args_helper \first, \args
-                .endm
-
-                .macro count_args_helper first, args:vararg
-                    .ifnb \first
-                        count_args_helper \args
-                        nargs = nargs + 1
-                    .endif
-                .endm
 
                 # Match a token to symbols "x0-x7" where x is the prefix character
                 # Matching tokens are pushed to the stack as longwords
-                .macro pushl_xn prefix:req parameter:req
+                .macro push_register prefix:req parameter:req
                      # Bail if we already parsed this parameter
                     .if parsed == 1
                         .mexit
@@ -43,8 +33,18 @@ parsed          =       0
 
                 .macro printf format:req tokens:vararg
 
-                # Parse all variable arguments
-                # Operates as 'foreach parameter in tokens'
+                # Initially assume there are no parameters
+                nargs   = 0
+
+                # If parameters exist, process them
+                .ifnb   \tokens
+
+                # Count number of parameters present
+                .irp    parameter, \tokens
+                nargs = nargs + 1
+                .endr /* irp tokens */
+
+                # Parse all parameters
                 .irp    parameter, \tokens
 
                 # Flag current parameter as not being parsed
@@ -52,11 +52,11 @@ parsed          =       0
 
                 # Check if parameter matches any of a0-a7
                 # This will set parse if there was a match
-                pushl_xn a, \parameter
+                push_register a, \parameter
 
                 # Check if parameter matches any of d0-d7
                 # This will set parse if there was a match
-                pushl_xn d, \parameter
+                push_register d, \parameter
 
                 # Check if parameter matches any of sr
                 # This will set parse if there was a match
@@ -78,20 +78,24 @@ parsed          =       0
                     .endif
                 .endif
 
-                # Push any remaining token as data,
+                # Push any remaining parameter as data,
                 # assuming it is a numeric literal or some other symbol
+                # indirection here?
                 .if     parsed == 0
                 pea    (\parameter).l
                 parsed = 1
                 .endif
 
-                .endr # /* irp tokens */
+                .endr # /* end irp tokens */
 
-                # Save registers
-                move.l  a0, -(sp)
+                .endif /* end ifnb tokens */
+
+                # Push number of arguments found as longword
+                pea     (nargs).l
 
                 # Get address of format string in A0
-                lea     (pc, data\@), a0
+                # pea this?
+                pea     (pc, data\@)
 
                 # Print formatted string
                 jsr     print_formatted
@@ -103,9 +107,14 @@ parsed          =       0
 data\@:         .asciz "\format"
                 .align  2
 
-                # Restore registers
-skip\@:         movem.l (sp)+, a0
+skip\@:         
+                # Adjust stack for pushed parameters (nargs), argument count (1), string address (1)
+                adda.l  #(4*(nargs+2)), sp
+
+                # Caller code resumes here
                 .endm
+
+
 
 #-------------------------------------------------------------------------------
 # End

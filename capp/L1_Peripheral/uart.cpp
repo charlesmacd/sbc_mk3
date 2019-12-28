@@ -11,6 +11,7 @@
 #include "../L3_Application/ring_buf.hpp"
 #include "../sbc.hpp"
 #include "uart.hpp"
+#include "../debug.h"
 
 #define F_ISR_RXRDY			0x04
 #define F_SR_RXRDY			0x01
@@ -211,11 +212,13 @@ void Uart::write(const uint8_t *data, uint32_t size)
 
 uint8_t Uart::read(void)
 {
+//	debug_puts("UREAD\n");
 	return rx_ringbuf.remove();
 }
 
 void Uart::read(uint8_t *data, uint32_t size)
 {
+//	debug_puts("UREAD\n");
 	for(size_t i = 0; i < size; i++)
 	{
 		data[i] = rx_ringbuf.remove();
@@ -225,6 +228,12 @@ void Uart::read(uint8_t *data, uint32_t size)
 
 bool Uart::keypressed(void)
 {
+	/*
+	static bool once = false;
+	if(!once) {
+	debug_puts("UKEYPRESS\n");
+	once = true;
+	}*/
 	return rx_ringbuf.empty() ? false : true;
 }
 
@@ -235,7 +244,7 @@ uint8_t Uart::read_blocking(void)
 		;
 	}
 
-	return read();
+	return this->read();
 }
 
 

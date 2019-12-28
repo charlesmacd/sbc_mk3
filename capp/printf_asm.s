@@ -40,11 +40,22 @@ __kernel_page_buffer_end:
 # %c %s %x %0x %04x %-s etc.
 # for a parameter read longword off stack (all params long)
 
+
+
+
+
+param_base      =       a5
+param_ptr       =       a6
+input_ptr       =       a2
 output_buffer   =       a1               
 mode            =       d7
+
 flags           =       d6
 width           =       d5
 digits          =       d4
+temp1           =       d1
+temp0           =       d0
+
 flag_padding    =       0
 flag_minus      =       1
 mode_parse      =       0
@@ -56,11 +67,11 @@ mode_escape     =       1
 
                 .macro  is_match reg:req char:req label:req
                 cmpi.b  #\char, \reg
-                beq.s   \label
+                beq.w   \label
                 .endm  
 
                 .macro  get_format_char reg:req
-                move.b  (a0)+, \reg
+                move.b  (input_ptr)+, \reg
                 tst.b   \reg
                 beq.w   .eol
                 .endm
@@ -70,14 +81,42 @@ mode_escape     =       1
                 jsr     uart_putch_polling
                 .endm
 
-                .global print_formatted
-print_formatted:
-                # Save registers
-                movem.l d0-d7/a0-a7, (__printf_save).l
+                .macro  get_stacked_parameter reg:req
+                cmpa.l  a5, a6
+                beq.w   .error_parameter_miscount
+                move.l  -(a6), \reg
+                .endm
 
-                
-                # Point A6 to stacked parameters after call address 
-                lea     8(sp), a6
+
+# 4 pea nargs.l
+# 4 push a0.l
+# 4 jsr func (push return address)
+# 64 push all res
+
+
+
+                .global print_formatted
+
+print_formatted:
+
+                # Save registers
+                movem.l d0-d7/a0-a7, -(sp)
+
+                # Point A6 to start of pushed parameters
+                lea    0x44(sp), param_ptr
+
+                # Get address of format string
+                move.l  (param_ptr)+, input_ptr
+
+                # Get number of arguments
+                move.l  (param_ptr)+, d0
+
+                # Convert argument count to byte count
+                lsl.w   #2, d0
+
+                # Point to start of pushed parameters
+                move.l  param_ptr, param_base
+                lea     (param_ptr, d0.w), param_ptr
 
                 # Clear print state
                 moveq   #mode_parse, mode
@@ -85,7 +124,10 @@ print_formatted:
                 moveq   #0, width
                 moveq   #0, digits
                 lea     __printf_buffer, output_buffer
+
         .next_parse:
+
+                # Check for start of escape sequence
                 get_format_char d0
                 is_match d0, '%', .next_prefix
 
@@ -93,24 +135,31 @@ print_formatted:
                 write_output_char d0
                 bra.s   .next_parse
 
-        # here, %X works
-        # here, %04X does not work
         .next_prefix:
+
+                # Check for sign or padding
                 get_format_char d0
                 is_match d0, '-', .is_minus
                 is_match d0, '0', .is_padding
                 bra.w   .parse_escape
 
         .is_minus:
+                # Sequence was "%-"
                 set_flag flag_minus
                 bra.w   .next_escape
 
         .is_padding:
+                # Sequence was "%0"
                 set_flag flag_padding
                 bra.w   .next_escape
+
                 nop
+
         .next_escape:
+
+                # Get next character in escape sequence
                 get_format_char d0
+
         .parse_escape:
 
                 # Check if character is ASCII '0'-'9'
@@ -118,34 +167,46 @@ print_formatted:
                 blt.s   .not_digit
                 cmpi.b  #'9', d0
                 bgt.s   .not_digit
+
         .is_digit:
                 # Convert ASCII '0'-'9' to binary 0-9
                 sub.b   #'0', d0
+
                 # Isolate digit
                 moveq   #0x0F, d1
                 and.l   d0, d1
+
                 # Shift digits up by one decimal place
                 mulu.w  #10, digits
+
                 # Add new digit in
                 add.l   d1, digits
                 bra.s   .next_escape
 
         .not_digit:
+
+                # Check for escape sequence terminating character
                 is_match d0, 'c', .parse_char
                 is_match d0, 'd', .parse_digit
                 is_match d0, 'x', .parse_hex
                 is_match d0, 'X', .parse_hex
                 is_match d0, 'p', .parse_pointer
                 is_match d0, 's', .parse_string
-
-                # Error, unknown character in escape sequence
-                bra.w   .eol
+                bra.w   .error_unknown_escape
 
         .parse_char:
-                write_output_char (a6)+
+
+                # Output character 
+                get_stacked_parameter d0
+                write_output_char (input_ptr)+
                 bra.w   .next_parse
 
+        .hextable:  
+                .ascii "0123456789ABCDEF"
+                .align  2
+
         .parse_hex:
+                # Determine width of hex value
 
                 cmpi.b  #8, digits 
                 beq.s   .print_long
@@ -153,42 +214,54 @@ print_formatted:
                 beq.s   .print_word
                 cmpi.b  #2, digits
                 beq.s   .print_byte
-#                ; fall through for other width
-        .parse_digit:
+
         .print_long:
-                move.l  (a6)+, d0
+                get_stacked_parameter d0
                 jsr     printhexl
-                bra.s   .print_hex_done
-        .print_word:                
-                move.l  (a6)+, d0
-                jsr     printhexw
-                bra.s   .print_hex_done
-        .print_byte:                
-                move.l  (a6)+, d0
-                jsr     printhexb
-                bra.s   .print_hex_done
-                nop
-        .print_hex_done:                
-
-
-
                 bra.w   .next_parse
 
-      .parse_pointer:
-                move.l  (a6)+, d0
+        .print_word: 
+                get_stacked_parameter d0            
+                jsr     printhexw
+                bra.w   .next_parse
+
+        .print_byte:                
+                get_stacked_parameter d0
+                jsr     printhexb
+                bra.w   .next_parse
+
+        .parse_digit:
+                get_stacked_parameter d0
+                andi.l  #0x0F, d0
+                ori.b   #'0', d0
+                jsr     uart_putch_polling
+                bra.w   .next_parse
+
+        .parse_pointer:
+                get_stacked_parameter d0
                 jsr     printhexl
                 bra.w   .next_parse
 
         .parse_string:
-                move.l  a0, -(sp)
+                get_stacked_parameter a0
                 jsr     uart_puts_polling
-                move.l  (sp)+, a0
                 bra.w   .next_parse
+
+        .error_unknown_escape:
+                # Error, unknown character in escape sequence
+                # Set error flag
+                bra.w   .eol
+
+        .error_parameter_miscount:
+                # set error flag
+                bra.s   .eol
+                nop
         .eol:
-#                ; print buffer
- #               ; subtract output_buffer ptr from src to get length
-  #              ; or advance src until it matches current
+                # print buffer
+                movem.l (sp)+, d0-d7/a0-a7
                 rts
+
+
 
 
 is_digit:
@@ -257,8 +330,10 @@ printhexl:
 
                 .global newline
 newline:
+                move.l  d0, -(sp)
                 moveq   #'\n', d0
                 jsr     uart_putch_polling
+                move.l  (sp)+, d0
                 rts
 
 
