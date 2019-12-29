@@ -7,7 +7,9 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include <stdlib.h>
 #include "../hw_defs.hpp"
+#include "../sys_types.hpp"
 
 #define PIT_CNT_EVENT		                0x00
 #define PIT_CNT_HW_1SHOT	                0x01
@@ -36,34 +38,52 @@ extern "C" {
 
 #define PIT_CTRL(counter, mode, type)	(counter << 3) | (mode << 1) | (type)
 
-typedef struct 
+struct pit_register_tag
 {
-    volatile uint16_t *DATA;
-} pit_register_t;
+	union
+	{
+		struct
+		{
+            __OM uint16_t DATA[4];
+		} w;
+
+		struct
+		{
+			__IM uint16_t DATA[4];
+		} r;	
+	} reg;
+} __attribute__((packed, aligned(2)));
+
+typedef pit_register_tag pit_register_t;
+
 
 class ProgrammableIntervalTimer
 {
 private:
-    pit_register_t reg;
+    pit_register_t *intf;
 
 public:
 
     /* Initialize local state */
-    void initialize(void)
+    void initialize(pit_register_t *external_reg = NULL)
     {
-        reg.DATA = (volatile uint16_t *)WORD_ADDRESS(PIT_BASE);
+        intf = external_reg;
+        if(intf == NULL)
+        {
+            intf = (pit_register_t *)0xFFFF9040;
+        }
     }
 
     /* Write to PIT register */
     void write(uint8_t offset, uint16_t value)
     {
-        reg.DATA[offset & 0x03] = value;
+        intf->reg.w.DATA[offset & 0x03] = value;
     }
 
     /* Read from PIT register */
     uint8_t read(uint8_t offset)
     {
-        return reg.DATA[offset & 0x03];
+        return intf->reg.r.DATA[offset & 0x03];
     }
 
     uint8_t format_control_word(uint8_t select_counter, uint8_t access_mode, uint8_t counter_mode, bool is_bcd)

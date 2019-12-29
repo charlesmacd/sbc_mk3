@@ -82,10 +82,12 @@ SECTIONS
 
     . = ALIGN(0x4);
     __INIT_SECTION__ = . ;
+    _init = .;
     *(.init)
     SHORT (0x4E75)	/* rts */
 
     __FINI_SECTION__ = . ;
+    _fini = .;
     *(.fini)
     SHORT (0x4E75)	/* rts */
 
@@ -142,8 +144,11 @@ SECTIONS
 
   .KERNELSECTION 0x00100800 (NOLOAD) :
   {
+    _kernel_start = .;
     KEEP(*(.KERNELVARS))
+    _kernel_end = .;
   } > kernel
+  _skernel = SIZEOF (.KERNELSECTION);
 
 
 

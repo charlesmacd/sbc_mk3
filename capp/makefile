@@ -27,7 +27,7 @@ ASFLAGS	=	-m$(CPUTYPE) --register-prefix-optional
 LDFLAGS	=	--oformat elf32-m68k -T $(LSCRIPT)
 # removed -no-rtti
 CCFLAGS	=	-march=$(CPUTYPE) -mcpu=$(CPUTYPE) -mtune=$(CPUTYPE) -msoft-float $(OPT) -g -fno-builtin \
-			$(CINCLUDES) -Wfatal-errors -fno-rtti -fno-exceptions -Wa,--register-prefix-optional -std=$(CPPSTD)
+			$(CINCLUDES) -Wfatal-errors -fno-exceptions -Wa,--register-prefix-optional -std=$(CPPSTD) -fno-rtti
 ##CCFLAGS +=	-pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual 
 LIBS	=	$(SGDIR)\m68k-elf\lib\libc.a
 LIBS	+=	$(SGDIR)\m68k-elf\lib\libm.a 
@@ -185,6 +185,10 @@ kernel  :
 .PHONY  : syms
 syms  	:
 		m68k-elf-objdump -t $(ELF)
+
+.PHONY  : list
+list  	:
+		m68k-elf-objdump -t $(ELF) --disassemble --all-headers --source --demangle --wide
 
 #
 # end of makefile

@@ -12,6 +12,120 @@ extern "C" {
 #define kUsTimerMask          0x20
 #define kMsTimerMask          0x10
 
+
+
+
+
+class HardwareTimer
+{
+    SystemController *system_controller;
+    InterruptController *interrupt_controller;
+    ProgrammableIntervalTimer *pit;
+public:
+
+    void initialize(SystemController *sysc, InterruptController *intc, ProgrammableIntervalTimer *pitc)
+    {
+        system_controller = sysc;
+        interrupt_controller = intc;
+        pit = pitc;
+    }
+
+    
+
+    void delay_ms(uint16_t count_ms)
+    {
+    
+    }
+
+    void delay_us(uint16_t count_us)
+    {
+
+    }
+
+/// us tick ms
+// 
+
+    void interrupt_ms(uint16_t count_ms)
+    {
+        const int kMsTimerChannel = 2;
+        const bool kMsTimerCountBinary = true;
+
+        /* Stop timer from running */
+        system_controller->set_timer_gate(TimerGate::kMillisecond, false);
+
+        /* Set counting mode (software triggered one-shot, binary count) */
+        /* NOTE: Also resets OUT */
+        pit->write_control_word(
+            kMsTimerChannel, 
+            PIT_ACCESS_SEQUENTIAL, 
+            PIT_COUNTER_MODE_SW_TRG, 
+            kMsTimerCountBinary
+            );
+
+        /* Write new terminal count */
+        pit->write_counter(
+            kMsTimerChannel, 
+            count_ms);
+
+        /* Clear interrupt occurance flag */
+        __interval_1ms_flag = 0;
+
+        /* Clear pending interrupt state */
+        interrupt_controller->clear_pending(kMsTimerMask);
+
+        /* Enable interrupt state */
+        interrupt_controller->set_enable(kMsTimerMask);
+
+        /* Start counting */
+        system_controller->set_timer_gate(TimerGate::kMillisecond, true);
+   
+    }
+
+    void interrupt_us(uint16_t count_us)
+    {
+        const int kMsTimerChannel = 0;
+        const bool kMsTimerCountBinary = true;
+
+        /* Stop timer from running */
+        system_controller->set_timer_gate(TimerGate::kMicrosecond, false);
+
+        /* Set counting mode (software triggered one-shot, binary count) */
+        /* NOTE: Also resets OUT */
+        pit->write_control_word(
+            kMsTimerChannel, 
+            PIT_ACCESS_SEQUENTIAL, 
+            PIT_COUNTER_MODE_SW_TRG, 
+            kMsTimerCountBinary
+            );
+
+        /* Write new terminal count */
+        pit->write_counter(
+            kMsTimerChannel, 
+            count_us
+            );
+
+        /* Clear interrupt occurance flag */
+        __interval_1ms_flag = 0;
+
+        /* Clear pending interrupt state */
+        interrupt_controller->clear_pending(kUsTimerMask);
+
+        /* Enable interrupt state */
+        interrupt_controller->set_enable(kUsTimerMask);
+
+        /* Start counting */
+        system_controller->set_timer_gate(TimerGate::kMicrosecond, true);
+       
+    }
+
+};
+
+
+
+
+
+
+
 typedef struct
 {
     volatile uint8_t *TMR_1US_ENABLE;

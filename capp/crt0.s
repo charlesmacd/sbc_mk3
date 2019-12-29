@@ -38,6 +38,9 @@ reset:
                 # Set up interrupt redirection table
                 jsr     patch_interrupt_redirection_table
 
+                # Do C runtime
+                jsr     startup
+
                 # Run main function 
                 jsr     main
 
@@ -509,3 +512,4 @@ lookup_exception_msg:
 # End
 #------------------------------------------------------------------------------
 
+                        

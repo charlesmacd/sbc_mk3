@@ -798,11 +798,25 @@ extern "C" {
 	char *__stack;
 	char *_text_start;
 	char *_data_start;
-	char *_bss_start;
 	uint32_t _stext;
 	uint32_t _sdata;
 	uint32_t _sbss;
+	
+	uint32_t _bss_start;
+	uint32_t _start;
+	uint32_t _bend;
 };
+
+#if 0
+  	_bss_start = .;
+    _start = . ;
+    *(.shbss)
+    *(.bss .bss.*)
+    *(COMMON)
+    _bend = . ;
+  } > ram
+  _sbss = SIZEOF (.bss);
+#endif
 
 /* Display memory information */
 static int cmd_mem(int argc, char *argv[])
@@ -851,9 +865,15 @@ static int cmd_mem(int argc, char *argv[])
 	printf("* _data_start : %08X\n", (uint32_t)&_data_start);
 	printf("* _sdata      : %08X\n", (uint32_t)&_sdata);
 	printf("* _bss_start  : %08X\n", (uint32_t)&_bss_start);
+	printf("* _bss_end    : %08X\n", (uint32_t)&_bss_start);
 	printf("* _sbss       : %08X\n", (uint32_t)&_sbss);
 	printf("* _end        : %08X\n", (uint32_t)&_end);
 	printf("* __stack     : %08X\n", (uint32_t)&__stack);
+	printf("BSS section:\n");
+	printf("* _bss_start  : %08X\n", (uint32_t)&_bss_start);
+	printf("* _bss_end    : %08X\n", (uint32_t)&_start);
+	printf("* _bss_start  : %08X\n", (uint32_t)&_bend);
+	printf("* _bss_end    : %08X\n", (uint32_t)&_sbss);
 
 	return 0;
 }

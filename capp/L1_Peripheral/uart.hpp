@@ -79,7 +79,7 @@ public:
 
 };
 
-class Uart// : public UartDevice
+class Uart : public UartDevice 
 {
 private:
 

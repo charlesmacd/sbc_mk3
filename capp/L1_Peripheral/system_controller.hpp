@@ -1,7 +1,7 @@
 
 #ifndef _SYSTEM_CONTROLLER_H_
 #define _SYSTEM_CONTROLLER_H_
- 
+
 #ifndef __cplusplus
 extern "C" {
 #endif
@@ -10,6 +10,13 @@ extern "C" {
 #include <stdint.h>
 #include "../hw_defs.hpp"
 #include "../sys_types.hpp"
+
+enum TimerGate : uint8_t
+{
+    kMicrosecond,
+    kSysTick,
+    kMillisecond,
+};
 
 /* Board-specific constants */
 constexpr uint32_t kSystemPeripheralClock   =  8'000'000;
@@ -172,18 +179,20 @@ public:
     }
 
     /* Control the GATE inputs of the 82C55 PIT */
-    void set_timer_gate(uint8_t channel, bool state)
+    void set_timer_gate(TimerGate channel, bool state)
     {
         switch(channel)
         {
-            case 0:
+            case kMicrosecond:
                 sysc->reg.w.OUT0.INTERVAL_1US_ENA = (state) ? 0x01 : 0x00;
                 break;
-            case 1:
-                sysc->reg.w.OUT0.INTERVAL_1MS_ENA = (state) ? 0x01 : 0x00;
-                break;
-            case 2:
+                
+            case kSysTick:
                 /* SYSTICK is always enabled */
+                break;
+
+            case kMillisecond:
+                sysc->reg.w.OUT0.INTERVAL_1MS_ENA = (state) ? 0x01 : 0x00;
                 break;
         }
     }
