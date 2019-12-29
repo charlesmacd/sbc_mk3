@@ -16,6 +16,7 @@
 #include "L1_Peripheral/uart.hpp"
 #include "L3_Application/ring_buf.hpp"
 #include "L3_Application/cli.hpp"
+#include "L3_Application/app.hpp"
 #include "comms.hpp"
 
 #define INTCON_LV7_BRK          0x80
@@ -35,6 +36,7 @@ extern ProgrammableIntervalTimer pit;
 extern InterruptController interrupt_controller;
 extern Uart uart;
 extern FtdiUSB usb;
+extern Application app;
 
 /* Function prototypes */
 void sbc_initialize(void);

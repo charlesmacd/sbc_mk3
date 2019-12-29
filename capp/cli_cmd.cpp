@@ -9,6 +9,7 @@
 #include "sbc.hpp"
 #include "L1_Peripheral/uart.hpp"
 #include "L3_Application/cli.hpp"
+#include "L3_Application/app.hpp"
 #include "newlib/mem_heap.hpp"
 #include "cli_cmd.hpp"
 #include "timer.hpp"
@@ -821,8 +822,20 @@ extern "C" {
 /* Display memory information */
 static int cmd_mem(int argc, char *argv[])
 {
+	section_info_t sec;
+
+	for(int i = 0; ; i++)
+	{
+		if(!app.get_section_info((ApplicationSection)i, sec))
+			break;
+		printf("[%s]\n", sec.name);
+		printf("* Start = %08X\n", sec.start);
+		printf("* End   = %08X\n", sec.end);
+		printf("* Size  = %08X (%dk)\n", sec.size, sec.size >> 10);
+	}
 
 
+#if 0
 	const uint32_t wram_start = 0x100000; 
 	const uint32_t wram_size  = 0x100000;
 	const uint32_t isrtable_size = 0x800;
@@ -863,18 +876,21 @@ static int cmd_mem(int argc, char *argv[])
 	printf("* _text_start : %08X\n", (uint32_t)&_text_start);
 	printf("* _stext      : %08X\n", (uint32_t)&_stext);
 	printf("* _data_start : %08X\n", (uint32_t)&_data_start);
+	
 	printf("* _sdata      : %08X\n", (uint32_t)&_sdata);
 	printf("* _bss_start  : %08X\n", (uint32_t)&_bss_start);
 	printf("* _bss_end    : %08X\n", (uint32_t)&_bss_start);
+	
 	printf("* _sbss       : %08X\n", (uint32_t)&_sbss);
 	printf("* _end        : %08X\n", (uint32_t)&_end);
 	printf("* __stack     : %08X\n", (uint32_t)&__stack);
+
 	printf("BSS section:\n");
 	printf("* _bss_start  : %08X\n", (uint32_t)&_bss_start);
 	printf("* _bss_end    : %08X\n", (uint32_t)&_start);
 	printf("* _bss_start  : %08X\n", (uint32_t)&_bend);
 	printf("* _bss_end    : %08X\n", (uint32_t)&_sbss);
-
+#endif
 	return 0;
 }
 

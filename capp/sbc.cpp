@@ -21,6 +21,7 @@ InterruptController interrupt_controller;
 ProgrammableIntervalTimer pit;
 Uart uart;
 FtdiUSB usb;
+Application app;
 
 extern "C" 
 {
