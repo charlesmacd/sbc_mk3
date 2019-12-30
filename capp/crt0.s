@@ -29,6 +29,9 @@
 # End
 #-------------------------------------------------------------------------------
 
+                .extern _text_start
+                .extern _etext
+                .extern _stext
 reset:
                 # Set up stack
                 move.w  #0x2700, sr              

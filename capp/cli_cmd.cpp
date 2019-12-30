@@ -749,6 +749,7 @@ static int cmd_list(int argc, char *argv[])
 	{
 		printf("- %s\n", cli_cmd_tab[i].name);
 	}
+	return 0;
 }
 
 
@@ -756,6 +757,7 @@ int cmd_clrscr(int argc, char *argv[])
 {
 	printf(ANSI_HOME);
 	printf(ANSI_CLRSCR);
+	return 0;
 }
 
 
@@ -792,32 +794,10 @@ static int cmd_isr(int argc, char *argv[])
 			printf("Vector %03d : %08X\n", i, current_isr);
 		}
 	}
+	return 0;
 }
 
-extern "C" {
-    char _end;
-	char *__stack;
-	char *_text_start;
-	char *_data_start;
-	uint32_t _stext;
-	uint32_t _sdata;
-	uint32_t _sbss;
-	
-	uint32_t _bss_start;
-	uint32_t _start;
-	uint32_t _bend;
-};
 
-#if 0
-  	_bss_start = .;
-    _start = . ;
-    *(.shbss)
-    *(.bss .bss.*)
-    *(COMMON)
-    _bend = . ;
-  } > ram
-  _sbss = SIZEOF (.bss);
-#endif
 
 /* Display memory information */
 static int cmd_mem(int argc, char *argv[])
