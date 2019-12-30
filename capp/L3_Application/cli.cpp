@@ -282,10 +282,9 @@ int process_cli(char *buf, int size, cli_cmd_t *cli_cmd)
 
 
 
-void process_command_prompt(cli_cmd_t *commands)
+int process_command_prompt(cli_cmd_t *commands, const char *prompt)
 {
 	const int line_width = 80;
-	const char *prompt = "os>";
 	char buf[line_width];
 	size_t size = 0;
 
@@ -302,10 +301,11 @@ void process_command_prompt(cli_cmd_t *commands)
 	/* Process input */
 	if(size)
 	{
-		process_cli(buf, size, commands);
+		return process_cli(buf, size, commands);
 	}
-}
 
+	return 0;
+}
 
 
 

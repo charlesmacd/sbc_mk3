@@ -20,7 +20,8 @@ module pio_write_strobe_decode(
 	output wire usb_wr,
 	output wire usb_rd_n,
 	output wire intc_ce,
-	output wire overlay_we
+	output wire overlay_we,
+	output wire debug_ce
 	);
 	
 wire [7:0] enable_hi;
@@ -50,8 +51,11 @@ assign pcf_cs_n    		= ~(enable_hi[1] & enable_lo[2] & !rw_n);	// FF9080 W/O
 assign overlay_we		   =  (enable_hi[1] & enable_lo[3] & !rw_n);	// FF90C0 W/O
 
 /* FFA0x0 */
-assign usb_wr      		=  (enable_hi[2] &           !rw_n);		// FFA0x0 W/O 
-assign usb_rd_n    		= ~(enable_hi[2] &            rw_n);		// FFA0x0 R/O
+assign usb_wr      		=  (enable_hi[2] & enable_lo[0] & !rw_n);		// FFA000 W/O 
+assign usb_rd_n    		= ~(enable_hi[2] & enable_lo[0] &  rw_n);		// FFA000 R/O
+
+assign debug_ce         =  enable_hi[2] & enable_lo[2]  // ffa080 r/w
+                        |  enable_hi[2] & enable_lo[3]; // ffa0c0 r/w
 
 /* FFB0x0 */
 assign intc_ce				=	enable_hi[3];									// FFB0x0 R/W

@@ -18,7 +18,7 @@
 #include "L1_Peripheral/interrupt_controller.hpp"
 #include "L3_Application/cli.hpp"
 #include "L3_Application/mutex.hpp"
-#include "cli_cmd.hpp"
+#include "L3_Application/cli_cmd.hpp"
 #include "newlib/printf.hpp"
 #include "newlib/mem_heap.hpp"
 #include "debug.h"
@@ -46,7 +46,6 @@ extern "C" void startup(void)
 /*------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------*/
 
-extern cli_cmd_t terminal_cmds[];
 
 int main(void)
 {
@@ -63,14 +62,10 @@ int main(void)
 	/* Set POST code */
 	system_controller.set_post(0xA5);
 
-	while(1)
-	{
-		/* Process UART commands */
-		process_command_prompt(terminal_cmds);
-		
-		/* Idle until an event occurs */
-		WAIT_IRQ_ANY();
-	}
+	/* Run serial terminal */
+	run_terminal();
+
+	return 0;
 }
 
 

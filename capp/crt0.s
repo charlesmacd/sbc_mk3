@@ -176,6 +176,7 @@ __level3_isr:
                 jsr     UartSCC2681_ISR
                 addq.l  #4, sp
                 movem.l (sp)+, d0-d7/a0-a7
+                move.b  #0x08, (REG_IPEND_CLR).w
                 rte
 
 #--------------------------------------------------------

@@ -78,7 +78,31 @@ module new_interrupt_controller (
 		.q(intc_vector)
 		);
 		
+/*		
+		module new_flopen_rs #(parameter width = 4) (
+	input wire clock,
+	input wire reset_n,
+	input wire async_set_enable,
+	input wire async_clr_enable,
+	input wire [width-1:0] sync_set_inputs,
+	input wire [width-1:0] d,
+	output reg [width-1:0] q
+	);
+*/
+/*
+	new_flopen_rs #(4) INTC_REG_PENDING_RS (
+		.clock(clock), 
+		.reset_n(reset_n), 
+		.async_clr_enable(intc_reg_we[`REG_PEND_CLR]), 
+		.async_set_enable(intc_reg_we[`REG_PEND_SET]), 
+		.sync_set_inputs(irq[3:0]),
+		.d	(host_din[7:4]), 
+		.q(intc_pending[7:4])
+		);
+*/
+		
 	/* Pending interrupt register */
+	
 	flopren_rs #(4) INTC_REG_PENDING_RS (
 		.clock(clock), 
 		.reset_n(reset_n), 

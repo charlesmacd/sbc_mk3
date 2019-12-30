@@ -83,7 +83,7 @@ typedef struct
 } cli_cmd_t;
 
 /* Function prototypes */
-void process_command_prompt(cli_cmd_t *commands);
+int process_command_prompt(cli_cmd_t *commands, const char *prompt);
 
 
 #endif /* _CLI_H_ */

@@ -2,6 +2,6 @@
 #ifndef _CLI_CMD_H_
 #define _CLI_CMD_H_
 
-extern cli_cmd_t terminal_cmds[];
+int run_terminal(void);
 
 #endif /* _CLI_CMD_H_ */

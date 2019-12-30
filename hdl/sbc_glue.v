@@ -96,6 +96,7 @@ module sbc_glue(
 	wire [7:0] pio_page_oe;
 	
 	wire intc_ce;
+	wire debug_ce;
 	wire pio_page_oe_en;
 	wire flash_ce;
 	wire wram_ce;
@@ -192,7 +193,8 @@ module sbc_glue(
 		.usb_wr(usb_wr),
 		.usb_rd_n(usb_rd_n),
 		.intc_ce(intc_ce),
-		.overlay_we(overlay_we)
+		.overlay_we(overlay_we),
+		.debug_ce(debug_ce)
 		);
 
 	/* Edge detector to detect negative edge of PIT channel outputs
@@ -348,7 +350,9 @@ module sbc_glue(
    //	inputs: .inputs({psw_debounced_ne, timer0_ne, timer1_ne, timer2_ne}),
 	
 	// ffb0x0
+
 	
+
 	new_interrupt_controller NEW_INTCON (
 		.clock(x8m),
 		.reset_n(sysrst_n),

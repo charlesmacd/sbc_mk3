@@ -201,8 +201,74 @@ module alu #(parameter width = 8) (
 		
 endmodule /* alu */
 
+/*
+dffe <instance_name> (.d(<input_wire>), .clk(<input_wire>),
+
+   .clrn(<input_wire>), .prn(<input_wire>), .ena(<input_wire>),
+
+   .q(<output_wire>));
+	
+ena hi passes d to q
+ena lo keeps q
 
 
+DFF( .d .clk .clrn .prn .q)
+DFFE( .d .clk .clrn .prn .q .ena)
+
+
+	on clock update data
+	on write clear
+
+*/
+
+module new_flopen_rs #(parameter width = 8) (
+	input wire clock,
+	input wire reset_n,
+	input wire async_set_enable,
+	input wire async_clr_enable,
+	input wire [width-1:0] sync_set_inputs,
+	input wire [width-1:0] d,
+	output reg [width-1:0] q
+	);
+	
+	wire [3:0] ff_clrn;
+	wire [3:0] ff_prn;
+	wire [3:0] ff_ena;
+
+	assign ff_clrn[0] = ~( !reset_n | async_clr_enable & d[0] );
+	assign ff_clrn[1] = ~( !reset_n | async_clr_enable & d[1] );
+	assign ff_clrn[2] = ~( !reset_n | async_clr_enable & d[2] );
+	assign ff_clrn[3] = ~( !reset_n | async_clr_enable & d[3] );
+/*
+	assign ff_clrn[4] = ~( !reset_n | async_clr_enable & d[4] );
+	assign ff_clrn[5] = ~( !reset_n | async_clr_enable & d[5] );
+	assign ff_clrn[6] = ~( !reset_n | async_clr_enable & d[6] );
+	assign ff_clrn[7] = ~( !reset_n | async_clr_enable & d[7] );
+	*/
+	assign ff_prn[0] = ~( async_set_enable & d[0] );
+	assign ff_prn[1] = ~( async_set_enable & d[1] );
+	assign ff_prn[2] = ~( async_set_enable & d[2] );
+	assign ff_prn[3] = ~( async_set_enable & d[3] );
+	/*
+	assign ff_prn[4] = ~( async_set_enable & d[4] );
+	assign ff_prn[5] = ~( async_set_enable & d[5] );
+	assign ff_prn[6] = ~( async_set_enable & d[6] );
+	assign ff_prn[7] = ~( async_set_enable & d[7] );
+	*/
+	assign ff_ena[3:0] = 4'b1111;	
+
+  DFFE R0 (.clk(clock), .clrn(ff_clrn[0]), .prn(ff_prn[0]), .d(sync_set_inputs[0]), .q(q[0]), .ena(ff_ena[0]) ); 
+  DFFE R1 (.clk(clock), .clrn(ff_clrn[1]), .prn(ff_prn[1]), .d(sync_set_inputs[1]), .q(q[1]), .ena(ff_ena[1]) ); 
+  DFFE R2 (.clk(clock), .clrn(ff_clrn[2]), .prn(ff_prn[2]), .d(sync_set_inputs[2]), .q(q[2]), .ena(ff_ena[2]) ); 
+  DFFE R3 (.clk(clock), .clrn(ff_clrn[3]), .prn(ff_prn[3]), .d(sync_set_inputs[3]), .q(q[3]), .ena(ff_ena[3]) ); 
+  /*
+  DFFE R4 (.clk(clock), .clrn(ff_clrn[4]), .prn(ff_prn[4]), .d(sync_set_inputs[4]), .q(q[4]), .ena(ff_ena[4]) ); 
+  DFFE R5 (.clk(clock), .clrn(ff_clrn[5]), .prn(ff_prn[5]), .d(sync_set_inputs[5]), .q(q[5]), .ena(ff_ena[5]) ); 
+  DFFE R6 (.clk(clock), .clrn(ff_clrn[6]), .prn(ff_prn[6]), .d(sync_set_inputs[6]), .q(q[6]), .ena(ff_ena[6]) ); 
+  DFFE R7 (.clk(clock), .clrn(ff_clrn[7]), .prn(ff_prn[7]), .d(sync_set_inputs[7]), .q(q[7]), .ena(ff_ena[7]) ); 
+  */
+
+endmodule /* debug */	
 
 module flopren_rs #(parameter width = 4)(
 	input wire clock,

@@ -67,7 +67,8 @@ OBJ_CORE	=	\
 	obj/mutex.o	\
 	obj/newlib.o	\
 	obj/cpu_680x0.o	\
-	obj/app.o
+	obj/app.o \
+	obj/diag.o
 
 OBJ_APP	=	\
 	obj/cli.o	\

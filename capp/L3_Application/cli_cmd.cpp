@@ -6,13 +6,14 @@
 #include <string.h>
 #include <malloc.h>
 #include <ctype.h>
-#include "sbc.hpp"
-#include "L1_Peripheral/uart.hpp"
-#include "L3_Application/cli.hpp"
-#include "L3_Application/app.hpp"
-#include "newlib/mem_heap.hpp"
+#include "../sbc.hpp"
+#include "../L1_Peripheral/uart.hpp"
+#include "../L3_Application/cli.hpp"
+#include "../L3_Application/app.hpp"
+#include "../newlib/mem_heap.hpp"
 #include "cli_cmd.hpp"
-#include "timer.hpp"
+#include "../timer.hpp"
+#include "diag.hpp"
 
 
 /* Main area base */
@@ -1086,6 +1087,7 @@ static int cmd_debug(int argc, char *argv[])
 //	pic_flash_read(0x200000, 0x80, buffer);
 
 	dump_memory(0x104000, 0x100);
+	return 0;
 }
 
 
@@ -1126,6 +1128,7 @@ int cmd_iotest(int argc, char *argv[])
 //		OUT[4] = 0;
 	}
 	printf("Test finished.\n");
+	return 0;
 }
 
 
@@ -1198,6 +1201,7 @@ int cmd_timer(int argc, char *argv[])
 	printf("- Measured %08X microsecond ticks.\n", interval_1us_count);
 	printf("- Captured systick by 1ms timer = %08X\n", capture_1ms);
 	printf("- Captured systick by 1us timer = %08X\n", capture_1us);
+	return 0;
 }
 
 
@@ -1236,6 +1240,7 @@ int cmd_probeout(int argc, char *argv[])
 
 	}
 	printf("Test complete.\n");
+	return 0;
 }
 
 
@@ -1309,6 +1314,7 @@ int cmd_probein(int argc, char *argv[])
 		delay_ms(250);
 	}
 
+	return 0;
 }
 
 
@@ -1798,6 +1804,7 @@ int cmd_zdiag(int argc, char *argv[])
 
 
 	printf("Diagnostics complete.\n");
+	return 0;
 }
 
 /* crt0.s */
@@ -2044,6 +2051,7 @@ int cmd_boot(int argc, char *argv[])
 	}
 
 	printf("FRT test complete.\n");
+	return 0;
 }
 
 
@@ -2545,6 +2553,7 @@ int cmd_status(int argc, char *argv[])
 		if((i & 0x0F) == 0x0F)
 			printf("\n");
 	}
+	return 0;
 }
 
 
@@ -2673,6 +2682,7 @@ public:
 	{
 		set_address(address);
 		write(HUREG_DATA, data);
+	return 0;
 	}
 
 	uint8_t card_read(uint32_t address)
@@ -2853,8 +2863,29 @@ cli_cmd_t terminal_cmds[] =
 	{"status",  cmd_status},
 	{"hu",      cmd_hu},
 	{"uptime",  cmd_uptime},
+	{"diag",  	cmd_diag},
 	{NULL, 		NULL}
 };
+
+
+
+
+int run_terminal(void)
+{
+	while(1)
+	{
+		/* Process UART commands */
+		int status = process_command_prompt(terminal_cmds, "ram:\\>");
+		if(status == -1)
+		{
+			return -1;
+		}
+		
+		/* Idle until an event occurs */
+		WAIT_IRQ_ANY();
+	}
+	return 0;
+}
 
 
 #endif
