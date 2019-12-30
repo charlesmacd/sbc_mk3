@@ -50,6 +50,7 @@ extern cli_cmd_t terminal_cmds[];
 
 int main(void)
 {
+
 	/* Initialize board peripherals */
 	sbc_initialize();
 

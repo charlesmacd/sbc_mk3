@@ -29,20 +29,23 @@
 # End
 #-------------------------------------------------------------------------------
 
-                .extern _text_start
-                .extern _etext
-                .extern _stext
+                .extern _bss_start
+                .extern _ebss
+                .extern _sbss
 reset:
                 # Set up stack
                 move.w  #0x2700, sr              
                 lea     LOCAL_STACK_TOP, a7
                 move.l  a7, usp                
 
+                # Clear BSS
+                jsr     clear_bss
+
+                # Do C/C++ runtime startup
+                jsr     startup
+
                 # Set up interrupt redirection table
                 jsr     patch_interrupt_redirection_table
-
-                # Do C runtime
-                jsr     startup
 
                 # Run main function 
                 jsr     main
@@ -53,6 +56,18 @@ reset:
 
                 # Re-run boot ROM
                 jmp     reset_from_rom
+
+#------------------------------------------------------------------------------
+#
+#------------------------------------------------------------------------------
+clear_bss:                
+                lea     _bss_start, a4
+                move.l  #_sbss, d4
+                moveq   #0, d5
+        1:      move.b  d5, (a4)+
+                subq.l  #1, d4
+                bne.s   1b
+                rts
 
 #------------------------------------------------------------------------------
 #
