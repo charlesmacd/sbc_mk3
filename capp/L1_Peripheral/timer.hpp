@@ -7,7 +7,7 @@ extern "C" {
 #endif
 
 #include <stdint.h>
-#include "hw_defs.hpp"
+#include "../hw_defs.hpp"
 
 #define kUsTimerMask          0x20
 #define kMsTimerMask          0x10

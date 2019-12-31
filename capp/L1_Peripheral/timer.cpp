@@ -63,10 +63,10 @@
 	*/
 
 
-#include "sbc.hpp"
+#include "../sbc.hpp"
 #include "timer.hpp"
-#include "L1_Peripheral/pit.hpp"
-#include "L1_Peripheral/interrupt_controller.hpp"
+#include "pit.hpp"
+#include "interrupt_controller.hpp"
 
 volatile uint8_t *REG_TIMER_1US_ENABLE 	= (volatile uint8_t *)(PIO_BASE  + 0x40);
 volatile uint8_t *REG_TIMER_1MS_ENABLE 	= (volatile uint8_t *)(PIO_BASE  + 0x42);

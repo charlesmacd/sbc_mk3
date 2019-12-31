@@ -1,8 +1,8 @@
 
-#ifndef _FLASH_H_
-#define _FLASH_H_
+#ifndef _FLASH_HPP_
+#define _FLASH_HPP_
 
-#include "sys_types.h"
+#include "sys_types.hpp"
 
 void flash_program_sector(uint32_t address, uint8_t *buffer);
 void flash_software_id_entry(void);

@@ -68,11 +68,13 @@ OBJ_CORE	=	\
 	obj/newlib.o	\
 	obj/cpu_680x0.o	\
 	obj/app.o \
-	obj/diag.o
+	obj/term_diag.o	\
+	obj/term_flash.o	\
+	obj/parallel_memory.o
 
 OBJ_APP	=	\
 	obj/cli.o	\
-	obj/cli_cmd.o
+	obj/term_main.o
 
 OBJ	=	$(OBJ_CORE) $(OBJ_UTIL) $(OBJ_3RD) $(OBJ_APP)
 

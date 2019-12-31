@@ -1,6 +1,6 @@
 
 
-#include "flash.h"
+#include "flash.hpp"
 
 void flash_program_sector(uint32_t address, uint8_t *buffer)	
 {

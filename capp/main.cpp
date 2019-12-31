@@ -14,11 +14,10 @@
 #include <stdint.h>
 #include <assert.h>
 #include "sbc.hpp"
-#include "timer.hpp"
+#include "L1_Peripheral/timer.hpp"
 #include "L1_Peripheral/interrupt_controller.hpp"
-#include "L3_Application/cli.hpp"
 #include "L3_Application/mutex.hpp"
-#include "L3_Application/cli_cmd.hpp"
+#include "L3_Application/term_main.hpp"
 #include "newlib/printf.hpp"
 #include "newlib/mem_heap.hpp"
 #include "debug.h"

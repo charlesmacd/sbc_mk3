@@ -6,7 +6,7 @@
 #include "L1_Peripheral/uart.hpp"
 #include "L1_Peripheral/system_controller.hpp"
 #include "L1_Peripheral/interrupt_controller.hpp"
-#include "timer.hpp"
+#include "L1_Peripheral/timer.hpp"
 
 /* Global variables modified by ISRs */
 volatile uint8_t __systick_flag;
