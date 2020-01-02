@@ -4,7 +4,13 @@
 #define _PARALLEL_MEMORY_HPP_
 
 #include <stdint.h>
+#include <string>
+#include <map>
 #include "../sys_types.hpp"
+using namespace std;
+
+
+
 
 class ParallelMemory
 {
@@ -17,26 +23,25 @@ public:
     {
         base_address = address;
     }
-
-
-
 };
+
+
 
 enum EEPCommands : uint8_t
 {
-    kPageWrite = 0xA0,
-    kUnlockStep = 0x80,
-    kChipErase = 0x10,
-    kIDEntry = 0x90,
-    kIDExit = 0xF0,
-    kIDEntryAlt = 0xA0
+    kPageWrite      = 0xA0,
+    kUnlockStep     = 0x80,
+    kChipErase      = 0x10,
+    kIDEntry        = 0x90,
+    kIDExit         = 0xF0,
+    kIDEntryAlt     = 0xA0
 };
 
-#include <string>
-#include <map>
-using namespace std;
+
 
 //----------------------------------
+
+
 
 struct parallel_memory_device_information_tag
 {

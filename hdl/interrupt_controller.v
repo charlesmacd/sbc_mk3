@@ -108,7 +108,7 @@ module new_interrupt_controller (
 		.reset_n(reset_n), 
 		.clr_enable(intc_reg_we[`REG_PEND_CLR]), 
 		.set_enable(intc_reg_we[`REG_PEND_SET]), 
-		.inputs(irq[3:0]),
+		.inputs(irq[7:4]),
 		.d	(host_din[7:4]), 
 		.q(intc_pending[7:4])
 		);
@@ -127,7 +127,7 @@ module new_interrupt_controller (
 	assign intc_pending[0] = 0; /* Not used */
 	assign intc_pending[1] = 0; /* Level 1 */
 	assign intc_pending[2] = 0; /* Level 2 */
-	assign intc_pending[3] = ~irq[4]; /* Level 3 (UART) */	
+	assign intc_pending[3] = irq[3]; /* Level 3 (UART) */	
 	
 	/* Mask pending interrupts by enable register */
 	assign intc_masked = intc_pending & intc_enable;		

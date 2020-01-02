@@ -1,6 +1,6 @@
 `include "globals.inc"
 `include "timebase.inc"
-
+`default_nettype none
 
 // other funcs
 // ram overlay (swap out flash for ram)
@@ -201,13 +201,6 @@ module sbc_glue(
 	   Used to convert output pulse (which can be 1us or 1ms long) to a 8 MHz pulse
 		Do we want to use PE pulse instead? (validate timing)
 	*/
-	parallel_edge_detector #(3) PIT_OUT_ED (
-		.clock(x8m),
-		.reset_n(sysrst_n),
-		.channel_in({interval_1ms, interval_1us, systick_1ms}),
-		.channel_out_ne({timer2_ne, timer1_ne, timer0_ne})
-		);
-	
 	/* Synchronizer on UM245R TXE,RXF outputs */
 	parallel_synchronizer #(2) USBSYNCH (
 		.clock(x8m),
@@ -222,8 +215,6 @@ module sbc_glue(
 	/* Detect BREAK button with 1us resolution */
 	edge_detector BRK_EDGE_1US (.clock(systick_1ms), .reset_n(sysrst_n), .a(psw_break_n),  .ne(psw_debounced));	/* 1us pulse width */ 
 	
-	/* Detect BREAK button with 125ns resolution */
-	edge_detector BRK_EDGE_1MS (.clock(x8m), .reset_n(sysrst_n), .a(psw_debounced),  .pe(psw_debounced_ne));	/* 1us pulse width */ 
 
 	/* Overlay register */
 	
@@ -351,7 +342,89 @@ module sbc_glue(
 	
 	// ffb0x0
 
+	wire [4:0] ed;
+	wire [4:0] dd;
 	
+	assign ed[0] = systick_1ms;
+	assign ed[1] = interval_1us;
+	assign ed[2] = interval_1ms;
+	assign ed[3] = psw_debounced;
+	
+		wire uart_int_ne;
+	/* Detect BREAK button with 125ns resolution */
+	parallel_edge_detector #(4) PIT_OUT_ED (
+		.clock(x8m),
+		.reset_n(sysrst_n),
+		.channel_in(ed),
+		.channel_out_ne(dd)
+		);
+		
+	
+	wire [7:0] irqs;
+	
+	// -------------____________------------ uart_int_n (active low, open drain)
+	// _____________-_______________________ ne
+	// _________________________-___________ pe
+	//
+	// timer
+	// _____________---------_______________ 
+	// ----------------------_-------------- ne // should really be PE though? otherwise +1 count
+	//
+	// OUT is low normally, high on pulse
+	// For systick we need debounce
+	// as it's a square wave
+
+//{uart_int_ne,psw_debounced_ne,timer2_ne, timer1_ne, timer0_ne}		
+	
+	/*
+	assign irqs[7] = psw_debounced_ne;
+	assign irqs[6] = timer0_ne;
+	assign irqs[5] = timer1_ne;
+	assign irqs[4] = timer2_ne;
+	assign irqs[3] = ~uart_int_n;
+*/
+
+	wire uart_sync;	
+	wire uart_int_n_ne;
+	wire uart_int_n_pe;
+	
+	edge_detector U1X0 (
+		.clock(x8m),
+		.reset_n(sysrst_n),
+		.a(uart_int_n),
+		.ne(uart_int_n_ne),
+		.pe(uart_int_n_pe),
+		);
+		
+	// uart_n --------------________________--------------
+	// ne     ______________-______________________________
+	// pe     ______________________________-______________
+	//~ne     --------------_------------------------------
+	//~pe     ------------------------------_--------------
+		
+	DFFE UX0 (
+		.d(1'b1),
+		.clk(x8m),
+		.clrn(~uart_int_n_ne),
+		.prn(~uart_int_n_pe),
+		.ena(1'b0),
+		.q(uart_sync)
+		);
+
+
+	assign irqs[7] = dd[3];
+	assign irqs[6] = dd[0];
+	assign irqs[5] = dd[1];
+	assign irqs[4] = dd[2];
+	
+	assign irqs[3] = uart_sync;
+//	assign irqs[3] = dd[4];//~uart_int_n;
+
+//	assign ed[4] = ~uart_int_n;
+
+	assign irqs[2] = 1'b0;
+	assign irqs[1] = 1'b0;
+	assign irqs[0] = 1'b0;
 
 	new_interrupt_controller NEW_INTCON (
 		.clock(x8m),
@@ -362,8 +435,7 @@ module sbc_glue(
 		.host_qout(intc_databus_out),
 		.host_address(xadl[7:6]),
 		.host_ipl_n(xipl_n),
-//		.irq({1'b0, 1'b0, 1'b0, uart_int_n, psw_debounced_ne, timer0_ne, timer1_ne, timer2_ne})
-		.irq({1'b0, 1'b0, 1'b0, uart_int_n, psw_debounced_ne, timer0_ne, timer1_ne, timer2_ne})
+		.irq(irqs)
 		);
 
 		//=====================================
