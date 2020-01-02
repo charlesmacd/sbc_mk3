@@ -52,6 +52,8 @@ int main(void)
 	/* Initialize board peripherals */
 	sbc_initialize();
 
+	debug_puts("Starting up ...\n");
+
 	/* Enable interrupts */
 	EXIT_CRITICAL_SECTION();
 
