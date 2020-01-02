@@ -1,5 +1,5 @@
 
-/* Linker script for application in RAM */
+/* Linker script for application in ROM (Flash) */
 
 OUTPUT_ARCH(m68k)
 SEARCH_DIR(.)
@@ -17,7 +17,7 @@ PROVIDE (__stack = 0x00110000);
 
 SECTIONS
 {
-  .text 0x00110000:
+  .text 0x00000000:
   {
   	_text_start = .;
     *(.text .text.*)
@@ -48,7 +48,7 @@ SECTIONS
 
     _etext = .;
     *(.lit)
-  } > ram
+  } > flash
   _stext = SIZEOF (.text);
 
   .data :
@@ -61,7 +61,7 @@ SECTIONS
     *(.shdata)
     *(.data .data.*)
     _edata = .;
-  } > ram
+  } > flash
   _sdata = SIZEOF (.data);
 
   .bss :

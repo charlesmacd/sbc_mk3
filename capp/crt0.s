@@ -29,6 +29,22 @@
 # End
 #-------------------------------------------------------------------------------
 
+                .ifdef  ROM
+
+ROM_STACK_TOP   =       0x110000                
+
+                dc.l    ROM_STACK_TOP
+                dc.l    reset
+
+i               =       2
+                .rept   (256-2)
+                dc.l    0x100000 + (i<<24) + (i*8)
+i               =       i+1
+                .endr
+
+
+                .endif
+
                 .extern _bss_start
                 .extern _ebss
                 .extern _sbss

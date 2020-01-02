@@ -10,7 +10,8 @@ CPUDIR	=	m$(CPUTYPE)
 SGVER	=	8.2.0
 SGDIR	=	c:\outrun\outrun-gcc-$(SGVER)_mingw\gcc-$(SGVER)
 OPT		=	-O0
-LSCRIPT	=	L0_Platform/$(CPUTYPE)/linker_ram.ld
+LS_RAM	=	L0_Platform/$(CPUTYPE)/linker_ram.ld
+LS_ROM	=	L0_Platform/$(CPUTYPE)/linker_rom.ld
 
 CC	=	m68k-elf-g++
 CCC =	m68k-elf-gcc
@@ -24,7 +25,7 @@ CPPSTD    =	 c++2a
 
 ASFLAGS	=	-m$(CPUTYPE) --register-prefix-optional
 #LDFLAGS	=	--oformat binary -T $(LSCRIPT) 
-LDFLAGS	=	--oformat elf32-m68k -T $(LSCRIPT)
+LDFLAGS	=	--oformat elf32-m68k
 # removed -no-rtti
 CCFLAGS	=	-march=$(CPUTYPE) -mcpu=$(CPUTYPE) -mtune=$(CPUTYPE) -msoft-float $(OPT) -g -fno-builtin \
 			$(CINCLUDES) -Wfatal-errors -fno-exceptions -Wa,--register-prefix-optional -std=$(CPPSTD) -fno-rtti
@@ -92,7 +93,15 @@ APPNAME	=	app
 ELF	=	$(APPNAME).elf
 EXE	=	$(APPNAME).bin
 
+# Target for RAM application
 all	:	$(EXE)
+all :	LDFLAGS += -T $(LS_RAM)
+
+# Target for ROMMable code
+rom :   CCFLAGS += -DROM=1
+rom :	ASFLAGS += -defsym ROM=1
+rom :   LDFLAGS += -T $(LS_ROM)
+rom : 	$(EXE)
 
 $(EXE)	:	$(OBJ)
 		$(LD) $(OBJ) $(LDFLAGS) -o $(ELF) $(LIBS)
