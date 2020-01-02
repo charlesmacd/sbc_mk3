@@ -80,6 +80,7 @@ public:
     /* Device configuration */
     uint32_t base_address;
     uint32_t page_size;
+    uint8_t byte_lane;
 
     uint8_t manufacturer_code;
     uint8_t device_code;
@@ -87,7 +88,7 @@ public:
 
     /* Memory configuration */
     volatile uint16_t *memory;
-    uint8_t byte_lane;
+    int lane_width;
     uint8_t shift;
 
     parallel_memory_device_information_t *info;
@@ -97,12 +98,13 @@ public:
         info = NULL;
     }
 
-    void set_base_address(uint32_t address)
+    void set_base_address(uint32_t address, int width)
     {
         base_address = address;
-        memory = (volatile uint16_t *)(address & ~1);
         byte_lane = address & 1;
-        shift = byte_lane ? 8 : 0;
+        memory = (volatile uint16_t *)(address & ~1);
+        lane_width = width;
+        shift = (address & 1) ? (width/2) : 0;
         size = 0;
     }
 
@@ -124,14 +126,25 @@ public:
     void write_command(uint8_t command)
     {
         constexpr uint32_t unlockAddr1 = 0x5555;
-        constexpr uint8_t unlockData1 = 0xAA;
-
         constexpr uint32_t unlockAddr2 = 0x2AAA;
-        constexpr uint8_t unlockData2 = 0x55;
 
-        memory[unlockAddr1] = unlockData1 << shift;
-        memory[unlockAddr2] = unlockData2 << shift;
-        memory[unlockAddr1] = command << shift;
+        if(lane_width == 16)
+        {
+            constexpr uint16_t unlockData1 = 0xAAAA;
+            constexpr uint16_t unlockData2 = 0x5555;        
+            memory[unlockAddr1] = unlockData1;
+            memory[unlockAddr2] = unlockData2;
+            memory[unlockAddr1] = (command << 8) | (command);
+        }
+        else
+        {
+            constexpr uint8_t unlockData1 = 0xAA;
+            constexpr uint8_t unlockData2 = 0x55;        
+            memory[unlockAddr1] = unlockData1 << shift;
+            memory[unlockAddr2] = unlockData2 << shift;
+            memory[unlockAddr1] = command << shift;
+        }
+
 
         /* delay or polling? */
     }
@@ -142,8 +155,20 @@ public:
         write_command(EEPCommands::kIDEntry);
  
         /* Get ID */
-        manufacturer_code = memory[0] >> shift;
-        device_code = memory[1] >> shift;
+
+        if(lane_width == 16)
+        {
+            // validate
+            manufacturer_code = (memory[0] >> 8) & 0xFF;
+            device_code = (memory[1] >> 8) & 0xFF;
+
+        }
+        else
+        {
+        
+            manufacturer_code = memory[0] >> shift;
+            device_code = memory[1] >> shift;
+        }
 
         page_size = 0x80;
         size = 0x20000;

@@ -40,12 +40,19 @@ int cmd_info(int argc, char *argv[])
 {
     ParallelEEPROM dev;
 
-    dev.set_base_address(0x200001);
+    dev.set_base_address(0x200000, 16);
     dev.get_information();
 
     printf("Device information:\n");
     printf("- Base address:    %08X\n", dev.base_address);
-    printf("- Byte lane:       %s\n", dev.byte_lane ? "D[15:8]" : "D[7:0]");
+	if(dev.lane_width == 16)
+	{
+	    printf("- Word lane:       %s\n", "D[15:0]");				
+	}
+	else
+	{
+	    printf("- Byte lane:       %s\n", dev.byte_lane ? "D[15:8]" : "D[7:0]");		
+	}
     printf("- Manufacturer ID: %02X\n", dev.manufacturer_code);
     printf("- Device ID:       %02X\n", dev.device_code);
     printf("- Device size:     %08X (%dk)\n", dev.size, dev.size >> 10);
