@@ -14,6 +14,7 @@
 #include "L1_Peripheral/interrupt_controller.hpp"
 #include "L1_Peripheral/pit.hpp"
 #include "L1_Peripheral/uart.hpp"
+#include "L1_Peripheral/sbc_pio.hpp"
 #include "L3_Application/ring_buf.hpp"
 #include "L3_Application/cli.hpp"
 #include "L3_Application/app.hpp"
@@ -37,6 +38,7 @@ extern InterruptController interrupt_controller;
 extern Uart uart;
 extern FtdiUSB usb;
 extern Application app;
+extern SBCPIO sbc_pio;
 
 /* Function prototypes */
 void sbc_initialize(void);

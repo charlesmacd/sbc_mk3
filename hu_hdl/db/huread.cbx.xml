@@ -1,6 +1,0 @@
-<?xml version="1.0" ?>
-<LOG_ROOT>
-	<PROJECT NAME="huread">
-		<CBX_INST_ENTRY INSTANCE_NAME="|top|loadable_counter:comb_104|lpm_add_sub:Add0" CBX_FILE_NAME="add_sub_rnh.tdf"/>
-	</PROJECT>
-</LOG_ROOT>

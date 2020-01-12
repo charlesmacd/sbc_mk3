@@ -15,6 +15,12 @@
 #include "term_main.hpp"
 #include "term_diag.hpp"
 #include "term_flash.hpp"
+#include "term_pio.hpp"
+#include "term_huread.hpp"
+#include "../L1_Peripheral/sbc_pio.hpp"
+#include "../L1_Peripheral/target_huread.hpp"
+
+extern Target_HuRead hureader;
 
 
 /* Main area base */
@@ -897,70 +903,6 @@ int cmd_iotest(int argc, char *argv[])
 
 
 
-
-int cmd_timer(int argc, char *argv[])
-{
-	bool running = true;
-
-	printf("Starting timer test ...\n");
-	printf("SR = %04X\n", get_sr());
-
-	__systick_flag = 0;
-	__interval_1us_flag = 0;
-	__interval_1ms_flag = 0;
-
-	uint32_t systick_count = 0;
-	uint32_t interval_1ms_count = 0;
-	uint32_t interval_1us_count = 0;
-	uint32_t capture_1ms = 0xdeadbeef;
-	uint32_t capture_1us = 0xdeadbeef;
-
-	int interval_1ms = 500; 			// 500ms
-	int interval_1us = 500 * 1000;		// 500,000us
-
-	printf("Set 1ms timer to %d ticks.\n", interval_1ms);
-	set_1ms_timer(interval_1ms);	
-	
-	printf("Set 1us timer to %d ticks.\n", interval_1us);
-	set_1us_timer(interval_1us);	
-
-	while(running)
-	{
-		if(uart.keypressed())
-		{
-			running = false;
-			printf("Status: User requested exit.\n");
-		}
-
-		if(__interval_1ms_flag)
-		{
-			__interval_1ms_flag = 0;
-			++interval_1ms_count;
-			capture_1ms = systick_count;
-			printf("Status: 1ms timer expired.\n");
-		}
-		if(__interval_1us_flag)
-		{
-			__interval_1us_flag = 0;
-			++interval_1us_count;
-			capture_1us = systick_count;
-			printf("Status: 1us timer expired.\n");
-		}
-		if(__systick_flag)
-		{
-			__systick_flag = 0;
-			++systick_count;
-		}
-	}
-
-	printf("Timer test complete.\n");
-	printf("- Measured %08X system ticks.\n", systick_count);
-	printf("- Measured %08X millisecond ticks.\n", interval_1ms_count);
-	printf("- Measured %08X microsecond ticks.\n", interval_1us_count);
-	printf("- Captured systick by 1ms timer = %08X\n", capture_1ms);
-	printf("- Captured systick by 1us timer = %08X\n", capture_1us);
-	return 0;
-}
 
 
 
@@ -2144,12 +2086,12 @@ const char *get_nreg_name(uint32_t offset)
 
 void write_newreg(uint32_t offset, uint8_t data)
 {
-	PIO_EXT[offset] = (data) ? 0x80 : 0x00;
+	PIO_EXT[offset] = (data) ? 0x01 : 0x00;
 }
 
 uint8_t read_newreg(uint32_t offset)
 {
-	return (PIO_EXT[offset] & 0x80) ? 0x01 : 0x00;
+	return (PIO_EXT[offset] & 0x01) ? 0x01 : 0x00;
 }
 
 /*----------------------------------------------------------------------------*/
@@ -2487,14 +2429,13 @@ uint8_t rom_bank[0x2000];
 
 int cmd_hu(int argc, char *argv[])
 {
+#if 1
+
 	uint8_t temp;
 	huread dev;
 
 	printf("Start of test.\n");
 
-
-
-	printf("Start of test.\n");
 
 	dev.initialize();
 
@@ -2575,6 +2516,7 @@ int cmd_hu(int argc, char *argv[])
 	}
 #endif
 	printf("End of test.\n");
+#endif	
 	return 0;
 }
 
@@ -2607,7 +2549,6 @@ cli_cmd_t terminal_cmds[] =
 	{"alloc",   cmd_alloc},
 	{"isr",     cmd_isr},
 	{"iotest",  cmd_iotest},
-	{"timer",   cmd_timer},
 	{"probein", cmd_probein},
 	{"probeout",cmd_probeout},
 	{"boot",    cmd_boot},
@@ -2620,8 +2561,10 @@ cli_cmd_t terminal_cmds[] =
 	{"ex",      cmd_ex},
 	{"status",  cmd_status},
 	{"hu",      cmd_hu},
+	{"huread",  cmd_huread},
 	{"uptime",  cmd_uptime},
 	{"diag",  	cmd_diag},
+	{"pio",     cmd_pio},
 	{NULL, 		NULL}
 };
 

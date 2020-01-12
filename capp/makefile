@@ -28,11 +28,12 @@ ASFLAGS	=	-m$(CPUTYPE) --register-prefix-optional
 LDFLAGS	=	--oformat elf32-m68k
 # removed -no-rtti
 CCFLAGS	=	-march=$(CPUTYPE) -mcpu=$(CPUTYPE) -mtune=$(CPUTYPE) -msoft-float $(OPT) -g -fno-builtin \
-			$(CINCLUDES) -Wfatal-errors -fno-exceptions -Wa,--register-prefix-optional -std=$(CPPSTD) -fno-rtti
+			$(CINCLUDES) -Wfatal-errors -fno-exceptions -Wa,--register-prefix-optional -std=$(CPPSTD) -fno-rtti #-MMD
 ##CCFLAGS +=	-pedantic -Wall -Wshadow -Wpointer-arith -Wcast-qual 
 LIBS	=	$(SGDIR)\m68k-elf\lib\libc.a
 LIBS	+=	$(SGDIR)\m68k-elf\lib\libm.a 
 LIBS	+=	$(SGDIR)\m68k-elf\lib\libg.a
+#LIBS	+=	$(SGDIR)\m68k-elf\lib\libstdc++.a
 LIBS	+=	$(SGDIR)\lib\gcc\m68k-elf\$(SGVER)\libgcc.a
 
 
@@ -71,7 +72,12 @@ OBJ_CORE	=	\
 	obj/app.o \
 	obj/term_diag.o	\
 	obj/term_flash.o	\
-	obj/parallel_memory.o
+	obj/term_pio.o 	\
+	obj/parallel_memory.o	\
+	obj/line_editor.o	\
+	obj/sbc_pio.o	\
+	obj/target_huread.o	\
+	obj/term_huread.o
 
 OBJ_APP	=	\
 	obj/cli.o	\
@@ -94,7 +100,7 @@ ELF	=	$(APPNAME).elf
 EXE	=	$(APPNAME).bin
 
 # Target for RAM application
-all	:	$(EXE)
+all	:	$(EXE) 
 all :	LDFLAGS += -T $(LS_RAM)
 
 # Target for ROMMable code
@@ -158,6 +164,8 @@ obj/%.o : L0_Platform/68000/%.cpp L0_Platform/68000/%.hpp
 	        
 obj/%.o : L0_Platform/68000/%.s $(AS_INC) 
 		$(AS) $< -o $@ $(ASFLAGS)
+
+#-include $(OBJS:%.o=%.d)
 
 # Phony targets
 

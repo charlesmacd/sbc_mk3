@@ -17,11 +17,7 @@
 #include <ctype.h>
 #include "../sbc.hpp"
 #include "../L1_Peripheral/uart.hpp"
-
-
-/* Function prototypes */
-extern int sprintf(char *str, const char *format, ...);
-
+using namespace std;
 
 static const esc_seq_t esc_seq_tab[] =
 {
@@ -50,25 +46,157 @@ static const esc_seq_t esc_seq_tab[] =
 	{NULL, 0, 0}
 };
 
+
+//////////////////////////////////////////////?/////////////?//////////////////////
+
+#define HISTORY_MAX_SIZE		128
+
+class HistoryBuffer
+{
+public:
+	uint8_t capacity;
+	uint8_t index_mask;
+	uint8_t write_index;
+	uint8_t read_index;
+    uint8_t count;
+	uint8_t buffer[RINGBUF_MAX_SIZE];
+   
+	void print_buf(void)
+	{
+		for(int i = 0; i < capacity; i++)
+		{
+//			buffer[i] = 0xbc;
+			printf("[%02X]", buffer[i]);
+		}
+		printf("\n");
+	}
+
+
+    /* Intialize ring buffer */
+    bool initialize(uint32_t buffer_capacity)
+    {
+        /* Validate capacity is a non-zero power-of-two */
+        if(buffer_capacity == 0 || __builtin_popcount(buffer_capacity) != 1)
+        {
+            return false;
+        }
+		
+
+
+        capacity = buffer_capacity;
+        index_mask = (capacity - 1);
+        write_index = 0;
+        read_index = 0;
+        count = 0;
+
+        return true;
+    }
+
+    bool peek(uint8_t offset, uint8_t &value)
+    {
+        value = buffer[(write_index - offset) & index_mask];
+		if(offset > count)
+		{
+			return false;
+		}
+        return true;
+    }
+
+	void consume(uint8_t amount)
+	{
+		count -= amount;
+
+		// clamp
+		if(!amount)
+		{
+			count = 0;
+		}
+			
+	}
+
+    /* Insert byte into ring buffer */
+    void insert(uint8_t data)
+    {
+        buffer[write_index++ & index_mask] = data;
+        ++count;
+    }
+
+
+    /* Test if ring buffer is empty */
+    int empty(void)
+    {
+        return (count == 0);
+    }
+};
+
+
+
+//////////////////////////////////
+
 line_editor_history_t line_editor_history;
 
 
-/*
-	history buffer
-	on successful command entry, add to buffer and bump index
-	need to store string, mainly for argv
-*/
-
-void line_editor_reset(void)
+class LineEditor
 {
-	memset(&line_editor_history, 0, sizeof(line_editor_history));
-	line_editor_history.index = 0;
-}
+	Uart *uart;
+	HistoryBuffer history;
+public:
+	size_t edit(Uart &uart, char *buf, int buf_size, void *fileno, int (*escape_handler)(uint8_t code, line_editor_state_t *state));
+	bool evaluate_escape(char ch);
+};
 
+#if 0
 
-
-size_t line_editor(char *buf, int buf_size, void *fileno, int (*escape_handler)(uint8_t code, line_editor_state_t *state))
+typedef struct
 {
+	char buffer[80];
+	int index;
+	char esc_buffer[10];
+	int esc_index;
+	uint8_t esc_flag;
+} line_editor_state_t;
+#endif
+
+// keep last n items in history 
+// shift out bytes as we insert new ones
+// length of sft is equal to longest sequence we want to detect
+// how to implement?
+// just ring buffer that doesn't overflow/underflow, kinda
+// well for inserts, we just insert and wrap
+// how to know # of readable bytes?
+// on each insert bump count (# of inserted)
+// we can read from write index, backwards 
+
+
+
+
+//{"\x1B\x5B\x41", 		 3, VK_UP},
+	
+bool LineEditor::evaluate_escape(char ch)
+{
+	printf("\nINIT: ");
+	history.print_buf();
+
+
+	history.insert(ch);
+
+	if(history.count >= 3)
+	{
+		for(int i = 0; i < 3; i++)
+		{
+			uint8_t value;
+			history.peek(i, value);
+			printf("Index:%02X | Value:%02X\n", i, value);
+		}
+	}
+
+
+	return true;
+}	
+
+size_t LineEditor::edit(Uart &uart, char *buf, int buf_size, void *fileno, int (*escape_handler)(uint8_t code, line_editor_state_t *state))
+{
+	const bool local_echo = true;
 	const int esc_buffer_size = 10;
 
 	line_editor_state_t state;
@@ -77,6 +205,8 @@ size_t line_editor(char *buf, int buf_size, void *fileno, int (*escape_handler)(
 	memset(&state, 0, sizeof(line_editor_state_t));
 
 	bool insert = true;
+
+	history.initialize(8);
 
 	while(1)
 	{
@@ -88,25 +218,6 @@ size_t line_editor(char *buf, int buf_size, void *fileno, int (*escape_handler)(
 		/* Newline (handle regardless of escaping) */
 		if(ch == ASCII_CR)
 		{
-			if(state.esc_flag)
-			{
-				/* We're escaping */
-				// FIXME for 2 or more ESCs in sequence
-				if(state.esc_index == 1)
-				{
-					/* Consume ESC and do nothing */
-				}
-				else
-				{
-					// we have an escape sequence being processed that was not finished yet or is invalid
-					printf("*** Error, found newline before escape sequence was terminated.\n");
-					for(int i = 0; i < state.esc_index; i++)
-					{
-						printf("ESC #%d : [%02X]\n", i, state.esc_buffer[i]);
-					}
-				}
-			}
-
 			/* Echo CR,LF in response to each CR recieved */
 			uart.write(ASCII_CR);
 			uart.write(ASCII_LF);
@@ -131,55 +242,16 @@ size_t line_editor(char *buf, int buf_size, void *fileno, int (*escape_handler)(
 		}
 		else
 		{
-			if(state.esc_flag)
+			/* Not escaping */
+			switch(ch)
 			{
-				/* Insert character to escape buffer */
-				state.esc_buffer[state.esc_index++] = ch;
-				if(state.esc_index >= esc_buffer_size)
-					state.esc_index = esc_buffer_size - 1;
+				case ASCII_ESC: /* Found escape character, start escape sequence */
+//					printf("[%02X](%08X)", ch, uart.rx_ringbuf.count);					
+					break;
 
-				/* See if any escape sequences match what's in the escape buffer */
-				/* FIXME Find a faster way to do this */
-				bool searching = true;
-				for(int i = 0; i < MAX_VK && searching; i++)
-				{
-					if(state.esc_index == esc_seq_tab[i].length 
-						&& memcmp(state.esc_buffer, esc_seq_tab[i].seq, state.esc_index) == 0)
-					{
-						if(escape_handler != NULL)
-						{
-							escape_handler(esc_seq_tab[i].keycode, &state);
-							searching = false;
-						}
-
-						state.esc_flag = 0;
-						state.esc_index = 0;
-
-						/* Don't insert this character into the buffer */
-						insert = false;
-					}
-				}
-			}
-			else
-			{
-				/* Not escaping */
-				switch(ch)
-				{
-					case ASCII_ESC: /* Found escape character, start escape sequence */
-						state.esc_flag = 1;
-						state.esc_index = 0;
-						memset(state.esc_buffer, 0, esc_buffer_size);
-
-						/* Insert character into escape buffer */
-						state.esc_buffer[state.esc_index++] = ch;
-						if(state.esc_index >= esc_buffer_size)
-							state.esc_index = esc_buffer_size - 1;
-						break;
-
-					default:
-						break;
-				}			
-			}
+				default:
+					break;
+			}			
 		}
 
 		/* Insert character into buffer */
@@ -191,10 +263,30 @@ size_t line_editor(char *buf, int buf_size, void *fileno, int (*escape_handler)(
 				state.index = buf_size - 1;
 			}
 
-			uart.write(ch);
+			if(local_echo)
+			{
+				uart.write(ch);
+			}
 		}
 	}
+	
+	return 0;
 }
+
+
+/*
+	history buffer
+	on successful command entry, add to buffer and bump index
+	need to store string, mainly for argv
+*/
+
+void line_editor_reset(void)
+{
+	memset(&line_editor_history, 0, sizeof(line_editor_history));
+	line_editor_history.index = 0;
+}
+
+
 
 
 
@@ -280,6 +372,7 @@ int process_cli(char *buf, int size, cli_cmd_t *cli_cmd)
 
 
 
+LineEditor ed;
 
 
 int process_command_prompt(cli_cmd_t *commands, const char *prompt)
@@ -291,8 +384,10 @@ int process_command_prompt(cli_cmd_t *commands, const char *prompt)
 	/* Display prompt to user */
 	printf("%s", prompt);
 
+
 	/* Block until user input available */
-	size = line_editor(
+	size = ed.edit(
+		uart,
 		buf, 
 		sizeof(buf), 
 		NULL, 

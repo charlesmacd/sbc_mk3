@@ -1,8 +1,0 @@
-db
-incremental_db
-output_files
-*.dpf
-*.qpf
-*.qsf
-*.bak
-*.qws

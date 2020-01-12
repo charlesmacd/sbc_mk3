@@ -15,14 +15,46 @@ using namespace std;
 class ParallelMemory
 {
 private:
+    uint32_t base_address;
+    uint32_t capacity;
+    uint32_t mask;
+    uint32_t shift;
+    volatile uint16_t *memory;
+
 public:
 
-    uint32_t base_address;
-
-    void set_base_address(uint32_t address)
+    void initialize(uint32_t dev_base_address, uint32_t dev_capacity)
     {
-        base_address = address;
+        base_address = dev_base_address;
+        capacity = dev_capacity;
+
+        /* Compute offset mask */
+        mask = capacity - 1;
+        
+        /* Compute data shift */
+        shift = (base_address & 1) ? 8 : 0;
+
+        base_address &= ~1;
+
+        /* Point to memory */
+        memory = (volatile uint16_t *)base_address;
     }
+
+    inline void write(uint32_t offset, uint8_t data)
+    {
+        memory[offset & mask] = data << shift;
+    }
+
+    inline uint8_t read(uint32_t offset)
+    {
+        return (memory[offset & mask] >> shift) & 0xFF;
+    }
+
+    inline uint32_t size(void)
+    {
+        return capacity;
+    }
+
 };
 
 

@@ -95,6 +95,11 @@ public:
     RingBuffer tx_ringbuf;
     uint8_t state_imr;
 
+    Uart()
+    {
+        
+    }
+
     void enable_interrupts(uint8_t mask);
     void disable_interrupts(uint8_t mask);
 

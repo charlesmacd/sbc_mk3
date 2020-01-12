@@ -7,6 +7,8 @@
 #include "L1_Peripheral/system_controller.hpp"
 #include "L1_Peripheral/interrupt_controller.hpp"
 #include "L1_Peripheral/timer.hpp"
+#include "L1_Peripheral/sbc_pio.hpp"
+#include "L1_Peripheral/target_huread.hpp"
 
 /* Global variables modified by ISRs */
 volatile uint8_t __systick_flag;
@@ -22,6 +24,9 @@ ProgrammableIntervalTimer pit;
 Uart uart;
 FtdiUSB usb;
 Application app;
+SBCPIO sbc_pio;
+
+Target_HuRead hureader(sbc_pio);	
 
 extern "C" 
 {
@@ -53,6 +58,10 @@ void sbc_initialize(void)
 
 	/* Set up UART */
 	uart.initialize();
+
+	/* Set up expansion I/O board */ // this should be handled differently
+	sbc_pio.initialize();
+	hureader.assign(sbc_pio);
 
 	/* Patch redirection table in RAM that vector table in Flash points to */
 	cpu.set_redirected_isr(CPUVectorNumber::AUTOVECTOR_LEVEL1, (IsrHandler)&__level1_isr);

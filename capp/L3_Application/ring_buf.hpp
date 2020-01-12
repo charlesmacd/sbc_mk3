@@ -6,20 +6,22 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include "..\debug.h"
+
 
 #define RINGBUF_MAX_SIZE		128
 
 class RingBuffer
 {
 public:
-	uint8_t capacity;
-	uint8_t index_mask;
-	uint8_t write_index;
-	uint8_t read_index;
-    uint8_t count;
-	bool underflow;
-	bool overflow;
-	uint8_t buffer[RINGBUF_MAX_SIZE];
+	volatile uint8_t capacity;
+	volatile uint8_t index_mask;
+	volatile uint8_t write_index;
+	volatile uint8_t read_index;
+    volatile uint8_t count;
+	volatile bool underflow;
+	volatile bool overflow;
+	volatile uint8_t buffer[RINGBUF_MAX_SIZE];
    
 
     /* Clear oveflow condition */
@@ -27,7 +29,6 @@ public:
     {
         overflow = false;
     }
-
 
     /* Clear underflow condition */
     void clear_underflow(void)
@@ -39,7 +40,6 @@ public:
     /* Intialize ring buffer */
     bool initialize(uint32_t buffer_capacity)
     {
-        __asm__ __volatile__("reset");
         /* Validate capacity is a non-zero power-of-two */
         if(buffer_capacity == 0 || __builtin_popcount(buffer_capacity) != 1)
         {
@@ -58,7 +58,6 @@ public:
         return true;
     }
 
-
     /* Insert byte into ring buffer */
     void insert(uint8_t data)
     {
@@ -74,7 +73,7 @@ public:
 
 
     /* Look at next element to read; trigger underflow if empty */
-    uint8_t peek(void)
+    volatile uint8_t peek(void)
     {
         if(empty())
         {
@@ -86,7 +85,7 @@ public:
 
 
     /* Remove byte from ring buffer */
-    uint8_t remove(void)
+    volatile uint8_t remove(void)
     {
         uint8_t temp;
 
@@ -103,25 +102,24 @@ public:
     }
 
 
-    /* Test if ring buffer is empty */
-    int empty(void)
+    volatile bool empty(void)
     {
         return (count == 0);
     }
 
-    uint8_t used(void)
+    volatile uint8_t used(void)
     {
         return count;
     }
 
-    uint8_t remaining(void)
+    volatile uint8_t remaining(void)
     {
         return capacity - count;
     }
 
 
     /* Check if ring buffer is full */
-    int full(void)
+    volatile int full(void)
     {
         return count == capacity;
     }

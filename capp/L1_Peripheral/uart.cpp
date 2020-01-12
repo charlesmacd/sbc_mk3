@@ -5,6 +5,7 @@
 		None
 */
 
+
 #include <cstdint>
 #include <cstring>
 #include "../L1_Peripheral/system_controller.hpp"
@@ -52,6 +53,7 @@
 #define UART_INTEN_RXRDY						0x04
 
 
+
 /* Short delay for command processing */
 void Uart::command_delay(void)
 {
@@ -74,6 +76,7 @@ void Uart::write_mr1(uint8_t value)
 	send_command(CR_RESET_MR);	/* Reset pointer back to MR1 */
 	dev->reg.w.MR1 = value;		/* Write value and switch to MR2 */
 }
+
 
 void Uart::reset(void)
 {
@@ -165,6 +168,7 @@ void Uart::initialize(uart_register_t *external_reg)
 	set_baud_rate(115200);
 }
 
+
 void Uart::enable_interrupts(uint8_t mask)
 {
 	state_imr |= mask;
@@ -192,6 +196,9 @@ void Uart::write(uint8_t data)
 	enable_interrupts(UART_INTEN_TXRDY);
 }
 
+
+
+
 void Uart::write(const uint8_t *data, uint32_t size)
 {
 	for(size_t i = 0; i < size; i++)
@@ -209,6 +216,7 @@ void Uart::write(const uint8_t *data, uint32_t size)
 	}
 	enable_interrupts(UART_INTEN_TXRDY);
 }
+
 
 uint8_t Uart::read(void)
 {
@@ -237,6 +245,11 @@ bool Uart::keypressed(void)
 	return rx_ringbuf.empty() ? false : true;
 }
 
+
+//#pragma GCC push_options
+//#pragma GCC optimize ("O0")
+
+
 uint8_t Uart::read_blocking(void)
 {
 	while(!keypressed())
@@ -244,7 +257,10 @@ uint8_t Uart::read_blocking(void)
 		;
 	}
 
-	return this->read();
+	char ch = this->read();	
+	return ch;
+
+//	return this->read();
 }
 
 
@@ -261,6 +277,8 @@ uint8_t Uart::read_blocking(void)
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
+
+
 
 #define B_UART_ISR_RXRDY  				2
 #define B_UART_SR_RXRDY   				0
@@ -323,6 +341,7 @@ void UartSCC2681_ISR(void *param)
 } /* extern "C" */
 
 
+//#pragma GCC pop_options
 
 /* End */
 

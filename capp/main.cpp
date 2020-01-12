@@ -46,6 +46,8 @@ extern "C" void startup(void)
 /*------------------------------------------------------------------------*/
 
 
+#include "L1_Peripheral\sbc_pio.hpp"
+
 int main(void)
 {
 
