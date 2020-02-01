@@ -96,7 +96,20 @@ module flopren #(parameter width = 8)(
 endmodule /* flopren */
 
 
-
+module field_reverse_unidirectional #(parameter width = 8) (
+	input [width-1:0] a,
+	output [width-1:0] y
+	);
+	
+genvar i;
+generate
+	for(i = 0; i < width; i = i+1)
+	begin : map
+		assign y[i] = a[width-i];
+	end
+endgenerate
+	
+endmodule /* field_reverse */
 
 
 /* Strobe generator */

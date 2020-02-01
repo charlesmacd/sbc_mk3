@@ -33,7 +33,7 @@ CCFLAGS	=	-march=$(CPUTYPE) -mcpu=$(CPUTYPE) -mtune=$(CPUTYPE) -msoft-float $(OP
 LIBS	=	$(SGDIR)\m68k-elf\lib\libc.a
 LIBS	+=	$(SGDIR)\m68k-elf\lib\libm.a 
 LIBS	+=	$(SGDIR)\m68k-elf\lib\libg.a
-#LIBS	+=	$(SGDIR)\m68k-elf\lib\libstdc++.a
+LIBS	+=	$(SGDIR)\m68k-elf\lib\libstdc++.a
 LIBS	+=	$(SGDIR)\lib\gcc\m68k-elf\$(SGVER)\libgcc.a
 
 

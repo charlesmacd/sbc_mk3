@@ -117,7 +117,7 @@ public:
 	{
 		for(int i = 0; i < 8; i++)
 		{
-			intf.write(kMOSI, (value >> (i ^ 7)) ^ 1);
+			intf.write(kMOSI, (value >> (i ^ 7)));
 			clock();
 		}		
 	}
@@ -132,6 +132,9 @@ public:
 		intf.write(kRST, is_asserted ? 0 : 1);
 	}
 };
+
+
+
 
 int cmd_spi(int argc, char *argv[])
 {
@@ -151,15 +154,41 @@ int cmd_spi(int argc, char *argv[])
 	spi.reset(true);
 	spi.reset(false);
 
+	// 0x41 read
+	// 0x40 write
+
+	char buf[10];
+	char *p = buf;
+	memset(buf, 0xaa, sizeof(buf));
+
+	/* Broadcast IOCON write to all devices to enable HAEN */
+	for(int i = 0; i < 8; i++)
+	{
+		spi.select(true);
+		spi.write(0x40 | (i << 1));
+		spi.write(0x05);
+		spi.write(0x08);
+		spi.select(false);	
+	}
+	
+
 	// transfer
 	spi.select(true);
-	spi.write(0xAA);
-	v = spi.read();
-	k = spi.exchange(0xdb);
+	spi.exchange(0x40);
+	spi.exchange(0x0C);
+	spi.write(0x55);
+	spi.select(false);
+	spi.select(true);
+	*p++ = spi.exchange(0x41);
+	*p++ = spi.exchange(0x0C);
+	*p++ = spi.read();
+	*p++ = spi.read();
 	spi.select(false);
 
-	printf("v=%08X\n", v);
-	printf("v=%08X\n", k);
+	printf("%02X\n", buf[0]);
+	printf("%02X\n", buf[1]);
+	printf("%02X\n", buf[2]);
+	printf("%02X\n", buf[3]);
 	
 	return 1;
 }

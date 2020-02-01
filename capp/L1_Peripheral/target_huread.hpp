@@ -28,6 +28,7 @@
 
 
 
+
 class Target_HuRead
 {
 public:
@@ -90,14 +91,14 @@ public:
 		return get_bit(HUREG_MISC, B_HIRQ2);
 	}
 
-	void set_hsm(bool level)
+	void assert_hsm(bool state)
 	{
-		change_bit(HUREG_MISC, B_HSM, level);
+		change_bit(HUREG_MISC, B_HSM, state ? 1 : 0);
 	}
 
-	void set_reset(bool level)
+	void assert_reset(bool state)
 	{
-		change_bit(HUREG_MISC, B_RESET, level);
+		change_bit(HUREG_MISC, B_RESET, state ? 0 : 1);
 	}
 
 	void set_card_detect_rx(bool level)
@@ -117,7 +118,7 @@ public:
 		write(HUREG_ADH, (address >> 16) & 0x1F);
 	}
 
-	void set_dbrx(uint8_t level)
+	void set_data_pullups(uint8_t level)
 	{
 		write(HUREG_DBRX, level);
 	}
@@ -127,6 +128,13 @@ public:
 		set_address(address);
 		write(HUREG_DATA, data);
 	    return 0;
+	}
+
+	void card_write_logical(uint8_t bank, uint16_t address, uint8_t data)
+	{
+		set_address(bank * 0x2000 + (address & 0x1FFF));
+		strobe_write(data);
+		printf("A:%02X %02X %02X = %02X\n", read(HUREG_ADH), read(HUREG_ADM), read(HUREG_ADL), data);
 	}
 
     uint8_t strobe_read(void)
@@ -145,19 +153,29 @@ public:
 		return read(HUREG_DATA);
 	}
 
+	uint16_t *get_auto_port(void)
+	{
+		return (uint16_t *)&intf->reg.r.REG[HUREG_ID];
+	}
+
     uint8_t read_dbus(void)
     {
         return read(HUREG_DATA);
     }
 
+	uint8_t strobe_read_auto(void)
+	{
+		return read(HUREG_ID);
+	}
+
 	void initialize(void)
 	{
 		set_address(0x000000);
-		set_dbrx(0xFF);
+		set_data_pullups(0xFF);
 		set_card_detect_rx(true);
 		set_irq2_rx(true);
-		set_hsm(false);
-		set_reset(false);
+		assert_hsm(false);
+		assert_reset(false);
 	}
 
 	void read_page(uint8_t *page)
