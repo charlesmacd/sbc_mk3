@@ -6,7 +6,7 @@
 
 #include "sbc_pio.hpp"
 
-PIOSignalInfo_t pio_signals[] =
+const PIOSignalInfo_t pio_signals[] =
 {
 /* DBL */
 	{kTD0, 		kBIDIR, 	kNONE,		kDBL,	0}, /* 574/245 */
@@ -53,51 +53,52 @@ PIOSignalInfo_t pio_signals[] =
 	{kTA21,		kINPUT, 	kNONE, 		kADH,	5},
 	{kTA22,		kINPUT, 	kNONE, 		kADH,	6},
 	{kTA23,		kINPUT, 	kNONE, 		kADH,	7},
-/* CTIL */
-	{kTDTACK, 	kINPUT, 	kWSG_IN,	kCTL,	0}, /* 574 */
-	{kTBGACK,	kINPUT,		kNONE,		kCTL,	1},
-	{kTBR, 		kINPUT,		kNONE,		kCTL,	2},
-	{kTVPA,		kINPUT,		kNONE,		kCTL,	3},
-	{kTBERR, 	kINPUT, 	kNONE,		kCTL,	4},
-	{kTHALTO,  	kINPUT,		kNONE,		kCTL,	5},
-	{kTRESETO, 	kINPUT,		kNONE,		kCTL,	6},
-	{kTPS_EN, 	kINPUT,		kNONE,		kCTL,	7},
-/* CTIH */
-	{kTFC0, 	kINPUT, 	kNONE,		kCTH,	0}, /* 245 */
-	{kTFC1, 	kINPUT, 	kNONE,		kCTH,	1},
-	{kTFC2, 	kINPUT, 	kNONE,		kCTH,	2},
-	{kTE,		kINPUT,		kNONE,		kCTH,	3},
-	{kTVMA,		kINPUT,		kNONE,		kCTH,	4},
-	{kTHALTI,  	kBIDIR,		kNONE,		kCTH,	5},
-	{kTRESETI, 	kBIDIR,		kNONE,		kCTH,	6},
-	/* D7 : CTIL_SPAREIN7 */
 /* CTOL */
-	{kTAS, 		kINPUT,		kWSG_OUT,	kCTL,	0},
-	{kTUDS,		kINPUT,		kNONE,		kCTL,	1},
-	{kTLDS,		kINPUT,		kNONE,		kCTL,	2},
-	{kTRW, 		kINPUT,		kNONE,		kCTL,	3},
-	{kTBG, 		kINPUT,		kNONE,		kCTL,	4},
+	{kTDTACK, 	kOUTPUT, 	kWSG_IN,	kCTL_OUT, 	0}, /* 574 */
+	{kTBGACK,	kOUTPUT,	kNONE,		kCTL_OUT, 	1},
+	{kTBR, 		kOUTPUT,	kNONE,		kCTL_OUT, 	2},
+	{kTVPA,		kOUTPUT,	kNONE,		kCTL_OUT, 	3},
+	{kTBERR, 	kOUTPUT, 	kNONE,		kCTL_OUT, 	4},
+	{kTHALTO,  	kOUTPUT,	kNONE,		kCTL_OUT, 	5},
+	{kTRESETO, 	kOUTPUT,	kNONE,		kCTL_OUT, 	6},
+	{kTPS_EN, 	kOUTPUT,	kNONE,		kCTL_OUT, 	7},
+/* CTIL */
+	{kTFC0, 	kINPUT, 	kNONE,		kCTL_IN, 	0}, /* 245 */
+	{kTFC1, 	kINPUT, 	kNONE,		kCTL_IN, 	1},
+	{kTFC2, 	kINPUT, 	kNONE,		kCTL_IN, 	2},
+	{kTE,		kINPUT,		kNONE,		kCTL_IN, 	3},
+	{kTVMA,		kINPUT,		kNONE,		kCTL_IN, 	4},
+	{kTHALTI,  	kBIDIR,		kNONE,		kCTL_IN, 	5},
+	{kTRESETI, 	kBIDIR,		kNONE,		kCTL_IN, 	6},
+	/* D7 : CTIL_SPAREIN7 */
+/* CTIH */
+	{kTAS, 		kINPUT,		kWSG_OUT,	kCTH_IN,	0},
+	{kTUDS,		kINPUT,		kNONE,		kCTH_IN,	1},
+	{kTLDS,		kINPUT,		kNONE,		kCTH_IN,	2},
+	{kTRW, 		kINPUT,		kNONE,		kCTH_IN,	3},
+	{kTBG, 		kINPUT,		kNONE,		kCTH_IN,	4},
 	/* D5 : CTIH_SPAREIN5 */
 	/* D6 : CTIH_SPAREIN6 */
 	/* D7 : CTIH_SPAREIN7 */
 /* CTOL */
-	{kTIPL2, 	kOUTPUT, 	kNONE,		kCTH,	0},
-	{kTIPL1, 	kOUTPUT, 	kNONE,		kCTH,	1},
-	{kTIPL0, 	kOUTPUT, 	kNONE,		kCTH,	2}, /* 574 */
-	{kTCLK,		kINPUT,		kCLOCK,		kCTH,	3},
-	{kTCLKSEL0,	kOUTPUT, 	kNONE,		kCTH,	4},
-	{kTCLKSEL1,	kOUTPUT, 	kNONE,		kCTH,	5},
-	{kOUT3, 	kOUTPUT, 	kNONE,		kCTH,	6}, 
-	{kOUT6, 	kOUTPUT, 	kNONE,		kCTH,	7}, 
+	{kTIPL2, 	kOUTPUT, 	kNONE,		kCTH_OUT,	0},
+	{kTIPL1, 	kOUTPUT, 	kNONE,		kCTH_OUT,	1},
+	{kTIPL0, 	kOUTPUT, 	kNONE,		kCTH_OUT,	2}, /* 574 */
+	{kTCLK,		kINPUT,		kCLOCK,		kCTH_OUT,	3},
+	{kTCLKSEL0,	kOUTPUT, 	kNONE,		kCTH_OUT,	4},
+	{kTCLKSEL1,	kOUTPUT, 	kNONE,		kCTH_OUT,	5},
+	{kOUT3, 	kOUTPUT, 	kNONE,		kCTH_OUT,	6}, 
+	{kOUT6, 	kOUTPUT, 	kNONE,		kCTH_OUT,	7}, 
 /* MISC */
-	{kUM_TXE,	kINPUT, 	kNONE,		kMISC,	0},
-	{kUM_RXF,	kINPUT, 	kNONE,		kMISC,	1},
-	{kUM_PWE,	kINPUT, 	kNONE,		kMISC,	2},
-	/* D3 : MISC_SPAREIN3 */
-	{kUSER_LED,	kINPUT, 	kNONE,		kMISC,	4},
-	{kTPS_FLT,	kINPUT, 	kNONE,		kMISC,	5},
-	{kFF_CKO,	kINPUT, 	kNONE,		kMISC,	6},
-	{kWAITREQ,	kINPUT, 	kNONE,		kMISC,	7},
-
+	{kUM_TXE,	kINPUT, 	kNONE,		kMISC_IN,	0},
+	{kUM_RXF,	kINPUT, 	kNONE,		kMISC_IN,	1},
+	{kUM_PWE,	kINPUT, 	kNONE,		kMISC_IN,	2},
+	{kUSER_LED,	kINPUT, 	kNONE,		kMISC_IN,	4},
+	{kTPS_FLT,	kINPUT, 	kNONE,		kMISC_IN,	5},
+	{kFF_CKO,	kINPUT, 	kNONE,		kMISC_IN,	6},
+	{kWAITREQ,	kINPUT, 	kNONE,		kMISC_IN,	7},
 };
 
+constexpr int kNumPioSignalInfo = sizeof(pio_signals) / sizeof(PIOSignalInfo_t);
+
+/* End */

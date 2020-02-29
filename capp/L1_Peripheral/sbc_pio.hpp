@@ -37,7 +37,9 @@ enum PIOSignalName : uint8_t
 	kUSER_LED,
 	kTPS_FLT,
 	kFF_CKO,
-	kWAITREQ
+	kWAITREQ,
+
+	MAX_SIGNALS
 };
 
 enum PIOSignalDir : uint8_t
@@ -57,15 +59,26 @@ enum PIOSignalAttr : uint8_t
 
 enum PIORegName : uint8_t
 {
-	kADL,
-	kADM,
-	kADH,
-	kDBL,
-	kDBH,
-	kCTL,
-	kCTH,
-	kMISC
+	kWAITREQ_LD	=	0,
+	kCLK_CLR	=	1,
+	kCLK_PRE	=	2,
+	kDBL_RX		=	3,
+	kDBH_RX		=	4,
+	kCTL_OUT	=	5,
+	kCTH_OUT	=	6,
+	kMISC_OUT	=	7,
+	
+	kADL		=	0,
+	kADM		=	1,
+	kADH		=	2,
+	kDBL		=	3,
+	kDBH		=	4,
+	kCTL_IN		=	5,
+	kCTH_IN		=	6,
+	kMISC_IN	=	7
 };
+
+
 
 struct PIOSignalInfo_tag
 {
@@ -80,13 +93,11 @@ typedef PIOSignalInfo_tag PIOSignalInfo_t;
 
 
 
-
-
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 /*----------------------------------------------------------------------------*/
 
-#define USE_ASM		1
+#define USE_ASM		0
 
 /*----------------------------------------------------------------------------*/
 /* SBCPIO: Clocking register */
@@ -243,6 +254,11 @@ public:
 
 /*----------------------------------------------------------------------------*/
 
+
+extern const PIOSignalInfo_t pio_signals[];
+extern const int kNumPioSignalInfo;
+
+
 class SBCPIO
 {
 public:
@@ -251,6 +267,8 @@ public:
 	sbcpio_ext_register_t *ext_intf;
 	SBCPIO_EXT ext;
 	ParallelMemory ram;
+
+	PIOSignalInfo_t *signal_mapping[0x100];
 
 	void initialize(sbcpio_register_t *external_reg = NULL)
 	{
@@ -270,6 +288,12 @@ public:
 		}
 
 		ext.initialize((sbcpio_ext_register_t *)kExtRegBase);
+
+		for(int i = 0; i < kNumPioSignalInfo; i++)
+		{
+			signal_mapping[ pio_signals[i].name ] = (PIOSignalInfo_t *)&pio_signals[i];
+		}
+
 	}
 
 	/* Pulse FFCK multiple times */
@@ -299,7 +323,7 @@ public:
 	/* Read address */
 	uint32_t read_address(void)
 	{
-		uint32_t value;
+		uint32_t value = 0;
 		#if USE_ASM
 		__asm__ __volatile__ ("movep.l 0(%1), %0\n" "andi.l #0xFFFFFE, %0\n" : : "r"(value), "a"(intf->reg.r.ADL) : );
 		#else
@@ -313,11 +337,11 @@ public:
 	/* Read data */
 	uint16_t read_data(void)
 	{
-		uint16_t value;
+		uint16_t value = 0;
 		#if USE_ASM
 		__asm__ __volatile__ ("movep.w 0(%1), %0\n" : : "r"(value), "a"(intf->reg.r.DBL) : );
 		#else
-		value |= (intf->reg.r.DBL & 0xFE) << 0;
+		value |= (intf->reg.r.DBL & 0xFF) << 0;
 		value |= (intf->reg.r.DBH & 0xFF) << 8;
 		#endif
 		return value;
@@ -334,14 +358,32 @@ public:
 		#endif
 	}
 
-	void assert_signal(void)
+	void set_level(PIOSignalName name, bool is_high)
 	{
-	
+
+//		uint8_t temp = register_copy[name];
+
+		switch(signal_mapping[name]->reg_num)
+		{
+			default:
+				break;
+		}
 	}
+
+#if 0
+truct PIOSignalInfo_tag
+{
+	PIOSignalName name;
+	PIOSignalDir dir;
+	PIOSignalAttr attr;
+	PIORegName reg_num;
+	uint8_t reg_bit;
+};
+#endif
 };
 
 #ifndef __cplusplus
 }; /* extern */
 #endif
 
-#endif /* _SBC_PIO_HPP_ */
+#endif /* _SBC_PIO_HPP_ */ 

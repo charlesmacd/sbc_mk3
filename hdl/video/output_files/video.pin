@@ -1,0 +1,147 @@
+ -- Copyright (C) 1991-2013 Altera Corporation
+ -- Your use of Altera Corporation's design tools, logic functions 
+ -- and other software and tools, and its AMPP partner logic 
+ -- functions, and any output files from any of the foregoing 
+ -- (including device programming or simulation files), and any 
+ -- associated documentation or information are expressly subject 
+ -- to the terms and conditions of the Altera Program License 
+ -- Subscription Agreement, Altera MegaCore Function License 
+ -- Agreement, or other applicable license agreement, including, 
+ -- without limitation, that your use is for the sole purpose of 
+ -- programming logic devices manufactured by Altera and sold by 
+ -- Altera or its authorized distributors.  Please refer to the 
+ -- applicable agreement for further details.
+ -- 
+ -- This is a Quartus II output file. It is for reporting purposes only, and is
+ -- not intended for use as a Quartus II input file. This file cannot be used
+ -- to make Quartus II pin assignments - for instructions on how to make pin
+ -- assignments, please see Quartus II help.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- NC            : No Connect. This pin has no internal connection to the device.
+ -- DNU           : Do Not Use. This pin MUST NOT be connected.
+ -- VCC           : Dedicated power pin, which MUST be connected to VCC.
+ -- VCCIO         : Dedicated power pin, which MUST be connected to VCC
+ --                 of its bank.
+ -- GND           : Dedicated ground pin. Dedicated GND pins MUST be connected to GND.
+ --					It can also be used to report unused dedicated pins. The connection
+ --					on the board for unused dedicated pins depends on whether this will
+ --					be used in a future design. One example is device migration. When
+ --					using device migration, refer to the device pin-tables. If it is a
+ --					GND pin in the pin table or if it will not be used in a future design
+ --					for another purpose the it MUST be connected to GND. If it is an unused
+ --					dedicated pin, then it can be connected to a valid signal on the board
+ --					(low, high, or toggling) if that signal is required for a different
+ --					revision of the design.
+ -- GND+          : Unused input pin. It can also be used to report unused dual-purpose pins.
+ --					This pin should be connected to GND. It may also be connected  to a
+ --					valid signal  on the board  (low, high, or toggling)  if that signal
+ --					is required for a different revision of the design.
+ -- GND*          : Unused  I/O  pin. Connect each pin marked GND* directly to GND
+ --           	    or leave it unconnected.
+ -- RESERVED      : Unused I/O pin, which MUST be left unconnected.
+ -- RESERVED_INPUT    : Pin is tri-stated and should be connected to the board.
+ -- RESERVED_INPUT_WITH_WEAK_PULLUP    : Pin is tri-stated with internal weak pull-up resistor.
+ -- RESERVED_INPUT_WITH_BUS_HOLD       : Pin is tri-stated with bus-hold circuitry.
+ -- RESERVED_OUTPUT_DRIVEN_HIGH        : Pin is output driven high.
+ -- NON_MIGRATABLE: This pin cannot be migrated.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- Pin directions (input, output or bidir) are based on device operating in user mode.
+ ---------------------------------------------------------------------------------
+
+Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+CHIP  "video"  ASSIGNED TO AN: EPM7160SLC84-10
+
+Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
+-------------------------------------------------------------------------------------------------------------
+reset_n                      : 1         : input  : TTL               :         :           : N              
+clock                        : 2         : input  : TTL               :         :           : N              
+VCCINT                       : 3         : power  :                   : 5.0V    :           :                
+hcs_n                        : 4         : input  : TTL               :         :           : N              
+ha[1]                        : 5         : input  : TTL               :         :           : N              
+NC                           : 6         :        :                   :         :           :                
+GND                          : 7         : gnd    :                   :         :           :                
+RESERVED                     : 8         :        :                   :         :           :                
+RESERVED                     : 9         :        :                   :         :           :                
+RESERVED                     : 10        :        :                   :         :           :                
+vsync_n                      : 11        : output : TTL               :         :           : N              
+voe_n                        : 12        : output : TTL               :         :           : N              
+VCCIO                        : 13        : power  :                   : 5.0V    :           :                
+TDI                          : 14        : input  : TTL               :         :           : N              
+va[12]                       : 15        : output : TTL               :         :           : N              
+hsync_n                      : 16        : output : TTL               :         :           : N              
+va[14]                       : 17        : output : TTL               :         :           : N              
+va[13]                       : 18        : output : TTL               :         :           : N              
+GND                          : 19        : gnd    :                   :         :           :                
+vd[5]                        : 20        : bidir  : TTL               :         :           : N              
+vd[4]                        : 21        : bidir  : TTL               :         :           : N              
+vd[3]                        : 22        : bidir  : TTL               :         :           : N              
+TMS                          : 23        : input  : TTL               :         :           : N              
+vd[6]                        : 24        : bidir  : TTL               :         :           : N              
+vd[7]                        : 25        : bidir  : TTL               :         :           : N              
+VCCIO                        : 26        : power  :                   : 5.0V    :           :                
+vd[2]                        : 27        : bidir  : TTL               :         :           : N              
+va[6]                        : 28        : output : TTL               :         :           : N              
+vd[0]                        : 29        : bidir  : TTL               :         :           : N              
+va[7]                        : 30        : output : TTL               :         :           : N              
+va[5]                        : 31        : output : TTL               :         :           : N              
+GND                          : 32        : gnd    :                   :         :           :                
+vd[1]                        : 33        : bidir  : TTL               :         :           : N              
+dac_out[5]                   : 34        : output : TTL               :         :           : N              
+dac_out[4]                   : 35        : output : TTL               :         :           : N              
+dac_out[3]                   : 36        : output : TTL               :         :           : N              
+dac_out[2]                   : 37        : output : TTL               :         :           : N              
+VCCIO                        : 38        : power  :                   : 5.0V    :           :                
+NC                           : 39        :        :                   :         :           :                
+dac_out[1]                   : 40        : output : TTL               :         :           : N              
+dac_out[0]                   : 41        : output : TTL               :         :           : N              
+GND                          : 42        : gnd    :                   :         :           :                
+VCCINT                       : 43        : power  :                   : 5.0V    :           :                
+hd[2]                        : 44        : bidir  : TTL               :         :           : N              
+hd[3]                        : 45        : bidir  : TTL               :         :           : N              
+NC                           : 46        :        :                   :         :           :                
+GND                          : 47        : gnd    :                   :         :           :                
+hd[4]                        : 48        : bidir  : TTL               :         :           : N              
+va[4]                        : 49        : output : TTL               :         :           : N              
+va[0]                        : 50        : output : TTL               :         :           : N              
+va[9]                        : 51        : output : TTL               :         :           : N              
+hd[0]                        : 52        : bidir  : TTL               :         :           : N              
+VCCIO                        : 53        : power  :                   : 5.0V    :           :                
+hd[6]                        : 54        : bidir  : TTL               :         :           : N              
+hd[5]                        : 55        : bidir  : TTL               :         :           : N              
+hd[7]                        : 56        : bidir  : TTL               :         :           : N              
+hwait_n                      : 57        : output : TTL               :         :           : N              
+hint_n                       : 58        : output : TTL               :         :           : N              
+GND                          : 59        : gnd    :                   :         :           :                
+va[11]                       : 60        : output : TTL               :         :           : N              
+debug                        : 61        : output : TTL               :         :           : N              
+TCK                          : 62        : input  : TTL               :         :           : N              
+vwe_n                        : 63        : output : TTL               :         :           : N              
+vce_n                        : 64        : output : TTL               :         :           : N              
+va[1]                        : 65        : output : TTL               :         :           : N              
+VCCIO                        : 66        : power  :                   : 5.0V    :           :                
+va[8]                        : 67        : output : TTL               :         :           : N              
+va[10]                       : 68        : output : TTL               :         :           : N              
+va[15]                       : 69        : output : TTL               :         :           : N              
+va[2]                        : 70        : output : TTL               :         :           : N              
+TDO                          : 71        : output : TTL               :         :           : N              
+GND                          : 72        : gnd    :                   :         :           :                
+va[3]                        : 73        : output : TTL               :         :           : N              
+hd[1]                        : 74        : bidir  : TTL               :         :           : N              
+RESERVED                     : 75        :        :                   :         :           :                
+RESERVED                     : 76        :        :                   :         :           :                
+RESERVED                     : 77        :        :                   :         :           :                
+VCCIO                        : 78        : power  :                   : 5.0V    :           :                
+NC                           : 79        :        :                   :         :           :                
+hrd_n                        : 80        : input  : TTL               :         :           : N              
+ha[0]                        : 81        : input  : TTL               :         :           : N              
+GND                          : 82        : gnd    :                   :         :           :                
+hwr_n                        : 83        : input  : TTL               :         :           : N              
+GND+                         : 84        :        :                   :         :           :                

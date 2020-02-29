@@ -1,0 +1,1049 @@
+-- Copyright (C) 1991-2013 Altera Corporation
+-- Your use of Altera Corporation's design tools, logic functions 
+-- and other software and tools, and its AMPP partner logic 
+-- functions, and any output files from any of the foregoing 
+-- (including device programming or simulation files), and any 
+-- associated documentation or information are expressly subject 
+-- to the terms and conditions of the Altera Program License 
+-- Subscription Agreement, Altera MegaCore Function License 
+-- Agreement, or other applicable license agreement, including, 
+-- without limitation, that your use is for the sole purpose of 
+-- programming logic devices manufactured by Altera and sold by 
+-- Altera or its authorized distributors.  Please refer to the 
+-- applicable agreement for further details.
+--host_data_latch[7] is host_data_latch[7] at LC35
+host_data_latch[7]_or_out = A1L45;
+host_data_latch[7]_reg_input = host_data_latch[7]_or_out;
+host_data_latch[7]_p3_out = !ha[0] & ha[1];
+host_data_latch[7] = DFFE(host_data_latch[7]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[7]_p3_out);
+
+
+--host_data_latch[6] is host_data_latch[6] at LC38
+host_data_latch[6]_or_out = A1L43;
+host_data_latch[6]_reg_input = host_data_latch[6]_or_out;
+host_data_latch[6]_p3_out = !ha[0] & ha[1];
+host_data_latch[6] = DFFE(host_data_latch[6]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[6]_p3_out);
+
+
+--host_data_latch[5] is host_data_latch[5] at LC43
+host_data_latch[5]_or_out = A1L41;
+host_data_latch[5]_reg_input = host_data_latch[5]_or_out;
+host_data_latch[5]_p3_out = !ha[0] & ha[1];
+host_data_latch[5] = DFFE(host_data_latch[5]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[5]_p3_out);
+
+
+--host_data_latch[4] is host_data_latch[4] at LC46
+host_data_latch[4]_or_out = A1L39;
+host_data_latch[4]_reg_input = host_data_latch[4]_or_out;
+host_data_latch[4]_p3_out = !ha[0] & ha[1];
+host_data_latch[4] = DFFE(host_data_latch[4]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[4]_p3_out);
+
+
+--host_data_latch[3] is host_data_latch[3] at LC48
+host_data_latch[3]_or_out = A1L37;
+host_data_latch[3]_reg_input = host_data_latch[3]_or_out;
+host_data_latch[3]_p3_out = !ha[0] & ha[1];
+host_data_latch[3] = DFFE(host_data_latch[3]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[3]_p3_out);
+
+
+--host_data_latch[2] is host_data_latch[2] at LC64
+host_data_latch[2]_or_out = A1L35;
+host_data_latch[2]_reg_input = host_data_latch[2]_or_out;
+host_data_latch[2]_p3_out = !ha[0] & ha[1];
+host_data_latch[2] = DFFE(host_data_latch[2]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[2]_p3_out);
+
+
+--host_data_latch[1] is host_data_latch[1] at LC51
+host_data_latch[1]_or_out = A1L33;
+host_data_latch[1]_reg_input = host_data_latch[1]_or_out;
+host_data_latch[1]_p3_out = !ha[0] & ha[1];
+host_data_latch[1] = DFFE(host_data_latch[1]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[1]_p3_out);
+
+
+--host_data_latch[0] is host_data_latch[0] at LC59
+host_data_latch[0]_or_out = A1L31;
+host_data_latch[0]_reg_input = host_data_latch[0]_or_out;
+host_data_latch[0]_p3_out = !ha[0] & ha[1];
+host_data_latch[0] = DFFE(host_data_latch[0]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , host_data_latch[0]_p3_out);
+
+
+--hc[0] is hc[0] at LC67
+hc[0]_p1_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & hc[6] & hc[4] & !hc[3] & !hc[0];
+hc[0]_or_out = hc[0]_p1_out;
+hc[0]_reg_input = !hc[0]_or_out;
+hc[0] = TFFE(hc[0]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[0] is reg_adl[0] at LC57
+reg_adl[0]_p1_out = !ha[1] & A1L31;
+reg_adl[0]_p2_out = ha[1] & !reg_adl[0];
+reg_adl[0]_or_out = reg_adl[0]_p1_out # reg_adl[0]_p2_out;
+reg_adl[0]_reg_input = reg_adl[0]_or_out;
+reg_adl[0] = DFFE(reg_adl[0]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[1] is hc[1] at LC70
+hc[1]_p1_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[6] & hc[4] & !hc[3] & hc[1];
+hc[1]_or_out = hc[1]_p1_out # hc[0];
+hc[1]_reg_input = hc[1]_or_out;
+hc[1] = TFFE(hc[1]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[1] is reg_adl[1] at LC50
+reg_adl[1]_p1_out = A1L33 & !ha[1];
+reg_adl[1]_p2_out = ha[1] & reg_adl[1] & !reg_adl[0];
+reg_adl[1]_p4_out = ha[1] & !reg_adl[1] & reg_adl[0];
+reg_adl[1]_or_out = reg_adl[1]_p1_out # reg_adl[1]_p2_out # reg_adl[1]_p4_out;
+reg_adl[1]_reg_input = reg_adl[1]_or_out;
+reg_adl[1] = DFFE(reg_adl[1]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[2] is hc[2] at LC72
+hc[2]_p1_out = hc[8] & !hc[7] & !hc[5] & hc[6] & hc[4] & !hc[3] & hc[1] & hc[2];
+hc[2]_p2_out = hc[1] & hc[0];
+hc[2]_or_out = hc[2]_p1_out # hc[2]_p2_out;
+hc[2]_reg_input = hc[2]_or_out;
+hc[2] = TFFE(hc[2]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[2] is reg_adl[2] at LC52
+reg_adl[2]_p1_out = A1L35 & !ha[1] & !reg_adl[2];
+reg_adl[2]_p2_out = !A1L35 & !ha[1] & reg_adl[2];
+reg_adl[2]_p4_out = ha[1] & reg_adl[1] & reg_adl[0];
+reg_adl[2]_or_out = reg_adl[2]_p1_out # reg_adl[2]_p2_out # reg_adl[2]_p4_out;
+reg_adl[2]_reg_input = reg_adl[2]_or_out;
+reg_adl[2] = TFFE(reg_adl[2]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[3] is hc[3] at LC66
+hc[3]_p1_out = hc[2] & hc[1] & hc[0];
+hc[3]_or_out = hc[3];
+hc[3]_reg_input = hc[3]_p1_out $ hc[3]_or_out;
+hc[3] = DFFE(hc[3]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[3] is reg_adl[3] at LC33
+reg_adl[3]_p1_out = A1L37 & !ha[1] & !reg_adl[3];
+reg_adl[3]_p2_out = !A1L37 & !ha[1] & reg_adl[3];
+reg_adl[3]_p4_out = ha[1] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adl[3]_or_out = reg_adl[3]_p1_out # reg_adl[3]_p2_out # reg_adl[3]_p4_out;
+reg_adl[3]_reg_input = reg_adl[3]_or_out;
+reg_adl[3] = TFFE(reg_adl[3]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[4] is hc[4] at LC18
+hc[4]_p1_out = hc[8] & !hc[7] & !hc[5] & hc[6] & !hc[3] & !hc[0] & hc[2] & hc[4] & hc[1];
+hc[4]_p2_out = hc[3] & hc[0] & hc[2] & hc[1];
+hc[4]_or_out = hc[4]_p1_out # hc[4]_p2_out;
+hc[4]_reg_input = hc[4]_or_out;
+hc[4] = TFFE(hc[4]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--hc[5] is hc[5] at LC68
+hc[5]_p1_out = hc[4] & hc[3] & hc[2] & hc[1] & hc[0];
+hc[5]_or_out = hc[5];
+hc[5]_reg_input = hc[5]_p1_out $ hc[5]_or_out;
+hc[5] = DFFE(hc[5]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[4] is reg_adl[4] at LC39
+reg_adl[4]_p1_out = A1L39 & !ha[1] & !reg_adl[4];
+reg_adl[4]_p2_out = !A1L39 & !ha[1] & reg_adl[4];
+reg_adl[4]_p4_out = ha[1] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adl[4]_or_out = reg_adl[4]_p1_out # reg_adl[4]_p2_out # reg_adl[4]_p4_out;
+reg_adl[4]_reg_input = reg_adl[4]_or_out;
+reg_adl[4] = TFFE(reg_adl[4]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[6] is hc[6] at LC20
+hc[6]_p1_out = hc[8] & !hc[7] & !hc[5] & !hc[3] & !hc[0] & hc[2] & hc[1] & hc[4] & hc[6];
+hc[6]_p2_out = hc[5] & hc[3] & hc[0] & hc[2] & hc[1] & hc[4];
+hc[6]_or_out = hc[6]_p1_out # hc[6]_p2_out;
+hc[6]_reg_input = hc[6]_or_out;
+hc[6] = TFFE(hc[6]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[5] is reg_adl[5] at LC37
+reg_adl[5]_p1_out = A1L41 & !ha[1] & !reg_adl[5];
+reg_adl[5]_p2_out = !A1L41 & !ha[1] & reg_adl[5];
+reg_adl[5]_p4_out = ha[1] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adl[5]_or_out = reg_adl[5]_p1_out # reg_adl[5]_p2_out # reg_adl[5]_p4_out;
+reg_adl[5]_reg_input = reg_adl[5]_or_out;
+reg_adl[5] = TFFE(reg_adl[5]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[7] is hc[7] at LC21
+hc[7]_p1_out = hc[6] & hc[5] & hc[4] & hc[3] & hc[2] & hc[1] & hc[0];
+hc[7]_or_out = hc[7];
+hc[7]_reg_input = hc[7]_p1_out $ hc[7]_or_out;
+hc[7] = DFFE(hc[7]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--reg_adl[6] is reg_adl[6] at LC34
+reg_adl[6]_p1_out = A1L43 & !ha[1] & !reg_adl[6];
+reg_adl[6]_p2_out = !A1L43 & !ha[1] & reg_adl[6];
+reg_adl[6]_p4_out = ha[1] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adl[6]_or_out = reg_adl[6]_p1_out # reg_adl[6]_p2_out # reg_adl[6]_p4_out;
+reg_adl[6]_reg_input = reg_adl[6]_or_out;
+reg_adl[6] = TFFE(reg_adl[6]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--hc[8] is hc[8] at LC23
+hc[8]_p1_out = !hc[5] & !hc[3] & !hc[0] & !hc[7] & hc[2] & hc[1] & hc[6] & hc[4] & hc[8];
+hc[8]_p2_out = hc[5] & hc[3] & hc[0] & hc[7] & hc[2] & hc[1] & hc[6] & hc[4];
+hc[8]_or_out = hc[8]_p1_out # hc[8]_p2_out;
+hc[8]_reg_input = hc[8]_or_out;
+hc[8] = TFFE(hc[8]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , );
+
+
+--A1L58 is hsync_n~1 at LC24
+A1L58_p1_out = !hc[8] & hc[7] & hc[5] & hc[6] & hc[4] & !hc[3];
+A1L58_or_out = A1L58_p1_out;
+A1L58 = !(A1L58_or_out);
+
+
+--reg_adl[7] is reg_adl[7] at LC36
+reg_adl[7]_p1_out = A1L45 & !ha[1] & !reg_adl[7];
+reg_adl[7]_p2_out = !A1L45 & !ha[1] & reg_adl[7];
+reg_adl[7]_p4_out = ha[1] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adl[7]_or_out = reg_adl[7]_p1_out # reg_adl[7]_p2_out # reg_adl[7]_p4_out;
+reg_adl[7]_reg_input = reg_adl[7]_or_out;
+reg_adl[7] = TFFE(reg_adl[7]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , !ha[0]);
+
+
+--C3_dffs[0] is lpm_counter:vc_rtl_0|dffs[0] at LC75
+C3_dffs[0]_reg_input = VCC;
+C3_dffs[0]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[0] = TFFE(C3_dffs[0]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[0]_p3_out);
+
+
+--C3_dffs[1] is lpm_counter:vc_rtl_0|dffs[1] at LC78
+C3_dffs[1]_or_out = C3_dffs[0];
+C3_dffs[1]_reg_input = C3_dffs[1]_or_out;
+C3_dffs[1]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[1] = TFFE(C3_dffs[1]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[1]_p3_out);
+
+
+--C3_dffs[2] is lpm_counter:vc_rtl_0|dffs[2] at LC80
+C3_dffs[2]_p1_out = C3_dffs[1] & C3_dffs[0];
+C3_dffs[2]_or_out = C3_dffs[2]_p1_out;
+C3_dffs[2]_reg_input = C3_dffs[2]_or_out;
+C3_dffs[2]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[2] = TFFE(C3_dffs[2]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[2]_p3_out);
+
+
+--C3_dffs[3] is lpm_counter:vc_rtl_0|dffs[3] at LC8
+C3_dffs[3]_p1_out = C3_dffs[1] & C3_dffs[0] & C3_dffs[2];
+C3_dffs[3]_or_out = C3_dffs[3]_p1_out;
+C3_dffs[3]_reg_input = C3_dffs[3]_or_out;
+C3_dffs[3]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[3] = TFFE(C3_dffs[3]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[3]_p3_out);
+
+
+--reg_adh[0] is reg_adh[0] at LC55
+reg_adh[0]_p1_out = A1L31 & ha[0] & !ha[1] & !reg_adh[0];
+reg_adh[0]_p2_out = !A1L31 & ha[0] & !ha[1] & reg_adh[0];
+reg_adh[0]_p3_out = !ha[0] & ha[1] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[0]_or_out = reg_adh[0]_p1_out # reg_adh[0]_p2_out # reg_adh[0]_p3_out;
+reg_adh[0]_reg_input = reg_adh[0]_or_out;
+reg_adh[0] = TFFE(reg_adh[0]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--C3_dffs[4] is lpm_counter:vc_rtl_0|dffs[4] at LC7
+C3_dffs[4]_p1_out = C3_dffs[1] & C3_dffs[0] & C3_dffs[2] & C3_dffs[3];
+C3_dffs[4]_or_out = C3_dffs[4]_p1_out;
+C3_dffs[4]_reg_input = C3_dffs[4]_or_out;
+C3_dffs[4]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[4] = TFFE(C3_dffs[4]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[4]_p3_out);
+
+
+--C3_dffs[5] is lpm_counter:vc_rtl_0|dffs[5] at LC16
+C3_dffs[5]_p1_out = C3_dffs[1] & C3_dffs[0] & C3_dffs[2] & C3_dffs[3] & C3_dffs[4];
+C3_dffs[5]_or_out = C3_dffs[5]_p1_out;
+C3_dffs[5]_reg_input = C3_dffs[5]_or_out;
+C3_dffs[5]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[5] = TFFE(C3_dffs[5]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[5]_p3_out);
+
+
+--C3_dffs[6] is lpm_counter:vc_rtl_0|dffs[6] at LC15
+C3_dffs[6]_p1_out = C3_dffs[1] & C3_dffs[0] & C3_dffs[2] & C3_dffs[3] & C3_dffs[4] & C3_dffs[5];
+C3_dffs[6]_or_out = C3_dffs[6]_p1_out;
+C3_dffs[6]_reg_input = C3_dffs[6]_or_out;
+C3_dffs[6]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[6] = TFFE(C3_dffs[6]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[6]_p3_out);
+
+
+--reg_adh[1] is reg_adh[1] at LC53
+reg_adh[1]_p1_out = A1L33 & ha[0] & !ha[1] & !reg_adh[1];
+reg_adh[1]_p2_out = !A1L33 & ha[0] & !ha[1] & reg_adh[1];
+reg_adh[1]_p3_out = !ha[0] & ha[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[1]_or_out = reg_adh[1]_p1_out # reg_adh[1]_p2_out # reg_adh[1]_p3_out;
+reg_adh[1]_reg_input = reg_adh[1]_or_out;
+reg_adh[1] = TFFE(reg_adh[1]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--C3_dffs[7] is lpm_counter:vc_rtl_0|dffs[7] at LC14
+C3_dffs[7]_p1_out = C3_dffs[1] & C3_dffs[0] & C3_dffs[2] & C3_dffs[3] & C3_dffs[4] & C3_dffs[5] & C3_dffs[6];
+C3_dffs[7]_or_out = C3_dffs[7]_p1_out;
+C3_dffs[7]_reg_input = C3_dffs[7]_or_out;
+C3_dffs[7]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[7] = TFFE(C3_dffs[7]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[7]_p3_out);
+
+
+--C3_dffs[8] is lpm_counter:vc_rtl_0|dffs[8] at LC12
+C3_dffs[8]_p1_out = C3_dffs[1] & C3_dffs[0] & C3_dffs[2] & C3_dffs[3] & C3_dffs[4] & C3_dffs[5] & C3_dffs[6] & C3_dffs[7];
+C3_dffs[8]_or_out = C3_dffs[8]_p1_out;
+C3_dffs[8]_reg_input = C3_dffs[8]_or_out;
+C3_dffs[8]_p3_out = hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C3_dffs[8] = TFFE(C3_dffs[8]_reg_input, GLOBAL(clock), GLOBAL(reset_n), , C3_dffs[8]_p3_out);
+
+
+--A1L125 is vsync_n~1 at LC1
+A1L125_p1_out = !C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0];
+A1L125_or_out = A1L125_p1_out;
+A1L125 = !(A1L125_or_out);
+
+
+--A1L5 is cblank~1 at LC32
+A1L5_p1_out = C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+A1L5_or_out = A1L5_p1_out # hc[8] # C3_dffs[8];
+A1L5 = A1L5_or_out;
+
+
+--reg_adh[2] is reg_adh[2] at LC45
+reg_adh[2]_p1_out = A1L35 & ha[0] & !ha[1] & !reg_adh[2];
+reg_adh[2]_p2_out = !A1L35 & ha[0] & !ha[1] & reg_adh[2];
+reg_adh[2]_p3_out = !ha[0] & ha[1] & reg_adh[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[2]_or_out = reg_adh[2]_p1_out # reg_adh[2]_p2_out # reg_adh[2]_p3_out;
+reg_adh[2]_reg_input = reg_adh[2]_or_out;
+reg_adh[2] = TFFE(reg_adh[2]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--C2_dffs[0] is lpm_counter:scan_pointer_rtl_1|dffs[0] at LC11
+C2_dffs[0]_p1_out = reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[8];
+C2_dffs[0]_p2_out = reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[0]_or_out = C2_dffs[0]_p1_out # C2_dffs[0]_p2_out;
+C2_dffs[0]_reg_input = C2_dffs[0]_or_out;
+C2_dffs[0] = TFFE(C2_dffs[0]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L97 is va~50 at LC129
+A1L97_p1_out = hcs_n & C2_dffs[0];
+A1L97_p2_out = !hcs_n & reg_adh[0];
+A1L97_or_out = A1L97_p1_out # A1L97_p2_out;
+A1L97 = A1L97_or_out;
+
+
+--C1_dffs[0] is lpm_counter:scan_pointer_rtl_0|dffs[0] at LC6
+C1_dffs[0]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[0] & reset_n;
+C1_dffs[0]_p2_out = reset_n & !hc[8];
+C1_dffs[0]_or_out = C1_dffs[0]_p1_out # C1_dffs[0]_p2_out;
+C1_dffs[0]_reg_input = C1_dffs[0]_or_out;
+C1_dffs[0] = TFFE(C1_dffs[0]_reg_input, GLOBAL(clock), , , );
+
+
+--C2_dffs[1] is lpm_counter:scan_pointer_rtl_1|dffs[1] at LC28
+C2_dffs[1]_p1_out = C3_dffs[8] & C2_dffs[0] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[1]_p2_out = C2_dffs[0] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[1]_or_out = C2_dffs[1]_p1_out # C2_dffs[1]_p2_out;
+C2_dffs[1]_reg_input = C2_dffs[1]_or_out;
+C2_dffs[1] = TFFE(C2_dffs[1]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L98 is va~53 at LC94
+A1L98_p1_out = hcs_n & C1_dffs[0];
+A1L98_p2_out = !hcs_n & reg_adl[0];
+A1L98_or_out = A1L98_p1_out # A1L98_p2_out;
+A1L98 = A1L98_or_out;
+
+
+--A1L99 is va~56 at LC96
+A1L99_p1_out = hcs_n & C2_dffs[1];
+A1L99_p2_out = !hcs_n & reg_adh[1];
+A1L99_or_out = A1L99_p1_out # A1L99_p2_out;
+A1L99 = A1L99_or_out;
+
+
+--reg_adh[3] is reg_adh[3] at LC44
+reg_adh[3]_p1_out = A1L37 & ha[0] & !ha[1] & !reg_adh[3];
+reg_adh[3]_p2_out = !A1L37 & ha[0] & !ha[1] & reg_adh[3];
+reg_adh[3]_p3_out = !ha[0] & ha[1] & reg_adh[2] & reg_adh[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[3]_or_out = reg_adh[3]_p1_out # reg_adh[3]_p2_out # reg_adh[3]_p3_out;
+reg_adh[3]_reg_input = reg_adh[3]_or_out;
+reg_adh[3] = TFFE(reg_adh[3]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--C1_dffs[1] is lpm_counter:scan_pointer_rtl_0|dffs[1] at LC2
+C1_dffs[1]_p1_out = C1_dffs[0] & !hc[8] & reset_n;
+C1_dffs[1]_p2_out = hc[8] & reset_n & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[1];
+C1_dffs[1]_or_out = C1_dffs[1]_p1_out # C1_dffs[1]_p2_out;
+C1_dffs[1]_reg_input = C1_dffs[1]_or_out;
+C1_dffs[1] = TFFE(C1_dffs[1]_reg_input, GLOBAL(clock), , , );
+
+
+--C2_dffs[2] is lpm_counter:scan_pointer_rtl_1|dffs[2] at LC27
+C2_dffs[2]_p1_out = C3_dffs[8] & C2_dffs[1] & C2_dffs[0] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[2]_p2_out = C2_dffs[1] & C2_dffs[0] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[2]_or_out = C2_dffs[2]_p1_out # C2_dffs[2]_p2_out;
+C2_dffs[2]_reg_input = C2_dffs[2]_or_out;
+C2_dffs[2] = TFFE(C2_dffs[2]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L100 is va~59 at LC123
+A1L100_p1_out = hcs_n & C1_dffs[1];
+A1L100_p2_out = !hcs_n & reg_adl[1];
+A1L100_or_out = A1L100_p1_out # A1L100_p2_out;
+A1L100 = A1L100_or_out;
+
+
+--A1L101 is va~62 at LC131
+A1L101_p1_out = hcs_n & C2_dffs[2];
+A1L101_p2_out = !hcs_n & reg_adh[2];
+A1L101_or_out = A1L101_p1_out # A1L101_p2_out;
+A1L101 = A1L101_or_out;
+
+
+--C1_dffs[2] is lpm_counter:scan_pointer_rtl_0|dffs[2] at LC10
+C1_dffs[2]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[2] & reset_n & hc[8];
+C1_dffs[2]_p2_out = reset_n & !hc[8] & C1_dffs[1] & C1_dffs[0];
+C1_dffs[2]_or_out = C1_dffs[2]_p1_out # C1_dffs[2]_p2_out;
+C1_dffs[2]_reg_input = C1_dffs[2]_or_out;
+C1_dffs[2] = TFFE(C1_dffs[2]_reg_input, GLOBAL(clock), , , );
+
+
+--C2_dffs[3] is lpm_counter:scan_pointer_rtl_1|dffs[3] at LC26
+C2_dffs[3]_p1_out = C3_dffs[8] & C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[3]_p2_out = C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[3]_or_out = C2_dffs[3]_p1_out # C2_dffs[3]_p2_out;
+C2_dffs[3]_reg_input = C2_dffs[3]_or_out;
+C2_dffs[3] = TFFE(C2_dffs[3]_reg_input, GLOBAL(clock), , , );
+
+
+--reg_adh[4] is reg_adh[4] at LC42
+reg_adh[4]_p1_out = A1L39 & ha[0] & !ha[1] & !reg_adh[4];
+reg_adh[4]_p2_out = !A1L39 & ha[0] & !ha[1] & reg_adh[4];
+reg_adh[4]_p3_out = !ha[0] & ha[1] & reg_adh[3] & reg_adh[2] & reg_adh[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[4]_or_out = reg_adh[4]_p1_out # reg_adh[4]_p2_out # reg_adh[4]_p3_out;
+reg_adh[4]_reg_input = reg_adh[4]_or_out;
+reg_adh[4] = TFFE(reg_adh[4]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--A1L102 is va~65 at LC137
+A1L102_p1_out = hcs_n & C1_dffs[2];
+A1L102_p2_out = !hcs_n & reg_adl[2];
+A1L102_or_out = A1L102_p1_out # A1L102_p2_out;
+A1L102 = A1L102_or_out;
+
+
+--A1L103 is va~68 at LC115
+A1L103_p1_out = hcs_n & C2_dffs[3];
+A1L103_p2_out = !hcs_n & reg_adh[3];
+A1L103_or_out = A1L103_p1_out # A1L103_p2_out;
+A1L103 = A1L103_or_out;
+
+
+--C2_dffs[4] is lpm_counter:scan_pointer_rtl_1|dffs[4] at LC30
+C2_dffs[4]_p1_out = C3_dffs[8] & C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[4]_p2_out = C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[4]_or_out = C2_dffs[4]_p1_out # C2_dffs[4]_p2_out;
+C2_dffs[4]_reg_input = C2_dffs[4]_or_out;
+C2_dffs[4] = TFFE(C2_dffs[4]_reg_input, GLOBAL(clock), , , );
+
+
+--C1_dffs[3] is lpm_counter:scan_pointer_rtl_0|dffs[3] at LC9
+C1_dffs[3]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[3] & reset_n & hc[8];
+C1_dffs[3]_p2_out = reset_n & !hc[8] & C1_dffs[1] & C1_dffs[0] & C1_dffs[2];
+C1_dffs[3]_or_out = C1_dffs[3]_p1_out # C1_dffs[3]_p2_out;
+C1_dffs[3]_reg_input = C1_dffs[3]_or_out;
+C1_dffs[3] = TFFE(C1_dffs[3]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L104 is va~71 at LC25
+A1L104_p1_out = hcs_n & C2_dffs[4];
+A1L104_p2_out = !hcs_n & reg_adh[4];
+A1L104_or_out = A1L104_p1_out # A1L104_p2_out;
+A1L104 = A1L104_or_out;
+
+
+--A1L105 is va~74 at LC144
+A1L105_p1_out = hcs_n & C1_dffs[3];
+A1L105_p2_out = !hcs_n & reg_adl[3];
+A1L105_or_out = A1L105_p1_out # A1L105_p2_out;
+A1L105 = A1L105_or_out;
+
+
+--reg_adh[5] is reg_adh[5] at LC41
+reg_adh[5]_p1_out = A1L41 & ha[0] & !ha[1] & !reg_adh[5];
+reg_adh[5]_p2_out = !A1L41 & ha[0] & !ha[1] & reg_adh[5];
+reg_adh[5]_p3_out = !ha[0] & ha[1] & reg_adh[4] & reg_adh[3] & reg_adh[2] & reg_adh[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[5]_or_out = reg_adh[5]_p1_out # reg_adh[5]_p2_out # reg_adh[5]_p3_out;
+reg_adh[5]_reg_input = reg_adh[5]_or_out;
+reg_adh[5] = TFFE(reg_adh[5]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--C2_dffs[5] is lpm_counter:scan_pointer_rtl_1|dffs[5] at LC31
+C2_dffs[5]_p1_out = C3_dffs[8] & C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & C2_dffs[4] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[5]_p2_out = C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & C2_dffs[4] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[5]_or_out = C2_dffs[5]_p1_out # C2_dffs[5]_p2_out;
+C2_dffs[5]_reg_input = C2_dffs[5]_or_out;
+C2_dffs[5] = TFFE(C2_dffs[5]_reg_input, GLOBAL(clock), , , );
+
+
+--C1_dffs[4] is lpm_counter:scan_pointer_rtl_0|dffs[4] at LC5
+C1_dffs[4]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[4] & reset_n & hc[8];
+C1_dffs[4]_p2_out = reset_n & !hc[8] & C1_dffs[1] & C1_dffs[0] & C1_dffs[2] & C1_dffs[3];
+C1_dffs[4]_or_out = C1_dffs[4]_p1_out # C1_dffs[4]_p2_out;
+C1_dffs[4]_reg_input = C1_dffs[4]_or_out;
+C1_dffs[4] = TFFE(C1_dffs[4]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L106 is va~77 at LC17
+A1L106_p1_out = hcs_n & C2_dffs[5];
+A1L106_p2_out = !hcs_n & reg_adh[5];
+A1L106_or_out = A1L106_p1_out # A1L106_p2_out;
+A1L106 = A1L106_or_out;
+
+
+--A1L107 is va~80 at LC91
+A1L107_p1_out = hcs_n & C1_dffs[4];
+A1L107_p2_out = !hcs_n & reg_adl[4];
+A1L107_or_out = A1L107_p1_out # A1L107_p2_out;
+A1L107 = A1L107_or_out;
+
+
+--C2_dffs[6] is lpm_counter:scan_pointer_rtl_1|dffs[6] at LC22
+C2_dffs[6]_p1_out = C3_dffs[8] & C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & C2_dffs[4] & C2_dffs[5] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[6]_p2_out = C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & C2_dffs[4] & C2_dffs[5] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[6]_or_out = C2_dffs[6]_p1_out # C2_dffs[6]_p2_out;
+C2_dffs[6]_reg_input = C2_dffs[6]_or_out;
+C2_dffs[6] = TFFE(C2_dffs[6]_reg_input, GLOBAL(clock), , , );
+
+
+--reg_adh[6] is reg_adh[6] at LC40
+reg_adh[6]_p1_out = A1L43 & ha[0] & !ha[1] & !reg_adh[6];
+reg_adh[6]_p2_out = !A1L43 & ha[0] & !ha[1] & reg_adh[6];
+reg_adh[6]_p3_out = !ha[0] & ha[1] & reg_adh[5] & reg_adh[4] & reg_adh[3] & reg_adh[2] & reg_adh[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[6]_or_out = reg_adh[6]_p1_out # reg_adh[6]_p2_out # reg_adh[6]_p3_out;
+reg_adh[6]_reg_input = reg_adh[6]_or_out;
+reg_adh[6] = TFFE(reg_adh[6]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--C1_dffs[5] is lpm_counter:scan_pointer_rtl_0|dffs[5] at LC13
+C1_dffs[5]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[5] & reset_n & hc[8];
+C1_dffs[5]_p2_out = reset_n & !hc[8] & C1_dffs[1] & C1_dffs[0] & C1_dffs[2] & C1_dffs[3] & C1_dffs[4];
+C1_dffs[5]_or_out = C1_dffs[5]_p1_out # C1_dffs[5]_p2_out;
+C1_dffs[5]_reg_input = C1_dffs[5]_or_out;
+C1_dffs[5] = TFFE(C1_dffs[5]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L108 is va~83 at LC19
+A1L108_p1_out = hcs_n & C2_dffs[6];
+A1L108_p2_out = !hcs_n & reg_adh[6];
+A1L108_or_out = A1L108_p1_out # A1L108_p2_out;
+A1L108 = A1L108_or_out;
+
+
+--C2_dffs[7] is lpm_counter:scan_pointer_rtl_1|dffs[7] at LC29
+C2_dffs[7]_p1_out = C3_dffs[8] & C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & C2_dffs[4] & C2_dffs[5] & C2_dffs[6] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3];
+C2_dffs[7]_p2_out = C2_dffs[1] & C2_dffs[0] & C2_dffs[2] & C2_dffs[3] & C2_dffs[4] & C2_dffs[5] & C2_dffs[6] & reset_n & hc[8] & !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[7] & C3_dffs[6] & C3_dffs[5];
+C2_dffs[7]_or_out = C2_dffs[7]_p1_out # C2_dffs[7]_p2_out;
+C2_dffs[7]_reg_input = C2_dffs[7]_or_out;
+C2_dffs[7] = TFFE(C2_dffs[7]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L109 is va~86 at LC54
+A1L109_p1_out = hcs_n & C1_dffs[5];
+A1L109_p2_out = !hcs_n & reg_adl[5];
+A1L109_or_out = A1L109_p1_out # A1L109_p2_out;
+A1L109 = A1L109_or_out;
+
+
+--C1_dffs[6] is lpm_counter:scan_pointer_rtl_0|dffs[6] at LC4
+C1_dffs[6]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[6] & reset_n & hc[8];
+C1_dffs[6]_p2_out = reset_n & !hc[8] & C1_dffs[1] & C1_dffs[0] & C1_dffs[2] & C1_dffs[3] & C1_dffs[4] & C1_dffs[5];
+C1_dffs[6]_or_out = C1_dffs[6]_p1_out # C1_dffs[6]_p2_out;
+C1_dffs[6]_reg_input = C1_dffs[6]_or_out;
+C1_dffs[6] = TFFE(C1_dffs[6]_reg_input, GLOBAL(clock), , , );
+
+
+--reg_adh[7] is reg_adh[7] at LC47
+reg_adh[7]_p1_out = A1L45 & ha[0] & !ha[1] & !reg_adh[7];
+reg_adh[7]_p2_out = !A1L45 & ha[0] & !ha[1] & reg_adh[7];
+reg_adh[7]_p3_out = !ha[0] & ha[1] & reg_adh[6] & reg_adh[5] & reg_adh[4] & reg_adh[3] & reg_adh[2] & reg_adh[1] & reg_adh[0] & reg_adl[7] & reg_adl[6] & reg_adl[5] & reg_adl[4] & reg_adl[3] & reg_adl[2] & reg_adl[1] & reg_adl[0];
+reg_adh[7]_or_out = reg_adh[7]_p1_out # reg_adh[7]_p2_out # reg_adh[7]_p3_out;
+reg_adh[7]_reg_input = reg_adh[7]_or_out;
+reg_adh[7] = TFFE(reg_adh[7]_reg_input, GLOBAL(hwr_n), GLOBAL(reset_n), , );
+
+
+--A1L110 is va~89 at LC62
+A1L110_p1_out = hcs_n & C1_dffs[6];
+A1L110_p2_out = !hcs_n & reg_adl[6];
+A1L110_or_out = A1L110_p1_out # A1L110_p2_out;
+A1L110 = A1L110_or_out;
+
+
+--A1L111 is va~92 at LC136
+A1L111_p1_out = hcs_n & C2_dffs[7];
+A1L111_p2_out = !hcs_n & reg_adh[7];
+A1L111_or_out = A1L111_p1_out # A1L111_p2_out;
+A1L111 = A1L111_or_out;
+
+
+--C1_dffs[7] is lpm_counter:scan_pointer_rtl_0|dffs[7] at LC3
+C1_dffs[7]_p1_out = !hc[7] & !hc[5] & hc[2] & hc[1] & !hc[0] & hc[6] & hc[4] & !hc[3] & C3_dffs[1] & C3_dffs[8] & !C3_dffs[7] & !C3_dffs[6] & !C3_dffs[5] & !C3_dffs[4] & !C3_dffs[3] & C3_dffs[2] & !C3_dffs[0] & C1_dffs[7] & reset_n & hc[8];
+C1_dffs[7]_p2_out = reset_n & !hc[8] & C1_dffs[1] & C1_dffs[0] & C1_dffs[2] & C1_dffs[3] & C1_dffs[4] & C1_dffs[5] & C1_dffs[6];
+C1_dffs[7]_or_out = C1_dffs[7]_p1_out # C1_dffs[7]_p2_out;
+C1_dffs[7]_reg_input = C1_dffs[7]_or_out;
+C1_dffs[7] = TFFE(C1_dffs[7]_reg_input, GLOBAL(clock), , , );
+
+
+--A1L112 is va~95 at LC56
+A1L112_p1_out = hcs_n & C1_dffs[7];
+A1L112_p2_out = !hcs_n & reg_adl[7];
+A1L112_or_out = A1L112_p1_out # A1L112_p2_out;
+A1L112 = A1L112_or_out;
+
+
+--~VCC~0 is ~VCC~0 at LC99
+~VCC~0_or_out = GND;
+~VCC~0 = !(~VCC~0_or_out);
+
+
+--~VCC~1 is ~VCC~1 at LC145
+~VCC~1_or_out = GND;
+~VCC~1 = !(~VCC~1_or_out);
+
+
+--~VCC~2 is ~VCC~2 at LC83
+~VCC~2_or_out = GND;
+~VCC~2 = !(~VCC~2_or_out);
+
+
+--~VCC~3 is ~VCC~3 at LC86
+~VCC~3_or_out = GND;
+~VCC~3 = !(~VCC~3_or_out);
+
+
+--~VCC~4 is ~VCC~4 at LC88
+~VCC~4_or_out = GND;
+~VCC~4 = !(~VCC~4_or_out);
+
+
+--~VCC~5 is ~VCC~5 at LC104
+~VCC~5_or_out = GND;
+~VCC~5 = !(~VCC~5_or_out);
+
+
+--~VCC~6 is ~VCC~6 at LC102
+~VCC~6_or_out = GND;
+~VCC~6 = !(~VCC~6_or_out);
+
+
+--~VCC~7 is ~VCC~7 at LC107
+~VCC~7_or_out = GND;
+~VCC~7 = !(~VCC~7_or_out);
+
+
+--~GND~0 is ~GND~0 at LC110
+~GND~0_or_out = GND;
+~GND~0 = ~GND~0_or_out;
+
+
+--~GND~1 is ~GND~1 at LC112
+~GND~1_or_out = GND;
+~GND~1 = ~GND~1_or_out;
+
+
+--~VCC~8 is ~VCC~8 at LC128
+~VCC~8_or_out = GND;
+~VCC~8 = !(~VCC~8_or_out);
+
+
+--~GND~2 is ~GND~2 at LC126
+~GND~2_or_out = GND;
+~GND~2 = ~GND~2_or_out;
+
+
+--~GND~3 is ~GND~3 at LC118
+~GND~3_or_out = GND;
+~GND~3 = ~GND~3_or_out;
+
+
+--hcs_n is hcs_n at PIN_4
+--operation mode is input
+
+hcs_n = INPUT();
+
+
+--hwr_n is hwr_n at PIN_83
+--operation mode is input
+
+hwr_n = INPUT();
+
+
+--hrd_n is hrd_n at PIN_80
+--operation mode is input
+
+hrd_n = INPUT();
+
+
+--ha[0] is ha[0] at PIN_81
+--operation mode is input
+
+ha[0] = INPUT();
+
+
+--ha[1] is ha[1] at PIN_5
+--operation mode is input
+
+ha[1] = INPUT();
+
+
+--reset_n is reset_n at PIN_1
+--operation mode is input
+
+reset_n = INPUT();
+
+
+--clock is clock at PIN_2
+--operation mode is input
+
+clock = INPUT();
+
+
+--A1L31 is hd[0]~0 at PIN_52
+--operation mode is bidir
+
+A1L31 = hd[0];
+
+--hd[0] is hd[0] at PIN_52
+--operation mode is bidir
+
+hd[0]_open_drain_out = OPNDRN(~VCC~0);
+hd[0] = BIDIR(hd[0]_open_drain_out);
+
+
+--A1L33 is hd[1]~1 at PIN_74
+--operation mode is bidir
+
+A1L33 = hd[1];
+
+--hd[1] is hd[1] at PIN_74
+--operation mode is bidir
+
+hd[1]_open_drain_out = OPNDRN(~VCC~1);
+hd[1] = BIDIR(hd[1]_open_drain_out);
+
+
+--A1L35 is hd[2]~2 at PIN_44
+--operation mode is bidir
+
+A1L35 = hd[2];
+
+--hd[2] is hd[2] at PIN_44
+--operation mode is bidir
+
+hd[2]_open_drain_out = OPNDRN(~VCC~2);
+hd[2] = BIDIR(hd[2]_open_drain_out);
+
+
+--A1L37 is hd[3]~3 at PIN_45
+--operation mode is bidir
+
+A1L37 = hd[3];
+
+--hd[3] is hd[3] at PIN_45
+--operation mode is bidir
+
+hd[3]_open_drain_out = OPNDRN(~VCC~3);
+hd[3] = BIDIR(hd[3]_open_drain_out);
+
+
+--A1L39 is hd[4]~4 at PIN_48
+--operation mode is bidir
+
+A1L39 = hd[4];
+
+--hd[4] is hd[4] at PIN_48
+--operation mode is bidir
+
+hd[4]_open_drain_out = OPNDRN(~VCC~4);
+hd[4] = BIDIR(hd[4]_open_drain_out);
+
+
+--A1L41 is hd[5]~5 at PIN_55
+--operation mode is bidir
+
+A1L41 = hd[5];
+
+--hd[5] is hd[5] at PIN_55
+--operation mode is bidir
+
+hd[5]_open_drain_out = OPNDRN(~VCC~5);
+hd[5] = BIDIR(hd[5]_open_drain_out);
+
+
+--A1L43 is hd[6]~6 at PIN_54
+--operation mode is bidir
+
+A1L43 = hd[6];
+
+--hd[6] is hd[6] at PIN_54
+--operation mode is bidir
+
+hd[6]_open_drain_out = OPNDRN(~VCC~6);
+hd[6] = BIDIR(hd[6]_open_drain_out);
+
+
+--A1L45 is hd[7]~7 at PIN_56
+--operation mode is bidir
+
+A1L45 = hd[7];
+
+--hd[7] is hd[7] at PIN_56
+--operation mode is bidir
+
+hd[7]_open_drain_out = OPNDRN(~VCC~7);
+hd[7] = BIDIR(hd[7]_open_drain_out);
+
+
+--hwait_n is hwait_n at PIN_57
+--operation mode is output
+
+hwait_n = OUTPUT(~GND~0);
+
+
+--hint_n is hint_n at PIN_58
+--operation mode is output
+
+hint_n = OUTPUT(~GND~1);
+
+
+--vwe_n is vwe_n at PIN_63
+--operation mode is output
+
+vwe_n = OUTPUT(~VCC~8);
+
+
+--vce_n is vce_n at PIN_64
+--operation mode is output
+
+vce_n = OUTPUT(~GND~2);
+
+
+--debug is debug at PIN_61
+--operation mode is output
+
+debug = OUTPUT(~GND~3);
+
+
+--dac_out[0] is dac_out[0] at PIN_41
+--operation mode is output
+
+dac_out[0] = OUTPUT(hc[0]);
+
+
+--dac_out[1] is dac_out[1] at PIN_40
+--operation mode is output
+
+dac_out[1] = OUTPUT(hc[1]);
+
+
+--dac_out[2] is dac_out[2] at PIN_37
+--operation mode is output
+
+dac_out[2] = OUTPUT(hc[2]);
+
+
+--hsync_n is hsync_n at PIN_16
+--operation mode is output
+
+hsync_n = OUTPUT(A1L58);
+
+
+--dac_out[3] is dac_out[3] at PIN_36
+--operation mode is output
+
+dac_out[3] = OUTPUT(C3_dffs[0]);
+
+
+--dac_out[4] is dac_out[4] at PIN_35
+--operation mode is output
+
+dac_out[4] = OUTPUT(C3_dffs[1]);
+
+
+--dac_out[5] is dac_out[5] at PIN_34
+--operation mode is output
+
+dac_out[5] = OUTPUT(C3_dffs[2]);
+
+
+--voe_n is voe_n at PIN_12
+--operation mode is output
+
+voe_n = OUTPUT(A1L5);
+
+
+--vsync_n is vsync_n at PIN_11
+--operation mode is output
+
+vsync_n = OUTPUT(A1L125);
+
+
+--vd[0] is vd[0] at PIN_29
+--operation mode is bidir
+
+vd[0]_tri_out = TRI(host_data_latch[0], !A1L5);
+vd[0] = BIDIR(vd[0]_tri_out);
+
+
+--vd[1] is vd[1] at PIN_33
+--operation mode is bidir
+
+vd[1]_tri_out = TRI(host_data_latch[1], !A1L5);
+vd[1] = BIDIR(vd[1]_tri_out);
+
+
+--vd[2] is vd[2] at PIN_27
+--operation mode is bidir
+
+vd[2]_tri_out = TRI(host_data_latch[2], !A1L5);
+vd[2] = BIDIR(vd[2]_tri_out);
+
+
+--vd[3] is vd[3] at PIN_22
+--operation mode is bidir
+
+vd[3]_tri_out = TRI(host_data_latch[3], !A1L5);
+vd[3] = BIDIR(vd[3]_tri_out);
+
+
+--vd[4] is vd[4] at PIN_21
+--operation mode is bidir
+
+vd[4]_tri_out = TRI(host_data_latch[4], !A1L5);
+vd[4] = BIDIR(vd[4]_tri_out);
+
+
+--vd[5] is vd[5] at PIN_20
+--operation mode is bidir
+
+vd[5]_tri_out = TRI(host_data_latch[5], !A1L5);
+vd[5] = BIDIR(vd[5]_tri_out);
+
+
+--vd[6] is vd[6] at PIN_24
+--operation mode is bidir
+
+vd[6]_tri_out = TRI(host_data_latch[6], !A1L5);
+vd[6] = BIDIR(vd[6]_tri_out);
+
+
+--vd[7] is vd[7] at PIN_25
+--operation mode is bidir
+
+vd[7]_tri_out = TRI(host_data_latch[7], !A1L5);
+vd[7] = BIDIR(vd[7]_tri_out);
+
+
+--va[8] is va[8] at PIN_67
+--operation mode is output
+
+va[8] = OUTPUT(A1L97);
+
+
+--va[0] is va[0] at PIN_50
+--operation mode is output
+
+va[0] = OUTPUT(A1L98);
+
+
+--va[9] is va[9] at PIN_51
+--operation mode is output
+
+va[9] = OUTPUT(A1L99);
+
+
+--va[1] is va[1] at PIN_65
+--operation mode is output
+
+va[1] = OUTPUT(A1L100);
+
+
+--va[10] is va[10] at PIN_68
+--operation mode is output
+
+va[10] = OUTPUT(A1L101);
+
+
+--va[2] is va[2] at PIN_70
+--operation mode is output
+
+va[2] = OUTPUT(A1L102);
+
+
+--va[11] is va[11] at PIN_60
+--operation mode is output
+
+va[11] = OUTPUT(A1L103);
+
+
+--va[12] is va[12] at PIN_15
+--operation mode is output
+
+va[12] = OUTPUT(A1L104);
+
+
+--va[3] is va[3] at PIN_73
+--operation mode is output
+
+va[3] = OUTPUT(A1L105);
+
+
+--va[13] is va[13] at PIN_18
+--operation mode is output
+
+va[13] = OUTPUT(A1L106);
+
+
+--va[4] is va[4] at PIN_49
+--operation mode is output
+
+va[4] = OUTPUT(A1L107);
+
+
+--va[14] is va[14] at PIN_17
+--operation mode is output
+
+va[14] = OUTPUT(A1L108);
+
+
+--va[5] is va[5] at PIN_31
+--operation mode is output
+
+va[5] = OUTPUT(A1L109);
+
+
+--va[6] is va[6] at PIN_28
+--operation mode is output
+
+va[6] = OUTPUT(A1L110);
+
+
+--va[15] is va[15] at PIN_69
+--operation mode is output
+
+va[15] = OUTPUT(A1L111);
+
+
+--va[7] is va[7] at PIN_30
+--operation mode is output
+
+va[7] = OUTPUT(A1L112);
+
+
+
+
+
+
